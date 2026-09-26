@@ -1,0 +1,14 @@
+[Unit]
+Description=krecher reverse SSH tunnel to Oracle node (port 2222)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=krecher
+Environment=AUTOSSH_GATETIME=0
+ExecStart=/usr/bin/autossh -M 0 -N -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -R 2222:localhost:22 mynode
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
