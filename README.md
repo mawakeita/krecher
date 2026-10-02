@@ -32,6 +32,7 @@ Diagrams and details: [`docs/system_map.md`](docs/system_map.md).
 | [`exp01/`](exp01/) | Experiment 01, touch sensing: scripts, wiring diagrams, logs, [report](exp01/REPORT.md) |
 | [`exp02/`](exp02/) | Experiment 02, movement sensing: IMU reader, logger, head-follow script, logged trial, [report](exp02/REPORT.md) |
 | [`head/`](head/) | Pan-tilt servo centring and test |
+| [`body/`](body/) | Hexapod body build: [servo bench test](body/servo_test/) (wiring, steps, photos, results) |
 | [`system/`](system/) | systemd tunnel service and the relay node's SSH keep-alive config |
 | [`docs/`](docs/) | [System map](docs/system_map.md) · [Model speed and quality tests](docs/model_benchmarks.md) · [Hardware BOM](docs/bom.md) |
 | [`notes/`](notes/) | Dated setup logs (what was done, what broke, what was decided) and head hardware notes |
