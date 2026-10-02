@@ -77,11 +77,11 @@ The microSD card, power supply and cooling case came with the Raspberry Pi start
 | Component | Qty. | Cost | Status | Purpose |
 | --- | ---: | ---: | --- | --- |
 | MG996R digital metal-gear servos (first 8) | 8 | $33.98 total | **Tested: 8/8 pass** | Hexapod leg joints |
-| MG996R servos (3 Hosyond four-packs) | 12 | ~$51 | **Arriving Oct 1** | Remaining leg joints + 2 spares (20 total) |
+| MG996R servos (3 Hosyond four-packs) | 12 | ~$51 | **Tested Oct 2: 12/12 pass** | Remaining leg joints + 2 spares (20 total) |
 | Pimoroni Servo 2040, 18-channel | 1 | $38.94 | **Working on USB**: MicroPython v1.29.0-2, `servo2040 OK 18` | Leg servo controller; connects to the Pi by USB. **Before running servos above 5 V, cut the "Separate USB and Ext. Power" trace on the back.** Screw terminals: 10 A max continuous, so cap the buck converter at ~8–9 A with all 18 servos |
 | 18-DOF aluminum hexapod frame | 1 | [not documented] | **Acquired**; parts identified | Mechanical body |
-| 25T aluminium round servo horns, MG995/996 | 20 | [TBD] | **Arriving Oct 1** | One per joint (18) + 2 spares |
-| 30 cm servo extension cables (10-pack) | 1 | [TBD] | **Arriving Oct 1** | Leg servo wiring |
+| 25T aluminium round servo horns, MG995/996 | 20 | [TBD] | **Arrived Oct 1**; fit the body plate (hub on the servo, flat face to the plate) | One per joint (18) + 2 spares |
+| 30 cm servo extension cables (10-pack) | 1 | [TBD] | **Arrived Oct 1** | Leg servo wiring |
 | Digital servo tester (HJ, 4 outputs) | 1 | $10.98 | **In use** | Test each servo before it goes into a leg; powered from the buck converter |
 
 The Servo 2040's 18 channels are reserved for the legs. The head is driven separately by the Fusion HAT+.

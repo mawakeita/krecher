@@ -13,7 +13,7 @@
 | **Head** | Assembled and working: Pi 5 + SunFounder Fusion HAT+, pan-tilt camera, speaker and mic, own 2S battery |
 | **Touch** (Exp. 01) | Done: lever micro-switches read reliably by the Pi |
 | **Movement** (Exp. 02) | Done: BNO085 motion sensor logged (1,500 readings, 0 errors), and **the head follows the sensor in real time** |
-| **Body** | Hexapod frame, 18 MG996R servos (8 tested, 12 arriving), Servo 2040 leg controller running on USB. Build in progress |
+| **Body** | Hexapod frame, 20 MG996R servos (18 + 2 spares), **all 20 bench-tested and passing** ([test guide](body/servo_test/)), Servo 2040 leg controller running on USB. Build in progress |
 | **Networking** | The Pi opens a tunnel on boot, so I can reach it from anywhere; works on a phone hotspot in class |
 | **Language model** | The Pi asks a model on the class GPU box over Tailscale and gets a reply in 0.35 s ("Ouch!") |
 

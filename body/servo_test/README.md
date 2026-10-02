@@ -1,6 +1,6 @@
 # Servo bench test (MG996R)
 
-Every leg servo is checked on the bench before it goes into the frame. The test catches dead or noisy servos while they're still easy to swap, and it ends with each servo **centred**, ready for its horn.
+Every leg servo is checked on the bench before it goes into the frame. **Status: all 20 tested, 20/20 pass** (1–8 on Sep 27, 9–20 on Oct 2). The test catches dead or noisy servos while they're still easy to swap, and it ends with each servo **centred**, ready for its horn.
 
 - **Servos:** Hosyond MG996R (metal gear), 20 in total: 18 for the legs and 2 spares
 - **Tester:** HJ 4-output digital servo tester ("Servo Consistency Test"), rated 4.8–6 V
@@ -25,7 +25,7 @@ With the tester face up, the pins are **S on top, + in the middle, − on the bo
 
 ## Before you start
 
-1. Put a strip of tape on each new servo and number it (**9–20**; servos 1–8 were tested on Sep 27).
+1. Put a strip of tape on each servo and number it, so the results match the table below.
 2. Work on the LiPo bag, with the battery unplugged.
 3. Set the meter: black lead in **COM**, red lead in **VΩmA**, dial on **V⎓ 20**.
 4. Plug the battery into the pigtail and measure the buck output: red probe on OUT+, black probe on OUT−. It should read **≈ 5.80 V**. If it has drifted, turn the **CV** screw to bring it back. (A minus sign means the probes are the wrong way round.)
@@ -76,18 +76,18 @@ With the tester face up, the pins are **S on top, + in the middle, − on the bo
 | 6 | 2026-09-27 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
 | 7 | 2026-09-27 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
 | 8 | 2026-09-27 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
-| 9 | | | | | | | |
-| 10 | | | | | | | |
-| 11 | | | | | | | |
-| 12 | | | | | | | |
-| 13 | | | | | | | |
-| 14 | | | | | | | |
-| 15 | | | | | | | |
-| 16 | | | | | | | |
-| 17 | | | | | | | |
-| 18 | | | | | | | |
-| 19 | | | | | | | |
-| 20 | | | | | | | |
+| 9 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 10 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 11 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 12 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 13 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 14 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 15 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 16 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 17 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 18 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 19 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
+| 20 | 2026-10-02 | ✓ | ✓ | ✓ | ✓ | **PASS** | |
 
 ## After the test: fitting horns
 
