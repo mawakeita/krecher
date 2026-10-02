@@ -61,6 +61,10 @@ Hold the sensor flat and still while it starts (that pose becomes "home"), then 
 
 I write krēCHer's code with Claude as a coding partner; commits that came out of those sessions carry a `Co-Authored-By: Claude` trailer. Local models on the class GPU box are tested and compared in [`docs/model_benchmarks.md`](docs/model_benchmarks.md).
 
+## Credits and license
+
+Sources are listed in [`BIBLIOGRAPHY.md`](BIBLIOGRAPHY.md). Code is released under the [MIT License](LICENSE). Please read the [Code of Conduct](CODE_OF_CONDUCT.md) before opening an issue or contributing.
+
 ## Safety notes
 
 - Never connect the 3S LiPo (or its charger) to the Fusion HAT+. The HAT takes only its own 2S battery or USB-C.
