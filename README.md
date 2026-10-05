@@ -13,7 +13,7 @@
 | **Head** | Assembled and working: Pi 5 + SunFounder Fusion HAT+, pan-tilt camera, speaker and mic, own 2S battery |
 | **Touch** (Exp. 01) | Done: lever micro-switches read reliably by the Pi |
 | **Movement** (Exp. 02) | Done: BNO085 motion sensor logged (1,500 readings, 0 errors), and **the head follows the sensor in real time** |
-| **Body** | Hexapod frame, 20 MG996R servos (18 + 2 spares), **all 20 bench-tested and passing** ([test guide](body/servo_test/)), Servo 2040 leg controller running on USB. Build in progress |
+| **Body** | Hexapod frame, 20 MG996R servos (18 + 2 spares), **all 20 bench-tested and passing** ([test guide](body/servo_test/), [assembly guide](body/assembly/)), Servo 2040 leg controller running on USB. Build in progress |
 | **Networking** | The Pi opens a tunnel on boot, so I can reach it from anywhere; works on a phone hotspot in class |
 | **Language model** | The Pi asks a model on the class GPU box over Tailscale and gets a reply in 0.35 s ("Ouch!") |
 
@@ -32,7 +32,7 @@ Diagrams and details: [`docs/system_map.md`](docs/system_map.md).
 | [`exp01/`](exp01/) | Experiment 01, touch sensing: scripts, wiring diagrams, logs, [report](exp01/REPORT.md) |
 | [`exp02/`](exp02/) | Experiment 02, movement sensing: IMU reader, logger, head-follow script, logged trial, [report](exp02/REPORT.md) |
 | [`head/`](head/) | Pan-tilt servo centring and test |
-| [`body/`](body/) | Hexapod body build: [servo bench test](body/servo_test/) (wiring, steps, photos, results) |
+| [`body/`](body/) | Hexapod body build: [servo bench test](body/servo_test/) (wiring, steps, photos, results), [leg and body assembly guide](body/assembly/) (step by step, with photos) |
 | [`system/`](system/) | systemd tunnel service and the relay node's SSH keep-alive config |
 | [`docs/`](docs/) | [System map](docs/system_map.md) · [Model speed and quality tests](docs/model_benchmarks.md) · [Hardware BOM](docs/bom.md) |
 | [`notes/`](notes/) | Dated setup logs (what was done, what broke, what was decided) and head hardware notes |
