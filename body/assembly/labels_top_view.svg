@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 860" width="1000" height="860" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1000" height="860" fill="#ffffff"/>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c2410c"/>
+    </marker>
+  </defs>
+
+  <text x="500" y="38" text-anchor="middle" font-size="24" font-weight="bold" fill="#111">krēCHer: leg names and servo numbers (top view)</text>
+  <text x="500" y="62" text-anchor="middle" font-size="14" fill="#555">Looking down on the robot. Number = Servo 2040 channel. H = hip, F = upper leg (femur), K = knee.</text>
+
+  <!-- FRONT arrow -->
+  <line x1="500" y1="235" x2="500" y2="130" stroke="#c2410c" stroke-width="5" marker-end="url(#ah)"/>
+  <text x="500" y="100" text-anchor="middle" font-size="18" font-weight="bold" fill="#c2410c">FRONT (walking direction)</text>
+
+  <!-- side labels -->
+  <text x="90" y="455" text-anchor="middle" font-size="22" font-weight="bold" fill="#1d4ed8">LEFT</text>
+  <text x="910" y="455" text-anchor="middle" font-size="22" font-weight="bold" fill="#047857">RIGHT</text>
+
+  <!-- legs -->
+  <g stroke="#9ca3af" stroke-width="16" stroke-linecap="round">
+    <line x1="420" y1="300" x2="270" y2="200"/>
+    <line x1="580" y1="300" x2="730" y2="200"/>
+    <line x1="400" y1="440" x2="230" y2="440"/>
+    <line x1="600" y1="440" x2="770" y2="440"/>
+    <line x1="420" y1="580" x2="270" y2="680"/>
+    <line x1="580" y1="580" x2="730" y2="680"/>
+  </g>
+
+  <!-- body -->
+  <path d="M 420 250 L 580 250 Q 620 250 620 290 L 620 590 Q 620 630 580 630 L 420 630 Q 380 630 380 590 L 380 290 Q 380 250 420 250 Z" fill="#e5e7eb" stroke="#374151" stroke-width="2"/>
+  <text x="500" y="430" text-anchor="middle" font-size="15" fill="#374151">body</text>
+  <text x="500" y="450" text-anchor="middle" font-size="12" fill="#6b7280">(plate with the horns on top)</text>
+
+  <!-- hip dots -->
+  <g fill="#1f2937">
+    <circle cx="420" cy="300" r="10"/><circle cx="580" cy="300" r="10"/>
+    <circle cx="400" cy="440" r="10"/><circle cx="600" cy="440" r="10"/>
+    <circle cx="420" cy="580" r="10"/><circle cx="580" cy="580" r="10"/>
+  </g>
+
+  <!-- label boxes: left side -->
+  <g font-size="15" fill="#111">
+    <rect x="70" y="125" width="200" height="92" rx="8" fill="#eff6ff" stroke="#1d4ed8"/>
+    <text x="170" y="150" text-anchor="middle" font-weight="bold" fill="#1d4ed8">FL · front left</text>
+    <text x="170" y="174" text-anchor="middle">1 FL-H · 2 FL-F</text>
+    <text x="170" y="198" text-anchor="middle">3 FL-K</text>
+
+    <rect x="40" y="480" width="200" height="92" rx="8" fill="#eff6ff" stroke="#1d4ed8"/>
+    <text x="140" y="505" text-anchor="middle" font-weight="bold" fill="#1d4ed8">ML · middle left</text>
+    <text x="140" y="529" text-anchor="middle">4 ML-H · 5 ML-F</text>
+    <text x="140" y="553" text-anchor="middle">6 ML-K</text>
+
+    <rect x="70" y="690" width="200" height="92" rx="8" fill="#eff6ff" stroke="#1d4ed8"/>
+    <text x="170" y="715" text-anchor="middle" font-weight="bold" fill="#1d4ed8">RL · rear left</text>
+    <text x="170" y="739" text-anchor="middle">7 RL-H · 8 RL-F</text>
+    <text x="170" y="763" text-anchor="middle">9 RL-K</text>
+
+    <!-- right side -->
+    <rect x="730" y="125" width="200" height="92" rx="8" fill="#ecfdf5" stroke="#047857"/>
+    <text x="830" y="150" text-anchor="middle" font-weight="bold" fill="#047857">FR · front right</text>
+    <text x="830" y="174" text-anchor="middle">10 FR-H · 11 FR-F</text>
+    <text x="830" y="198" text-anchor="middle">12 FR-K</text>
+
+    <rect x="760" y="480" width="200" height="92" rx="8" fill="#ecfdf5" stroke="#047857"/>
+    <text x="860" y="505" text-anchor="middle" font-weight="bold" fill="#047857">MR · middle right</text>
+    <text x="860" y="529" text-anchor="middle">13 MR-H · 14 MR-F</text>
+    <text x="860" y="553" text-anchor="middle">15 MR-K</text>
+
+    <rect x="730" y="690" width="200" height="92" rx="8" fill="#ecfdf5" stroke="#047857"/>
+    <text x="830" y="715" text-anchor="middle" font-weight="bold" fill="#047857">RR · rear right</text>
+    <text x="830" y="739" text-anchor="middle">16 RR-H · 17 RR-F</text>
+    <text x="830" y="763" text-anchor="middle">18 RR-K</text>
+  </g>
+
+  <!-- back -->
+  <rect x="486" y="596" width="28" height="18" fill="#ffffff" stroke="#374151" stroke-width="1.5"/>
+  <text x="500" y="590" text-anchor="middle" font-size="11" fill="#374151">slot</text>
+  <text x="500" y="656" text-anchor="middle" font-size="16" font-weight="bold" fill="#6b7280">BACK</text>
+  <text x="500" y="676" text-anchor="middle" font-size="12" fill="#6b7280">small slot end · head mounts</text>
+  <text x="500" y="692" text-anchor="middle" font-size="12" fill="#6b7280">here, facing forward</text>
+
+  <!-- key -->
+  <rect x="40" y="800" width="920" height="50" rx="6" fill="#f3f4f6"/>
+  <text x="500" y="821" text-anchor="middle" font-size="13" fill="#111"><tspan font-weight="bold">Up:</tspan> hip servo shafts point up into the plate with the horns. <tspan font-weight="bold">Left/right:</tspan> the robot's own, standing behind it facing FRONT.</text>
+  <text x="500" y="840" text-anchor="middle" font-size="13" fill="#111">Tape a FRONT arrow on both plates, pointing away from the small slot. Each end has 2 legs; the middle legs stick out the sides.</text>
+</svg>

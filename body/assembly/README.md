@@ -2,7 +2,7 @@
 
 How krēCHer's hexapod body goes together, step by step, with photos from the actual build. It's written so the body can be rebuilt from scratch, and it records the problems we hit and how we fixed them.
 
-**Status (Oct 5, 2026):** Steps 1–4 are done. Step 5: 2 of 6 hips built. Step 6: 2 of 6 legs built, and these are the reference pair. Steps 7–8 haven't been written yet.
+**Status (Oct 5, 2026):** Steps 1–6 are done: all 6 hips and all 6 legs are built, 3 + 3 mirrored. Next is Step 7 (legs onto the body). Steps 7–8 haven't been written yet.
 
 - **Frame:** aluminium hexapod kit (seller: kitsguru), built following the Robokits hexapod guide, which is written for a similar but not identical kit
 - **Servos:** 18 × Hosyond MG996R (25T spline), 3 per leg: hip (coxa), upper leg (femur) and knee (tibia)
@@ -13,7 +13,7 @@ How krēCHer's hexapod body goes together, step by step, with photos from the ac
 - **Every servo must be bench-tested and left centred** first ([servo bench test](../servo_test/)). Assembly relies on each shaft still being at Neutral (1500 µs).
 - **Don't turn a servo shaft by hand.** An unpowered MG996R can be forced round, and then its neutral no longer matches the frame. Press each horn or link on **once**, at the right step.
 - **Left and right are mirror images.** Build the legs in 3 + 3 mirrored sets, never 6 identical.
-- **Label every servo** with its number and position (e.g. "#7 – front-left knee"), so calibration maps each one to the right channel.
+- **Label every servo** with its channel number and position (e.g. "3 FL-K"), using the scheme in [Directions and labels](#directions-and-labels).
 - One spline step on a 25T servo is about **14.4°**, so the fit by hand is only ever within about 7°. Software trims the rest.
 
 ## The target: neutral pose
@@ -29,6 +29,32 @@ With all three servos on Neutral, each leg should look like this:
 | Knee (tibia) | Calf **hangs straight down**, about 90° to the link (measured along the knee-to-foot line, not the curve) |
 
 Each joint sits in the middle of its range, so it can move both ways.
+
+## Directions and labels
+
+![Top view: front arrow, left and right, and the 18 servo numbers](labels_top_view.svg)
+
+- **Up:** the hip servo shafts point **up**, into the plate with the horns. That plate is the top, and the plate with the triangle cut-outs is the bottom.
+- **Front and back:** the top plate has a small rectangular slot at one of its two-leg ends (separate from the big square in the middle). **That end is the back.** The front is the walking direction, the opposite end. Put a tape arrow on **both** plates pointing to the front, so they always go together the same way round. Each end has 2 legs, and the middle legs stick out the sides.
+  - The guide doesn't say what the slot is for. Its size (about 13 × 20 mm) matches a standard small rocker power switch, or it can be used to run wires from the bottom deck.
+  - **Head:** planned for the **back**, but **facing forward**, for personality. Because of this, "front" is set by the walking direction, not by where the head sits.
+- **Left and right:** the robot's own sides, as if you were standing behind it facing the front.
+- **Labels:** write the number and name on each servo's tape, e.g. **"1 FL-H"**. The number is the servo's **Servo 2040 channel**:
+
+| Leg | Hip (H) | Upper leg (F) | Knee (K) |
+| --- | --- | --- | --- |
+| Front left (FL) | 1 | 2 | 3 |
+| Middle left (ML) | 4 | 5 | 6 |
+| Rear left (RL) | 7 | 8 | 9 |
+| Front right (FR) | 10 | 11 | 12 |
+| Middle right (MR) | 13 | 14 | 15 |
+| Rear right (RR) | 16 | 17 | 18 |
+
+![All 18 servos labelled, legs laid out around the lower plate, front at the top](photos/07a_all_labelled_top.jpg)
+
+*Oct 5: all 18 labelled and laid out in position around the lower plate (front at the top of the photo). Each hip servo (H, shaft up) sits on the inner side of its bracket, and each leg's link points outward to its knee (K).*
+
+The legs and hips are already built as left and right mirror sets, so check each one's side before you label it. A leg goes on the side where its link points out from the body and its calf curves down and away.
 
 ---
 
@@ -47,7 +73,7 @@ Done Sep 27 and Oct 2: all 20 pass (18 for the legs plus 2 spares), each left at
 
 ![Six upper-leg links with a horn at each end, and the body plate with a horn on each lobe](photos/02_horns_links_plate.jpg)
 
-*Oct 2: 12 horns on the 6 upper-leg links (laid out 3 + 3, curves facing each other) and 6 on the body plate, one per lobe, hub facing up.* **To check:** the 4th link from the left has a faint line across it, about a third of the way down. Run a fingernail across it before that link carries any load.
+*Oct 2: 12 horns on the 6 upper-leg links (laid out 3 + 3, curves facing each other) and 6 on the body plate, one per lobe, hub facing up.* The 4th link from the left has a faint line across it, about a third of the way down. **Checked Oct 5: fingernail didn't catch, so it's a surface scratch, not a crack. OK to use.**
 
 ## Step 3 · Build the hip brackets
 
@@ -83,6 +109,10 @@ Each crossed bracket pair holds two servos:
 | --- | --- |
 | ![Two hip assemblies, mirror pair, front view](photos/05a_hips_front.jpg) | ![Two hip assemblies from an angle](photos/05b_hips_angle.jpg) |
 | **Mirror pair:** the hip servo (shaft up) sits on the **inner** side of each | Same pair from an angle: 4 screws per servo, all seated |
+| ![All six hip assemblies around the lower plate](photos/05c_all_six_hips_front.jpg) | ![All six hip assemblies from another angle](photos/05d_all_six_hips_angle.jpg) |
+| **All 6 built:** 3 + 3 mirrored, set around the lower plate (not yet fixed to it) | Same set from another angle |
+| ![All six hip assemblies from above](photos/05e_all_six_hips_top.jpg) | |
+| **From above:** left and right sides mirror each other. The hip servo (shaft up) and the upper-leg servo (shaft sideways) are in each crossed bracket | |
 
 **Checks:**
 
@@ -104,6 +134,14 @@ Each crossed bracket pair holds two servos:
 | ✗ **First try:** not a mirror pair. One link is about 20° off the calf's line, the other about 50° | ~ **Second try:** a matched pair, but the links are about 10–15° above level |
 | ![Reference: both links level, calves hanging down](photos/06c_knee_reference_level.jpg) | |
 | ✓ **Reference:** both links level, calves straight down, about 90°, mirrored. **Match the other legs to this one.** | |
+| ![All six legs, links level](photos/06e_all_six_legs_angle.jpg) | ![Side view: links level](photos/06d_links_level_side.jpg) |
+| ✓ **All 6 legs built,** 3 + 3 mirrored, all matching the reference (about 90° at the knee) | Side view: the links sit level |
+| ![All six legs from above](photos/06g_all_six_legs_top.jpg) | ![All six legs from the front](photos/06f_all_six_legs_front.jpg) |
+| **From above:** each knee about 90° (measured 94–96° on the knee-to-foot line), left and right mirrored | **From the front:** the same 6 legs |
+| ![Close-up of the links](photos/06h_links_closeup.jpg) | |
+| **Close-up:** 4 horn screws at each end, knee centre screws in. The bottom-right link here is the one with the surface scratch (checked, OK) | |
+
+> **Checked:** the link with the faint line (Step 2) is on one of the legs. It passed the fingernail check on Oct 5 (surface scratch, not a crack). Look at it again if that leg ever feels weak or flexes.
 
 **The safest way to re-seat a link:**
 
@@ -123,18 +161,25 @@ Each crossed bracket pair holds two servos:
 
 Fitting the hip assemblies between the lower and upper plates, and pressing the hip servo splines into the body-plate horns.
 
+Plan (to be confirmed with photos):
+
+- **Hip:** press each hip servo's spline into its body-plate horn at the step that makes the leg point **straight out** from its lobe.
+- **Upper leg:** press the hip end of each link onto its upper-leg servo spline at the step that makes the link **level** (parallel to the plates), with the calf hanging straight down.
+- Fit the hips to the plates **first**, then the legs. "Level" is only easy to judge once the hips are on the body.
+- Use the same rule as the knees: one press, at the right step, without turning the shaft.
+
 ## Step 8 · Calibration on the Servo 2040 *(to come)*
 
 Send Neutral to every joint and check each leg against the neutral pose. Record each joint's offset below. If a joint is only a few degrees off, trim it in software. If it's more than about 10° off, move its horn one spline step.
 
-| Leg | Hip # / offset | Upper leg # / offset | Knee # / offset |
+| Leg | Hip: channel / offset | Upper leg: channel / offset | Knee: channel / offset |
 | --- | --- | --- | --- |
-| Front left | | | |
-| Middle left | | | |
-| Rear left | | | |
-| Front right | | | |
-| Middle right | | | |
-| Rear right | | | |
+| Front left (FL) | 1 / | 2 / | 3 / |
+| Middle left (ML) | 4 / | 5 / | 6 / |
+| Rear left (RL) | 7 / | 8 / | 9 / |
+| Front right (FR) | 10 / | 11 / | 12 / |
+| Middle right (MR) | 13 / | 14 / | 15 / |
+| Rear right (RR) | 16 / | 17 / | 18 / |
 
 ---
 
@@ -149,4 +194,4 @@ Send Neutral to every joint and check each leg against the neutral pose. Record 
 | --- | --- |
 | Sep 27, Oct 2 | All 20 servos bench-tested and centred (Step 1) |
 | Oct 2 | 18 horns fitted (Step 2, photo); 6 hip bracket pairs built (Step 3, photo) |
-| Oct 5 | Hip pivot screw too long, flipped (Step 4); 2 hips built (Step 5); 2 knees built and re-seated until level, now the reference pair (Step 6) |
+| Oct 5 | Hip pivot screw too long, flipped (Step 4); 2 hips built (Step 5); 2 knees built and re-seated until level, now the reference pair (Step 6). Evening: all 6 hips and all 6 legs built, 3 + 3 mirrored (Steps 5–6 done). Front/back set (slot end = back); all 18 servos labelled with their Servo 2040 channels |
