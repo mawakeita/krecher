@@ -74,6 +74,7 @@ What the numbers show:
 - Later: mount the IMU in the body, check the angles against known references, test near the servos.
 
 ## Files
+- `videos/exp02_bno085_head_follows.mp4`: the camera head following the BNO085 (720p, no sound)
 - `imu_read.py`: the script used
 - `imu_log.py`: guided logging script (Sprint 5)
 - `logs/exp02_2026-09-26_1523.csv`, `logs/exp02_2026-09-26_1523_summary.txt`: first logged trial

@@ -6,14 +6,14 @@
 
 **SENSE → COMPUTE → REACT → CONNECT → REMOTE PRESENCE**
 
-## Where it is now (Oct 1, 2026)
+## Where it is now (Oct 6, 2026)
 
 | Part | Status |
 | --- | --- |
 | **Head** | Assembled and working: Pi 5 + SunFounder Fusion HAT+, pan-tilt camera, speaker and mic, own 2S battery |
 | **Touch** (Exp. 01) | Done: lever micro-switches read reliably by the Pi |
-| **Movement** (Exp. 02) | Done: BNO085 motion sensor logged (1,500 readings, 0 errors), and **the head follows the sensor in real time** |
-| **Body** | Hexapod frame, 20 MG996R servos (18 + 2 spares), **all 20 bench-tested and passing** ([test guide](body/servo_test/), [assembly guide](body/assembly/)), Servo 2040 leg controller running on USB. Build in progress |
+| **Movement** (Exp. 02) | Done: BNO085 motion sensor logged (1,500 readings, 0 errors), and **the head follows the sensor in real time** ([video](exp02/videos/exp02_bno085_head_follows.mp4)) |
+| **Body** | Hexapod frame, 20 MG996R servos (18 + 2 spares), **all 20 bench-tested and passing** ([test guide](body/servo_test/), [assembly guide](body/assembly/)), all 6 legs built and labelled. **First leg moved from the Pi** through the Servo 2040 on Oct 6 ([video](body/assembly/videos/08a_first_leg_FL_moves.mp4)). Body assembly in progress |
 | **Networking** | The Pi opens a tunnel on boot, so I can reach it from anywhere; works on a phone hotspot in class |
 | **Language model** | The Pi asks a model on the class GPU box over Tailscale and gets a reply in 0.35 s ("Ouch!") |
 

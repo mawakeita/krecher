@@ -168,7 +168,11 @@ Plan (to be confirmed with photos):
 - Fit the hips to the plates **first**, then the legs. "Level" is only easy to judge once the hips are on the body.
 - Use the same rule as the knees: one press, at the right step, without turning the shaft.
 
-## Step 8 · Calibration on the Servo 2040 *(to come)*
+## Step 8 · Calibration on the Servo 2040 *(started)*
+
+First leg moving (Oct 6): leg FL on channels 1–3, sent to its middle position and wiggled ±10° per joint from the Pi. Video: [`videos/08a_first_leg_FL_moves.mp4`](videos/08a_first_leg_FL_moves.mp4).
+
+Power setup used: Servo 2040 "Separate USB & Ext. Power" link cut; buck at 6.00 V with a 3.0 A current limit; buck → board with two jumper wires per side for now (14 AWG would not fit the board's terminal; 18 AWG to buy). USB in first, then the battery.
 
 Send Neutral to every joint and check each leg against the neutral pose. Record each joint's offset below. If a joint is only a few degrees off, trim it in software. If it's more than about 10° off, move its horn one spline step.
 
@@ -185,6 +189,7 @@ Send Neutral to every joint and check each leg against the neutral pose. Record 
 
 ## Parts still needed
 
+- 18 AWG (or 16 AWG) silicone wire, buck → Servo 2040 (14 AWG doesn't fit the board's terminal)
 - 6+ miniature bearings, 3 mm bore (check the lower plate's hole size first)
 - Shorter M3 screws and washers for the hip pivots (ordered)
 
@@ -195,3 +200,4 @@ Send Neutral to every joint and check each leg against the neutral pose. Record 
 | Sep 27, Oct 2 | All 20 servos bench-tested and centred (Step 1) |
 | Oct 2 | 18 horns fitted (Step 2, photo); 6 hip bracket pairs built (Step 3, photo) |
 | Oct 5 | Hip pivot screw too long, flipped (Step 4); 2 hips built (Step 5); 2 knees built and re-seated until level, now the reference pair (Step 6). Evening: all 6 hips and all 6 legs built, 3 + 3 mirrored (Steps 5–6 done). Front/back set (slot end = back); all 18 servos labelled with their Servo 2040 channels |
+| Oct 6 | Servo 2040 link cut, buck set to 6.00 V / 3.0 A, wired to the board. **First leg (FL) moved from the Pi** ([video](videos/08a_first_leg_FL_moves.mp4)). Battery and Servo 2040 test-fitted between the plates |
