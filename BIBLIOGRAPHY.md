@@ -24,7 +24,7 @@ MLA 9th edition. Split into the technical sources the build relies on (datasheet
 
 ## Background reading
 
-Embodiment, touch, telepresence and legged robots. These frame the project; notes on how each one informs krēCHer will be added as they're read.
+Embodiment, touch, telepresence and legged robots. These frame the project.
 
 - Brooks, Rodney A. "Intelligence without Representation." *Artificial Intelligence*, vol. 47, no. 1–3, 1991, pp. 139–59.
 - Goldberg, Ken, and Joseph Santarromana. *The Telegarden*. 1995, telerobotic installation, goldberg.berkeley.edu/garden/Ars. Accessed 1 Oct. 2026.
