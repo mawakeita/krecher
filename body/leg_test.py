@@ -10,7 +10,7 @@ LEGS = {
     "MR": [13, 14, 15],
     "RR": [16, 17, 18],
 }
-LEG = LEGS["ML"]   # change this word for each leg
+LEG = LEGS["RR"]   # change this word for each leg
 servos = [Servo(servo2040.SERVO_1 + n - 1) for n in LEG]
 
 for s in servos:
