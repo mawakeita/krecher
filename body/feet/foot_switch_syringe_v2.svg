@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 760" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="760" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: syringe prototype (v2)</text>
+  <text x="24" y="56" fill="#555">No printing: a 3–5 ml syringe is the housing and plunger. View along the leg's edge. Sizes approximate.</text>
+
+  <!-- leg plate (edge view) -->
+  <rect x="290" y="80" width="15" height="320" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+
+  <!-- switch + lever -->
+  <rect x="306" y="176" width="68" height="46" rx="3" fill="#222"/>
+  <text x="340" y="203" fill="#ddd" text-anchor="middle" font-size="11">switch</text>
+  <line x1="308" y1="225" x2="368" y2="246" stroke="#c9c9c9" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- wires -->
+  <path d="M374,190 C410,180 410,120 396,80" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M374,200 C420,188 420,120 404,80" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- barrel (cut open at top) -->
+  <path d="M305,240 L305,400 L355,400 L355,240" fill="#eef7ff" stroke="#4a6f8f" stroke-width="2"/>
+  <line x1="312" y1="240" x2="312" y2="400" stroke="#9db7cc" stroke-width="1"/>
+  <line x1="348" y1="240" x2="348" y2="400" stroke="#9db7cc" stroke-width="1"/>
+  <g stroke="#9db7cc" stroke-width="1">
+    <line x1="349" y1="270" x2="355" y2="270"/><line x1="349" y1="300" x2="355" y2="300"/>
+    <line x1="349" y1="330" x2="355" y2="330"/><line x1="349" y1="360" x2="355" y2="360"/>
+  </g>
+  <!-- finger grips (flange) -->
+  <rect x="266" y="400" width="128" height="7" rx="2" fill="#cfe3f2" stroke="#4a6f8f" stroke-width="1.5"/>
+
+  <!-- zip ties through leg holes -->
+  <g fill="none" stroke="#111" stroke-width="4">
+    <rect x="286" y="288" width="73" height="8" rx="3"/>
+    <rect x="286" y="348" width="73" height="8" rx="3"/>
+  </g>
+
+  <!-- plunger -->
+  <rect x="314" y="252" width="32" height="6" fill="#9be3c4" stroke="#2f7d5c" stroke-width="1.2"/>
+  <rect x="326" y="236" width="8" height="16" fill="#e8c27a" stroke="#8a6d1f" stroke-width="1"/>
+  <rect x="320" y="258" width="20" height="160" fill="#9be3c4" stroke="#2f7d5c" stroke-width="1.2"/>
+  <line x1="330" y1="258" x2="330" y2="418" stroke="#2f7d5c" stroke-width="1"/>
+  <rect x="296" y="418" width="68" height="7" rx="2" fill="#9be3c4" stroke="#2f7d5c" stroke-width="1.5"/>
+
+  <!-- tethers -->
+  <line x1="298" y1="421" x2="270" y2="404" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="362" y1="421" x2="390" y2="404" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- travel gap marker -->
+  <line x1="410" y1="407" x2="410" y2="418" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="402" y1="407" x2="418" y2="407" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="402" y1="418" x2="418" y2="418" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- peg + crystal heel (scaled from v1) -->
+  <rect x="325" y="425" width="10" height="18" fill="#e8c27a" stroke="#8a6d1f" stroke-width="1"/>
+  <g transform="translate(80,-55.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#bfe6ff" fill-opacity="0.55" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#bfe6ff" fill-opacity="0.7" stroke="#3a7fb0" stroke-width="2.4"/>
+    <ellipse cx="244.5" cy="652" rx="5" ry="2.5" fill="#333"/>
+    <ellipse cx="380" cy="650" rx="12" ry="3" fill="#333"/>
+  </g>
+  <line x1="240" y1="489" x2="440" y2="489" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="506" fill="#999" font-size="12">floor</text>
+
+  <!-- labels -->
+  <g fill="#222">
+    <line x1="290" y1="110" x2="210" y2="110" stroke="#777"/>
+    <text x="24" y="106" font-weight="bold">Aluminium leg (edge on)</text>
+    <text x="24" y="122" fill="#555">its tip rests on the finger grips</text>
+
+    <line x1="306" y1="172" x2="210" y2="172" stroke="#777"/>
+    <text x="24" y="168" font-weight="bold">Switch</text>
+    <text x="24" y="184" fill="#555">epoxy putty to the leg, lever</text>
+    <text x="24" y="200" fill="#555">reaching over the barrel mouth</text>
+
+    <line x1="286" y1="292" x2="210" y2="292" stroke="#777"/>
+    <text x="24" y="288" font-weight="bold">2 zip ties through the leg holes</text>
+    <text x="24" y="304" fill="#555">hold the barrel in line;</text>
+    <text x="24" y="320" fill="#555">a dab of epoxy stops it twisting</text>
+
+    <line x1="268" y1="403" x2="210" y2="380" stroke="#777"/>
+    <text x="24" y="368" font-weight="bold" fill="#c0392b">Tethers (thread / fishing line)</text>
+    <text x="24" y="384" fill="#555">thumb pad → finger grips; stop the</text>
+    <text x="24" y="400" fill="#555">plunger dropping out when the leg</text>
+    <text x="24" y="416" fill="#555">lifts. Slack when the foot is down</text>
+
+    <line x1="330" y1="440" x2="210" y2="452" stroke="#777"/>
+    <text x="24" y="448" font-weight="bold">Peg into the shoe</text>
+    <text x="24" y="464" fill="#555">toothpick or dowel, glued into the</text>
+    <text x="24" y="480" fill="#555">thumb pad and the filled heel</text>
+
+    <line x1="334" y1="240" x2="440" y2="232" stroke="#777"/>
+    <text x="446" y="226" font-weight="bold">Pusher</text>
+    <text x="446" y="242" fill="#555">short dowel glued where the rubber tip</text>
+    <text x="446" y="258" fill="#555">was; pokes ~1 mm out of the cut end</text>
+
+    <line x1="355" y1="320" x2="440" y2="310" stroke="#777"/>
+    <text x="446" y="306" font-weight="bold">Barrel = housing</text>
+    <text x="446" y="322" fill="#555">nozzle end cut off, rubber tip removed,</text>
+    <text x="446" y="338" fill="#555">so it slides freely with no suction</text>
+
+    <line x1="346" y1="380" x2="440" y2="372" stroke="#777"/>
+    <text x="446" y="368" font-weight="bold">Plunger rod</text>
+    <text x="446" y="384" fill="#555">the syringe's own sliding fit</text>
+
+    <text x="446" y="412" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm = travel, then HARD STOP</text>
+    <text x="446" y="428" fill="#555">thumb pad lands on the finger grips. Weight path:</text>
+    <text x="446" y="444" fill="#555">shoe → peg → thumb pad → grips → leg tip.</text>
+    <text x="446" y="460" fill="#555">The switch never carries weight.</text>
+  </g>
+
+  <!-- steps -->
+  <rect x="24" y="530" width="732" height="212" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="556" font-weight="bold" font-size="15">Build one (about an evening)</text>
+  <g fill="#333">
+    <text x="40" y="580">1. Syringe: pull out the plunger, remove the rubber tip, cut off the nozzle end (barrel ~35 mm long).</text>
+    <text x="40" y="602">2. Glue a short dowel or toothpick on the plunger's end as the pusher. Slide the plunger back in.</text>
+    <text x="40" y="624">3. Place the barrel beside the leg tip so the tip sits on the finger grips. Zip-tie through two leg holes; dab of epoxy.</text>
+    <text x="40" y="646">4. Tie two thread tethers so the thumb pad hangs ~2.5 mm below the grips.</text>
+    <text x="40" y="668">5. Put the switch above the barrel mouth with the lever on the pusher; test with the meter: click at ~1.5 mm, before</text>
+    <text x="56" y="686">the thumb pad bottoms out. Move the switch until it does, then epoxy it.</text>
+    <text x="40" y="708">6. Glue the filled heel to the thumb pad with a peg. Wire COM + NO up the leg; test on the Servo 2040 sensor header.</text>
+    <text x="40" y="730" fill="#777">Weak point to watch: the barrel sits beside the leg, not under it, so landings twist it a little. Fine for a prototype.</text>
+  </g>
+</svg>

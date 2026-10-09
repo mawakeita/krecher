@@ -19,6 +19,7 @@ the robot's weight goes into the plastic, never into the switch. Idea adapted fr
 | --- | --- |
 | [`foot_switch_cap_v0.svg`](foot_switch_cap_v0.svg) | v0: the cap with a round toe |
 | [`foot_switch_heel_v1.svg`](foot_switch_heel_v1.svg) | v1, chosen: krēCHer in heels. The plunger ends in a doll-foot peg glued into a toy crystal high heel (~30 × 12 × 10 mm) |
+| [`foot_switch_syringe_v2.svg`](foot_switch_syringe_v2.svg) | v2, prototype without a 3D printer: a 3–5 ml syringe is the housing and plunger, zip-tied beside the leg tip; thread tethers keep the plunger from dropping out; the heel glued to the thumb pad |
 
 ![krēCHer in heels, concept v1](foot_switch_heel_v1.svg)
 
@@ -34,5 +35,6 @@ the robot's weight goes into the plastic, never into the switch. Idea adapted fr
       landing. If it cracks, use the v0 round toe and keep the shoe as decoration.
 - [ ] Measure: leg thickness and width at the tip, hole size and spacing, last hole to tip;
       switch body size, its mounting holes, where the lever clicks; the shoe's opening.
-- [ ] Parametric OpenSCAD model → fit-test print → one foot on one leg → all six.
+- [ ] Build one syringe foot (v2) and test it on one leg.
+- [ ] Final six: laser-cut acrylic stack (2D cut files) or a parametric OpenSCAD model → fit-test print → one foot on one leg → all six.
 - [ ] Update the leg length in the gait code (the cap adds ~3–4 cm).
