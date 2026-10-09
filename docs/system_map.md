@@ -1,6 +1,6 @@
 # krēCHer System Map
 
-As of Oct 1, 2026. How the Mac, GitHub, the Oracle node, the D12 GPU box and the Pi talk to each other, what sits inside the head, how the body is powered, and where the language models fit.
+As of Oct 1, 2026; sensor plan added Oct 9. How the Mac, GitHub, the Oracle node, the D12 GPU box and the Pi talk to each other, what sits inside the head, how the body is powered, where the language models fit, and which board each sensor connects to.
 
 ## 1. Who talks to whom
 
@@ -80,6 +80,47 @@ flowchart TB
 - **Reflexes:** the flinch and head-follow run on the Pi from sensor data. A reflex can't wait 0.35 s or depend on Wi-Fi.
 - **Fallback:** one warm-up request at startup (a cold model takes ~2 s); if a reply takes more than ~2 s or the box isn't available, play a canned reaction instead of stalling.
 - Measurements and the model comparison: [`model_benchmarks.md`](model_benchmarks.md).
+
+## 5. Sensors: what goes where (decided Oct 9)
+
+The independent study needs every event-relevant signal in **one log on the Pi, on one clock** (event detection, inference on the device). So the Pi is the hub and the Servo 2040 reports up to it over USB. Rule of thumb: anything a leg must react to within milliseconds stays on the Servo 2040; everything else goes to the Pi.
+
+```mermaid
+flowchart LR
+    subgraph Head["Head · Pi 5 + Fusion HAT+"]
+        Pi["Pi 5<br/>logger · event detection"]
+        IMU["BNO085 · 0x4A<br/>HAT I2C port"] --> Pi
+        Touch["Touch module<br/>GPIO17 · HAT D0"] --> Pi
+        US["Ultrasonic<br/>trig GPIO27 · echo GPIO22"] --> Pi
+        PIR["PIR<br/>GPIO4 (check free)"] --> Pi
+        CamMic["Camera · mic<br/>already wired"] --> Pi
+    end
+    subgraph Body["Body · Servo 2040"]
+        Feet["6 foot switches<br/>sensor headers 1–6"] --> S2040["Servo 2040"]
+        Sense["Built-in servo-rail<br/>current + voltage"] --> S2040
+    end
+    S2040 -- "USB serial · JSON lines<br/>see body_link_protocol.md" --> Pi
+```
+
+| Sensor | Board / pin | IS events it feeds |
+| --- | --- | --- |
+| BNO085 IMU | Pi, HAT I2C port (as now) | picked up, shaken, rotated, carried, stationary vs moving |
+| 6 foot switches | Servo 2040 sensor headers 1–6 (FL, ML, RL, FR, MR, RR) | put down / picked up (all feet open at once) |
+| Servo current + voltage | Servo 2040, built in | lifted (leg load drops), stall, brownout |
+| Touch module | Pi GPIO17 (HAT digital D0) | touched; triggers the flinch reflex |
+| Ultrasonic | Pi GPIO27 trig, GPIO22 echo (HAT digital headers) | someone approaching |
+| PIR | Pi GPIO4 (HAT digital header) if free, else GPIO5 | someone approaching (confirms the ultrasonic) |
+| Camera, mic | Pi (already wired) | interacting (optional for the IS) |
+| Head battery level | Fusion HAT+ (built in) | housekeeping only |
+
+Decisions and checks:
+
+- **The IMU stays on the Pi's bus**, not the Servo 2040's Qw/ST port, so the dataset has one clock. **Mount it on the body plate**, not the pan-tilt, or head movement contaminates the data.
+- **Feet go on the Servo 2040** because the Pi doesn't have six spare GPIOs after touch, ultrasonic and PIR, and the Servo 2040 has exactly six sensor headers, close to the legs. Wiring as in [`body/feet/README.md`](../body/feet/README.md): COM → signal, NO → 3.3 V. Turn on the pull-down for each sensor channel in the mux, or an open switch floats.
+- Before wiring: run `gpioinfo gpiochip15` and confirm GPIO4, 17, 22 and 27 are free (17, 22, 27 were used and freed in Exp 01).
+- **Ultrasonic voltage:** if the module needs 5 V, its echo pin outputs 5 V, which can damage a Pi GPIO. Run it at 3.3 V if its silkscreen allows, otherwise put a divider on echo (1 kΩ from echo, 2 kΩ to ground, Pi pin at the middle).
+- Spare Pi pins after this: GPIO5, 12, 13, 23, 24, 25, 26 (26 = LED test).
+- Wiring practice: twist each sensor signal with its ground, keep it away from servo power runs, and run one common ground between the HAT, the Pi and the Servo 2040.
 
 ## Progress
 
