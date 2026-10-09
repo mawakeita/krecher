@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 780" font-family="Helvetica, Arial, sans-serif" font-size="13" xmlns:c2pa="http://c2pa.org/manifest">
+  <rect width="780" height="780" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot-switch cap: concept v1, krēCHer in heels</text>
+  <text x="24" y="56" fill="#555">Plunger foot from Robot Lk Part 4 (~11:35) + a toy crystal heel (~30 × 12 × 10 mm). Sizes are placeholders.</text>
+
+  <!-- aluminium plate (leg tip) -->
+  <path d="M255,80 L345,80 L345,330 Q345,356 300,356 Q255,356 255,330 Z" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+  <line x1="255" y1="120" x2="200" y2="120" stroke="#777"/>
+  <text x="24" y="116" font-weight="bold">Aluminium lower leg</text>
+  <text x="24" y="132" fill="#555">end slides into the slot</text>
+
+  <!-- housing -->
+  <path d="M228,200 L372,200 L372,536 L228,536 Z M255,200 L255,330 Q255,356 300,356 Q345,356 345,330 L345,200 Z" fill="#b9bec5" fill-opacity="0.85" fill-rule="evenodd" stroke="#555" stroke-width="2"/>
+  <!-- switch pocket -->
+  <rect x="239" y="366" width="122" height="64" fill="#ffffff" stroke="#555" stroke-width="1.5"/>
+  <!-- bore -->
+  <rect x="275" y="430" width="50" height="106" fill="#ffffff" stroke="#555" stroke-width="1.5"/>
+
+  <!-- bolts -->
+  <g stroke="#333" stroke-width="1.5" fill="#e8e8e8">
+    <circle cx="300" cy="248" r="16"/><circle cx="300" cy="308" r="16"/>
+  </g>
+  <g stroke="#333" stroke-width="2">
+    <line x1="291" y1="248" x2="309" y2="248"/><line x1="300" y1="239" x2="300" y2="257"/>
+    <line x1="291" y1="308" x2="309" y2="308"/><line x1="300" y1="299" x2="300" y2="317"/>
+  </g>
+
+  <!-- micro switch -->
+  <rect x="242" y="369" width="116" height="58" rx="3" fill="#222"/>
+  <text x="300" y="390" fill="#ddd" text-anchor="middle" font-size="11">Cylewet switch</text>
+  <circle cx="262" cy="410" r="5" fill="#555"/><circle cx="338" cy="410" r="5" fill="#555"/>
+  <!-- actuator button + lever -->
+  <rect x="294" y="427" width="12" height="4" fill="#ddd"/>
+  <line x1="250" y1="429" x2="340" y2="437" stroke="#c9c9c9" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- plunger shaft -->
+  <rect x="277" y="446" width="46" height="106" fill="#9be3c4" stroke="#2f7d5c" stroke-width="1.5"/>
+  <!-- slot in shaft + retaining pin -->
+  <rect x="293" y="482" width="14" height="40" rx="7" fill="#ffffff" stroke="#2f7d5c" stroke-width="1.2"/>
+  <line x1="228" y1="489" x2="372" y2="489" stroke="#c0392b" stroke-width="1" stroke-dasharray="4 3"/>
+  <circle cx="300" cy="489" r="5" fill="#c0392b"/>
+
+  <!-- toe -->
+  <rect x="256" y="552" width="88" height="12" rx="2" fill="#9be3c4" stroke="#2f7d5c" stroke-width="1.5"/>
+  <line x1="200" y1="654" x2="430" y2="654" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="672" fill="#999" font-size="12">floor</text>
+  <!-- doll-foot peg -->
+  <path d="M288,564 L312,564 L312,596 Q340,612 372,628 Q382,634 370,637 Q338,630 300,612 Q285,604 288,592 Z" fill="#9be3c4" stroke="#2f7d5c" stroke-width="1.5"/>
+  <!-- crystal heel -->
+  <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#bfe6ff" fill-opacity="0.55" stroke="#3a7fb0" stroke-width="2"/>
+  <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#bfe6ff" fill-opacity="0.7" stroke="#3a7fb0" stroke-width="2"/>
+  <ellipse cx="244.5" cy="652" rx="5" ry="2.5" fill="#333"/>
+  <ellipse cx="380" cy="650" rx="12" ry="3" fill="#333"/>
+
+  <!-- travel gap -->
+  <line x1="390" y1="536" x2="390" y2="552" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="380" y1="536" x2="400" y2="536" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="380" y1="552" x2="400" y2="552" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- wires -->
+  <path d="M352,382 C385,370 390,260 385,190 C382,140 372,110 368,80" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M352,392 C392,378 398,260 393,190 C390,140 380,110 376,80" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- labels (right) -->
+  <g fill="#222">
+    <line x1="318" y1="248" x2="440" y2="240" stroke="#777"/>
+    <text x="446" y="236" font-weight="bold">2 × M3 bolts through the leg's holes</text>
+    <text x="446" y="252" fill="#555">clamp the cap to the plate (spacing = measurement)</text>
+
+    <line x1="400" y1="300" x2="440" y2="300" stroke="#777"/>
+    <text x="446" y="296" font-weight="bold">Wires (COM + NO)</text>
+    <text x="446" y="312" fill="#555">exit the pocket, run up the leg in the wrap</text>
+
+    <line x1="362" y1="398" x2="440" y2="380" stroke="#777"/>
+    <text x="446" y="376" font-weight="bold">Switch pocket</text>
+    <text x="446" y="392" fill="#555">open on one face; switch screws in with</text>
+    <text x="446" y="408" fill="#555">its own 2 holes (M2), lever facing down</text>
+
+    <line x1="325" y1="470" x2="440" y2="452" stroke="#777"/>
+    <text x="446" y="448" font-weight="bold">Plunger (sliding fit in the bore)</text>
+    <text x="446" y="464" fill="#555">its top end pushes the lever up to click</text>
+
+    <line x1="372" y1="489" x2="440" y2="500" stroke="#777"/>
+    <text x="446" y="504" font-weight="bold" fill="#c0392b">Retaining pin</text>
+    <text x="446" y="520" fill="#555">1.75 mm filament or M2 screw through a slot;</text>
+    <text x="446" y="536" fill="#555">only stops it falling out, never carries weight</text>
+
+    <text x="446" y="560" font-weight="bold" fill="#c0392b">Travel ≈ 2.5 mm, then HARD STOP</text>
+    <text x="446" y="576" fill="#555">collar lands on the housing: the robot's</text>
+    <text x="446" y="592" fill="#555">weight goes into plastic, not into the switch</text>
+
+    <line x1="290" y1="580" x2="200" y2="548" stroke="#777"/>
+    <text x="24" y="530" font-weight="bold">Doll-foot peg (end of plunger)</text>
+    <text x="24" y="546" fill="#555">glued into the shoe; flat on the shaft</text>
+    <text x="24" y="562" fill="#555">so the shoe always points forward</text>
+
+    <line x1="236" y1="596" x2="200" y2="610" stroke="#777"/>
+    <text x="24" y="604" font-weight="bold" fill="#3a7fb0">Crystal heel</text>
+    <text x="24" y="620" fill="#555">filled solid with epoxy/hot glue,</text>
+    <text x="24" y="636" fill="#555">not a hollow shell</text>
+
+    <line x1="244" y1="656" x2="200" y2="676" stroke="#777"/>
+    <text x="24" y="680" font-weight="bold">Rubber dots</text>
+    <text x="24" y="696" fill="#555">under heel tip + ball of foot for grip</text>
+
+    <text x="446" y="620" font-weight="bold" fill="#3a7fb0">Heel or ball lands → shoe pushes</text>
+    <text x="446" y="636" fill="#555">the plunger up → click. Weight path:</text>
+    <text x="446" y="652" fill="#555">shoe → peg → collar → housing.</text>
+
+    <line x1="228" y1="410" x2="200" y2="410" stroke="#777"/>
+    <text x="24" y="406" font-weight="bold">Housing (one PLA print)</text>
+    <text x="24" y="422" fill="#555">slot for the plate on top,</text>
+    <text x="24" y="438" fill="#555">switch pocket, then bore</text>
+  </g>
+
+  <rect x="24" y="726" width="732" height="34" rx="4" fill="#f4f4f4" stroke="#ccc"/>
+  <text x="36" y="748" fill="#333">Test first: fill one shoe, stand it on its heel under a 1 L bottle (~1 kg), rock it. Cracks → fall back to v0 toe.</text>
+</svg>
