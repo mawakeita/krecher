@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 880" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="880" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <linearGradient id="chrome" x1="0" x2="1">
+      <stop offset="0" stop-color="#8d9298"/><stop offset="0.35" stop-color="#f4f6f8"/><stop offset="1" stop-color="#9aa0a6"/>
+    </linearGradient>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: pen ankle with grip-tube skin (v4)</text>
+  <text x="24" y="56" fill="#555">v3's pen mechanism, dressed in two Sharpie grip tubes. Edge view, cut away. The rubber never carries weight.</text>
+
+  <!-- leg plate (edge) -->
+  <rect x="287" y="80" width="15" height="288" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+
+  <!-- clip: runs up the far side of the plate, root bridges under the plate tip -->
+  <path d="M276,236 L283,236 L283,370 L303,370 L303,385 L276,385 Z" fill="#2b2b2b"/>
+  <!-- bolt through clip + plate -->
+  <rect x="268" y="296" width="8" height="12" fill="#888" stroke="#444"/>
+  <line x1="276" y1="302" x2="312" y2="302" stroke="#444" stroke-width="4"/>
+
+  <!-- barrel (cutaway) -->
+  <rect x="303" y="160" width="50" height="225" fill="#f2f2f2" stroke="#2b2b2b" stroke-width="5"/>
+  <!-- end plug (white piece) -->
+  <rect x="306" y="162" width="44" height="14" fill="#ffffff" stroke="#999" stroke-width="1.2"/>
+  <!-- spring -->
+  <polyline points="320,176 340,182 320,188 340,194 320,200 340,206 320,212 340,218 320,224 340,230 320,236 340,242 320,248 340,254 320,260 340,266 330,270" fill="none" stroke="#555" stroke-width="2"/>
+  <!-- pusher (skewer) through spring + plug -->
+  <rect x="327" y="154" width="6" height="118" fill="#d9b779" stroke="#8a6d1f" stroke-width="1"/>
+  <!-- chrome button -->
+  <rect x="309" y="270" width="38" height="134" rx="6" fill="url(#chrome)" stroke="#6b7076" stroke-width="1.2"/>
+  <path d="M309,276 L316,270 L323,276 L330,270 L337,276 L344,270 L347,272" fill="none" stroke="#6b7076" stroke-width="1"/>
+  <!-- hard-stop washer -->
+  <rect x="303" y="398" width="50" height="5" rx="1" fill="#b5b9be" stroke="#555"/>
+  <!-- travel gap marker -->
+  <line x1="372" y1="385" x2="372" y2="398" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="364" y1="385" x2="380" y2="385" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="364" y1="398" x2="380" y2="398" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- spiral grip sleeve (slit on the leg side) -->
+  <rect x="352" y="166" width="9" height="190" rx="3" fill="url(#spiral)"/>
+  <rect x="295" y="166" width="7" height="62" rx="3" fill="url(#spiral)"/>
+  <!-- plain grip tube boot over the gap -->
+  <rect x="352" y="358" width="9" height="56" rx="3" fill="#1e1e1e"/>
+  <rect x="295" y="386" width="9" height="28" rx="3" fill="#1e1e1e"/>
+
+  <!-- switch on top (subminiature, wire lever) -->
+  <rect x="300" y="112" width="66" height="30" rx="2" fill="#222"/>
+  <text x="333" y="131" fill="#ddd" text-anchor="middle" font-size="10">C  NO  NC</text>
+  <line x1="302" y1="144" x2="366" y2="156" stroke="#c9c9c9" stroke-width="2" stroke-linecap="round"/>
+  <!-- epoxy putty block holding switch -->
+  <path d="M300,142 L300,160 L353,160 L353,150 L366,152 L366,142" fill="none" stroke="#7a6a55" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <!-- wires -->
+  <path d="M366,120 C392,112 396,96 392,80" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M366,130 C402,120 406,96 400,80" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- peg + heel -->
+  <rect x="325" y="404" width="10" height="24" fill="#d9b779" stroke="#8a6d1f" stroke-width="1"/>
+  <g transform="translate(80,-70.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#bfe6ff" fill-opacity="0.55" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#bfe6ff" fill-opacity="0.7" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="474" x2="440" y2="474" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="490" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="287" y1="96" x2="210" y2="96" stroke="#777"/>
+    <text x="24" y="92" font-weight="bold">Aluminium leg (edge on)</text>
+    <text x="24" y="108" fill="#555">its tip sits on the clip's root</text>
+
+    <line x1="276" y1="250" x2="210" y2="250" stroke="#777"/>
+    <text x="24" y="246" font-weight="bold">Pen clip grips the leg</text>
+    <text x="24" y="262" fill="#555">slid up over the leg tip; the leg</text>
+    <text x="24" y="278" fill="#555">tip rests on the clip's root</text>
+
+    <line x1="268" y1="302" x2="210" y2="318" stroke="#777"/>
+    <text x="24" y="314" font-weight="bold">M3 bolt (or zip tie)</text>
+    <text x="24" y="330" fill="#555">through a 3 mm hole drilled in the</text>
+    <text x="24" y="346" fill="#555">clip + a leg hole: locks it in place</text>
+
+    <line x1="309" y1="330" x2="210" y2="392" stroke="#777"/>
+    <text x="24" y="388" font-weight="bold">Chrome button = ankle</text>
+    <text x="24" y="404" fill="#555">slides in the barrel's end; the</text>
+    <text x="24" y="420" fill="#555">barrel's lip keeps it from falling out</text>
+
+    <line x1="325" y1="420" x2="210" y2="448" stroke="#777"/>
+    <text x="24" y="444" font-weight="bold">Peg into the filled heel</text>
+    <text x="24" y="460" fill="#555">toothpick, glued into the button</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="408" y1="116" x2="440" y2="114" stroke="#777"/>
+    <text x="446" y="114" font-weight="bold">Small wire-lever switch (C / NO / NC)</text>
+    <text x="446" y="130" fill="#555">fits across the pen's end; held by epoxy putty</text>
+    <text x="446" y="146" fill="#555">shaped into a neat cap (dashed)</text>
+
+    <line x1="350" y1="170" x2="440" y2="178" stroke="#777"/>
+    <text x="446" y="182" font-weight="bold">White piece = end plug</text>
+    <text x="446" y="198" fill="#555">glued in the cut end; hole for the pusher</text>
+
+    <line x1="340" y1="220" x2="440" y2="234" stroke="#777"/>
+    <text x="446" y="238" font-weight="bold">Pen spring pushes the button out</text>
+    <text x="446" y="254" fill="#555">resets the foot when the leg lifts</text>
+
+    <line x1="333" y1="262" x2="440" y2="286" stroke="#777"/>
+    <text x="446" y="290" font-weight="bold">Pusher: bamboo skewer</text>
+    <text x="446" y="306" fill="#555">glued to the button, runs through the spring</text>
+    <text x="446" y="322" fill="#555">and plug; its tip lifts the switch lever</text>
+
+    <line x1="353" y1="350" x2="440" y2="346" stroke="#777"/>
+    <text x="446" y="350" font-weight="bold">Black barrel, cut to ~45 mm</text>
+    <text x="446" y="366" fill="#555">keep the button end and the clip</text>
+
+    <text x="446" y="394" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="446" y="410" fill="#555">washer glued on the button lands on the barrel</text>
+    <text x="446" y="426" fill="#555">end. Weight: heel → button → washer →</text>
+    <text x="446" y="442" fill="#555">barrel → clip root → leg tip. Never the switch.</text>
+  </g>
+
+  <g fill="#222">
+        <text x="24" y="150" font-weight="bold" fill="#5b3fa0">Spiral grip = calf skin</text>
+    <text x="24" y="166" fill="#555">slit on the leg side so the</text>
+    <text x="24" y="182" fill="#555">clip and leg pass through;</text>
+    <text x="24" y="198" fill="#555">flexible glue (E6000)</text>
+    <line x1="295" y1="180" x2="200" y2="176" stroke="#5b3fa0"/>
+
+    <line x1="362" y1="408" x2="440" y2="462" stroke="#5b3fa0"/>
+    <text x="446" y="470" font-weight="bold" fill="#5b3fa0">Plain grip tube = boot over the gap</text>
+    <text x="446" y="486" fill="#555">glued to the barrel only, hangs past the washer:</text>
+    <text x="446" y="502" fill="#555">hides the gap, keeps fur out, adds no spring.</text>
+    <text x="446" y="526" font-weight="bold" fill="#5b3fa0">Sole pads</text>
+    <text x="446" y="542" fill="#555">thin rings sliced off the plain tube, under heel + ball</text>
+  </g>
+
+  <!-- parts + checks -->
+  <rect x="24" y="562" width="732" height="290" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="588" font-weight="bold" font-size="15">What the grip tubes do (and don't)</text>
+  <g fill="#333">
+    <text x="40" y="610">Spiral grip (~36 mm): textured skin over the barrel. Slit it lengthwise on the leg side; the clip and leg sit in the slit.</text>
+    <text x="40" y="628">Plain grip (~35 mm): cut ~12 mm as the boot over the travel gap; slice the rest into thin rings for the sole pads.</text>
+    <text x="40" y="646">Weight path is unchanged: heel → button → washer → barrel → clip → leg. Rubber carries no load; switch never does.</text>
+  </g>
+  <text x="40" y="678" font-weight="bold" font-size="15">Check</text>
+  <g fill="#333">
+    <text x="40" y="700">1. Does each grip slide over the pen barrel? (Snug is good; if it's too tight, warm it in hot water first.)</text>
+    <text x="40" y="718">2. Washer: must be no wider than the barrel, so the boot hangs clear of it and the button slides freely inside.</text>
+    <text x="40" y="736">3. Press the heel up with the boot on: click at ~1.5 mm, solid stop at ~2.5 mm, springs back. Boot must not rub or drag.</text>
+    <text x="40" y="754">4. Still open from v3: button can't slide out of the barrel; no latching once the white cam piece is out; clip fits the leg.</text>
+  </g>
+  <text x="40" y="786" font-weight="bold" font-size="15">Build order</text>
+  <g fill="#333">
+    <text x="40" y="808">Mechanism first (v3, taped, tested) → washer + switch cap → slit spiral sleeve → boot → sole rings → heel.</text>
+    <text x="40" y="826" fill="#777">The switch cap stays outside the rubber (the switch is wider than the grip's bore); shape the epoxy putty to match.</text>
+  </g>
+</svg>
