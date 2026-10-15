@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 920" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="920" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+    <pattern id="glue" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#e6efe9"/>
+      <circle cx="3" cy="4" r="1" fill="#d2ded6"/><circle cx="7.5" cy="8" r="0.8" fill="#d2ded6"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: grip bolted to the leg (v11)</text>
+  <text x="24" y="56" fill="#555">Mawa's version: the grip's narrow end over the leg tip, bolted through the first hole. The glue stick is now the plunger.</text>
+  <text x="24" y="74" fill="#555">View along the leg's edge (the aluminium looks thin), grip cut away. ~5 px = 1 mm.</text>
+
+  <!-- leg plate, edge-on -->
+  <path d="M323,84 L337,84 L337,246 Q337,250 330,250 Q323,250 323,246 Z" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+
+  <!-- grip (fixed) -->
+  <path d="M300,150 L309,150 L306,200 L306,395 L297,395 L297,200 Z" fill="url(#spiral)"/>
+  <path d="M351,150 L360,150 L363,200 L363,248 L354,248 L354,200 Z" fill="url(#spiral)"/>
+  <rect x="354" y="268" width="9" height="127" rx="2" fill="url(#spiral)"/>
+
+  <!-- M3 bolt + nut through grip and the leg's first hole -->
+  <rect x="282" y="208" width="10" height="16" rx="2" fill="#9aa0a6" stroke="#444"/>
+  <line x1="292" y1="216" x2="372" y2="216" stroke="#555" stroke-width="5"/>
+  <rect x="368" y="207" width="9" height="18" rx="1" fill="#9aa0a6" stroke="#444"/>
+
+  <!-- glue stick plunger (moving), tape-wrapped, disc on top, spring pocket -->
+  <rect x="310" y="266" width="40" height="146" rx="3" fill="url(#glue)" stroke="#9fb2a6" stroke-width="1.5"/>
+  <rect x="307" y="290" width="46" height="102" rx="3" fill="none" stroke="#5d7fa3" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <rect x="320" y="266" width="20" height="36" fill="#ffffff" stroke="#9fb2a6"/>
+  <rect x="307" y="262.5" width="12" height="4" fill="#7d8389"/>
+  <rect x="341" y="262.5" width="12" height="4" fill="#7d8389"/>
+
+  <!-- spring: glued to the leg tip and into the pocket -->
+  <polyline points="330,250 320,254 340,259 320,264 340,269 320,274 340,279 320,284 340,289 320,294 330,300" fill="none" stroke="#555" stroke-width="2"/>
+  <circle cx="330" cy="250" r="3.5" fill="#cfe0d5" stroke="#7a9a86"/>
+
+  <!-- switch in the slit (fixed) -->
+  <rect x="363" y="262" width="30" height="66" rx="2" fill="#222"/>
+  <text x="378" y="300" fill="#ddd" text-anchor="middle" font-size="9" transform="rotate(-90 378 300)">C  NO  NC</text>
+  <polyline points="366,324 361,257.5 344,257.5" fill="none" stroke="#e67e22" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M393,276 C420,266 424,200 412,150 C404,120 404,100 400,84" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M393,286 C430,274 434,200 420,150 C412,120 412,100 408,84" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- gap marker (left) -->
+  <line x1="282" y1="250" x2="282" y2="262.5" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="274" y1="250" x2="290" y2="250" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="274" y1="262.5" x2="290" y2="262.5" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- heel, glued onto the stick's bottom -->
+  <g transform="translate(80,-85.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#e6efe9" fill-opacity="0.9" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#e6efe9" fill-opacity="0.9" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="460" x2="440" y2="460" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="476" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="323" y1="110" x2="210" y2="106" stroke="#777"/>
+    <text x="24" y="102" font-weight="bold">Aluminium leg tip (edge-on)</text>
+    <text x="24" y="118" fill="#555">its end is the hard stop</text>
+
+    <line x1="300" y1="165" x2="210" y2="160" stroke="#777"/>
+    <text x="24" y="152" font-weight="bold">Your idea: grip's narrow end</text>
+    <text x="24" y="168" fill="#555">pushed straight over the leg tip.</text>
+    <text x="24" y="184" fill="#555">The grip doesn't move.</text>
+
+    <line x1="282" y1="216" x2="210" y2="220" stroke="#777"/>
+    <text x="24" y="212" font-weight="bold">M3 bolt + nut</text>
+    <text x="24" y="228" fill="#555">through the rubber and the leg's</text>
+    <text x="24" y="244" fill="#555">first hole (a wood screw won't hold)</text>
+
+    <line x1="320" y1="280" x2="210" y2="290" stroke="#777"/>
+    <text x="24" y="284" font-weight="bold">Spring, cut to ~12 mm</text>
+    <text x="24" y="300" fill="#555">hot-glued to the leg's end and into</text>
+    <text x="24" y="316" fill="#555">a pocket in the stick: pushes the</text>
+    <text x="24" y="332" fill="#555">stick + heel down and holds them on</text>
+
+    <line x1="307" y1="360" x2="210" y2="368" stroke="#5d7fa3"/>
+    <text x="24" y="364" font-weight="bold">Glue stick = the plunger</text>
+    <text x="24" y="380" fill="#555">slides in the grip; packing tape on it</text>
+
+    <line x1="320" y1="416" x2="210" y2="416" stroke="#777"/>
+    <text x="24" y="412" font-weight="bold">Heel</text>
+    <text x="24" y="428" fill="#555">filled with hot glue, glued onto the</text>
+    <text x="24" y="444" fill="#555">stick's bottom end</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="393" y1="320" x2="470" y2="330" stroke="#777"/>
+    <text x="476" y="314" font-weight="bold">Switch in your slit (fixed now)</text>
+    <text x="476" y="330" fill="#555">wires don't flex; tack with hot glue</text>
+
+    <line x1="352" y1="257" x2="470" y2="218" stroke="#e67e22"/>
+    <text x="476" y="198" font-weight="bold">Lever: hinge at the bottom, tip bent in</text>
+    <text x="476" y="214" fill="#555">through the slit, beside the thin leg, ~1 mm</text>
+    <text x="476" y="230" fill="#555">above the disc. The stick rises → the disc</text>
+    <text x="476" y="246" fill="#555">lifts the tip → click at ~1.5 mm</text>
+
+    <line x1="353" y1="264" x2="470" y2="272" stroke="#555"/>
+    <text x="476" y="268" font-weight="bold">Disc on the stick's top</text>
+    <text x="476" y="284" fill="#555">washer or plastic-lid circle, 5 mm hole</text>
+
+    <line x1="290" y1="256" x2="470" y2="366" stroke="#c0392b" stroke-dasharray="3 3"/>
+    <text x="476" y="370" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="476" y="386" fill="#555">the disc meets the leg's end.</text>
+    <text x="476" y="402" fill="#555">Weight: heel → stick → disc → leg.</text>
+    <text x="476" y="418" fill="#555">The bolt and rubber only hold the grip;</text>
+    <text x="476" y="434" fill="#555">never the switch or the spring.</text>
+  </g>
+
+  <!-- box -->
+  <rect x="24" y="500" width="732" height="404" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="526" font-weight="bold" font-size="15">How it moves</text>
+  <g fill="#333">
+    <text x="40" y="548">Foot lands → heel and glue stick slide up inside the fixed grip, squashing the spring → the disc lifts the lever: click</text>
+    <text x="56" y="566">→ the disc meets the leg's end: stop. Leg lifts → the spring pushes the stick and heel back down.</text>
+  </g>
+  <text x="40" y="598" font-weight="bold" font-size="15">Build (one foot first)</text>
+  <g fill="#333">
+    <text x="40" y="620">1. Push the grip's narrow end over the leg tip. Mark the first hole through the rubber; poke through with a hot nail.</text>
+    <text x="40" y="638">2. M3 bolt through rubber + hole + rubber, nut on the far side. Snug, not crushed.</text>
+    <text x="40" y="656">3. Glue stick: ~25 mm, one layer of packing tape (ends bare); melt a ~5 mm spring pocket in one end. Spring: cut to ~12 mm.</text>
+    <text x="40" y="674">4. Glue the disc on the pocket end, hole over the pocket. Hot-glue the filled heel onto the other end.</text>
+    <text x="40" y="692">5. Cut the slit in the grip's side, just below the leg's end, facing the flat of the leg. Bend the lever tip 90°,</text>
+    <text x="56" y="710">push the switch in with the tip beside the leg. Solder the wires first. Don't glue it yet.</text>
+    <text x="40" y="728">6. Hot-glue the spring into the stick's pocket, slide the stick up into the grip, glue the spring's top to the leg's end.</text>
+    <text x="40" y="746">7. Meter on C–NO: click ~1.5 mm, disc meets leg at ~2.5 mm, springs back. Nudge the switch, then tack it in.</text>
+  </g>
+  <text x="40" y="778" font-weight="bold" font-size="15">Watch</text>
+  <g fill="#333">
+    <text x="40" y="800">Gluing the spring's top to the leg is the fiddly bit: the stick has to be in the grip first. If that's too awkward,</text>
+    <text x="56" y="818">glue the spring to the leg first, let it set, then slide the stick (pocket up) onto it and glue the pocket.</text>
+    <text x="40" y="836">If the stick doesn't slide back down, it's rubbing: more tape or a pinch of talc. Re-check the click after a day.</text>
+    <text x="40" y="854">The leg tip now sits inside the grip, so the foot is ~3 cm longer than the bare leg: update the gait code later.</text>
+    <text x="40" y="884" fill="#777">Sizes are estimates from the photos (glue stick ~8 mm, grip ~9.5 mm inside); check the leg tip fits the narrow end first.</text>
+  </g>
+</svg>

@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 860" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="860" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+    <pattern id="spiralFree" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#6a5a8a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#3b2f55" stroke-width="2"/>
+    </pattern>
+    <pattern id="wood" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#ead2a8"/>
+      <path d="M0,5 Q5,3 10,5" stroke="#cfae78" fill="none"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: switch as an ankle band (v6)</text>
+  <text x="24" y="56" fill="#555">From Mawa's mock-up: one grip tube, the switch slid crosswise through a slit, heel below. Front view, cut away. ~6 px = 1 mm.</text>
+
+  <!-- leg plate in the top slot -->
+  <path d="M300,80 L360,80 L360,190 Q360,206 330,206 Q300,206 300,190 Z" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+
+  <!-- upper core (wood dowel) -->
+  <path d="M301,150 L359,150 L359,300 L301,300 Z" fill="url(#wood)" stroke="#8a6d1f" stroke-width="1.5"/>
+  <!-- plate slot shown by re-drawing plate over core -->
+  <path d="M300,150 L360,150 L360,190 Q360,206 330,206 Q300,206 300,190 Z" fill="url(#hatch)" fill-opacity="0.9" stroke="#8a929c" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <!-- bolt -->
+  <circle cx="330" cy="182" r="11" fill="#e8e8e8" stroke="#333" stroke-width="1.5"/>
+  <line x1="323" y1="182" x2="337" y2="182" stroke="#333" stroke-width="2"/><line x1="330" y1="175" x2="330" y2="189" stroke="#333" stroke-width="2"/>
+
+  <!-- switch slot + switch crosswise -->
+  <rect x="301" y="257" width="58" height="43" fill="#ffffff" stroke="#8a6d1f" stroke-width="1"/>
+  <rect x="291" y="259" width="78" height="39" rx="2" fill="#222"/>
+  <text x="330" y="282" fill="#ddd" text-anchor="middle" font-size="10">C   NO   NC</text>
+  <!-- lever under the switch -->
+  <line x1="366" y1="298" x2="296" y2="305" stroke="#e67e22" stroke-width="2.6" stroke-linecap="round"/>
+
+  <!-- lower core -->
+  <rect x="301" y="315" width="58" height="72" fill="url(#wood)" stroke="#8a6d1f" stroke-width="1.5"/>
+  <!-- gap marker -->
+  <line x1="392" y1="300" x2="392" y2="315" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="384" y1="300" x2="400" y2="300" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="384" y1="315" x2="400" y2="315" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- rubber skin: glued zones dark, free zone purple -->
+  <rect x="292" y="140" width="9" height="117" rx="3" fill="url(#spiral)"/>
+  <rect x="359" y="140" width="9" height="117" rx="3" fill="url(#spiral)"/>
+  <rect x="292" y="300" width="9" height="62" rx="2" fill="url(#spiralFree)"/>
+  <rect x="359" y="300" width="9" height="62" rx="2" fill="url(#spiralFree)"/>
+  <rect x="292" y="362" width="9" height="28" rx="3" fill="url(#spiral)"/>
+  <rect x="359" y="362" width="9" height="28" rx="3" fill="url(#spiral)"/>
+  <rect x="290" y="257" width="80" height="43" fill="none" stroke="#5b3fa0" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+  <!-- wires -->
+  <path d="M369,268 C400,250 404,140 396,80" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M369,278 C410,258 412,140 404,80" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- peg + heel -->
+  <rect x="325" y="387" width="10" height="26" fill="#d9b779" stroke="#8a6d1f" stroke-width="1"/>
+  <g transform="translate(80,-83.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#bfe6ff" fill-opacity="0.55" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#bfe6ff" fill-opacity="0.7" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="462" x2="440" y2="462" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="478" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="300" y1="110" x2="210" y2="106" stroke="#777"/>
+    <text x="24" y="102" font-weight="bold">Aluminium leg tip</text>
+    <text x="24" y="118" fill="#555">slides into a slot sawn in the top</text>
+    <text x="24" y="134" fill="#555">of the upper core</text>
+
+    <line x1="319" y1="182" x2="210" y2="178" stroke="#777"/>
+    <text x="24" y="174" font-weight="bold">M3 bolt</text>
+    <text x="24" y="190" fill="#555">through the core + a leg hole</text>
+
+    <line x1="301" y1="230" x2="210" y2="236" stroke="#777"/>
+    <text x="24" y="226" font-weight="bold">Upper core: 3/8" wood dowel</text>
+    <text x="24" y="242" fill="#555">~25 mm, snug inside the grip.</text>
+    <text x="24" y="258" fill="#555">Rubber glued to it all the way</text>
+
+    <line x1="291" y1="285" x2="210" y2="300" stroke="#5b3fa0"/>
+    <text x="24" y="296" font-weight="bold" fill="#5b3fa0">Your slit: switch crosswise</text>
+    <text x="24" y="312" fill="#555">in a slot sawn across the core's</text>
+    <text x="24" y="328" fill="#555">bottom; ends show through the</text>
+    <text x="24" y="344" fill="#555">rubber like a band. Glued.</text>
+
+    <line x1="301" y1="370" x2="210" y2="378" stroke="#777"/>
+    <text x="24" y="374" font-weight="bold">Lower core: dowel, ~12 mm</text>
+    <text x="24" y="390" fill="#555">rubber glued only at its bottom</text>
+
+    <line x1="325" y1="400" x2="210" y2="428" stroke="#777"/>
+    <text x="24" y="424" font-weight="bold">Peg into the filled heel</text>
+    <text x="24" y="440" fill="#555">sole pads: thin rubber rings</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="350" y1="303" x2="440" y2="262" stroke="#e67e22"/>
+    <text x="446" y="250" font-weight="bold">Lever hangs just below the core</text>
+    <text x="446" y="266" fill="#555">the lower core's top face lifts it: click at ~1.5 mm</text>
+
+    <line x1="400" y1="308" x2="440" y2="300" stroke="#c0392b"/>
+    <text x="446" y="298" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="446" y="314" fill="#555">wood meets wood on both sides of the switch;</text>
+    <text x="446" y="330" fill="#555">the lever is pressed flat into its slot, not crushed</text>
+
+    <line x1="368" y1="340" x2="440" y2="362" stroke="#5b3fa0"/>
+    <text x="446" y="360" font-weight="bold" fill="#5b3fa0">Free rubber = your spring</text>
+    <text x="446" y="376" fill="#555">~10 mm of the grip left unglued between the cores.</text>
+    <text x="446" y="392" fill="#555">It squashes a little when the foot lands, springs</text>
+    <text x="446" y="408" fill="#555">the heel back, and holds it on. Weight: heel → lower</text>
+    <text x="446" y="424" fill="#555">core → upper core → bolt → leg. Never the switch.</text>
+  </g>
+
+  <!-- box -->
+  <rect x="24" y="500" width="732" height="344" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="526" font-weight="bold" font-size="15">What changed from your mock-up</text>
+  <g fill="#333">
+    <text x="40" y="548">· Shorter: ~25 mm above the switch, ~12 mm below, so the foot adds about 4 cm to the leg.</text>
+    <text x="40" y="566">· Wood dowels inside both halves. The rubber is the skin and the spring; the wood carries the weight.</text>
+    <text x="40" y="584">· No metal spring: the unglued stretch of rubber does that job, so the switch can sit across the middle.</text>
+  </g>
+  <text x="40" y="616" font-weight="bold" font-size="15">Build</text>
+  <g fill="#333">
+    <text x="40" y="638">1. Pick a dowel that slides snugly into the grip (3/8" is a guess). Cut ~25 mm and ~12 mm pieces.</text>
+    <text x="40" y="656">2. Upper piece: saw a slot in the top for the leg (as wide as the leg is thick) and a ~6 mm slot across the bottom,</text>
+    <text x="56" y="674">deep enough that the switch sits just inside with only its lever hanging out. Drill 3 mm for the bolt.</text>
+    <text x="40" y="692">3. Lower piece: drill a small hole in the bottom for the heel's peg.</text>
+    <text x="40" y="710">4. Slide both into the grip with a 2.5 mm gap (use a stack of cards as a spacer). Cut the slits; push the switch through.</text>
+    <text x="40" y="728">5. Test on the meter (C–NO): press the heel up, click at ~1.5 mm, wood-on-wood stop at ~2.5 mm, springs back.</text>
+    <text x="40" y="746">6. Then glue: rubber to the whole upper core and only the bottom few mm of the lower core; switch in its slot.</text>
+  </g>
+  <text x="40" y="778" font-weight="bold" font-size="15">Watch</text>
+  <g fill="#333">
+    <text x="40" y="800">The free rubber lets the heel tilt a little. If it wobbles too much, shorten the unglued stretch or use a stiffer grip.</text>
+    <text x="40" y="818">Saw the bottom slot carefully: the wood left on each side of the switch is thin, and it is what takes the weight.</text>
+    <text x="40" y="836" fill="#777">Sizes are estimates from the photos; measure the grip's inside and the switch before cutting.</text>
+  </g>
+</svg>

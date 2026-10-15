@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 920" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="920" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+    <pattern id="putty" width="9" height="9" patternUnits="userSpaceOnUse">
+      <rect width="9" height="9" fill="#b9c2bd"/>
+      <circle cx="2" cy="3" r="0.9" fill="#8f9a94"/><circle cx="6.5" cy="7" r="0.8" fill="#8f9a94"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: Mawa's stack (v9)</text>
+  <text x="24" y="56" fill="#555">Your order, top to bottom: switch → wall anchor → grip → spring → heel. Side view, grip cut away. ~5 px = 1 mm.</text>
+
+  <!-- leg tip -->
+  <path d="M302,70 L358,70 L358,165 Q358,180 330,180 Q302,180 302,165 Z" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+  <!-- putty knee -->
+  <rect x="294" y="140" width="72" height="66" rx="16" fill="url(#putty)" stroke="#6f7a74" stroke-width="1.5"/>
+  <path d="M302,140 L358,140 L358,165 Q358,180 330,180 Q302,180 302,165 Z" fill="url(#hatch)" fill-opacity="0.85" stroke="#8a929c" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- anchor: flange in the putty, body down into the grip -->
+  <rect x="302" y="190" width="56" height="9" rx="3" fill="#f2b705" stroke="#a87f00"/>
+  <path d="M313,199 L347,199 L347,355 Q347,366 330,366 Q313,366 313,355 Z" fill="#f6c623" stroke="#a87f00" stroke-width="1.5"/>
+  <path d="M313,205 L304,222 L313,222 Z M347,205 L356,222 L347,222 Z" fill="#f6c623" stroke="#a87f00"/>
+  <g stroke="#a87f00" stroke-width="1"><line x1="313" y1="250" x2="347" y2="250"/><line x1="313" y1="285" x2="347" y2="285"/><line x1="313" y1="320" x2="347" y2="320"/></g>
+  <line x1="330" y1="230" x2="330" y2="350" stroke="#a87f00" stroke-dasharray="3 3"/>
+
+  <!-- switch, embedded in the side of the putty knee -->
+  <rect x="348" y="168" width="66" height="34" rx="2" fill="#222"/>
+  <text x="381" y="189" fill="#ddd" text-anchor="middle" font-size="9">C  NO  NC</text>
+  <line x1="410" y1="204" x2="354" y2="213" stroke="#e67e22" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M414,176 C440,166 440,110 424,70" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M414,186 C450,174 450,110 432,70" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- grip = sliding sleeve -->
+  <rect x="296" y="218" width="68" height="3" fill="#9aa0a6"/>
+  <rect x="296" y="221" width="9" height="189" rx="3" fill="url(#spiral)"/>
+  <rect x="355" y="221" width="9" height="189" rx="3" fill="url(#spiral)"/>
+
+  <!-- plug + heel (putty, one piece) with spring pocket -->
+  <path d="M305,378 L355,378 L355,410 L305,410 Z" fill="url(#putty)" stroke="#6f7a74" stroke-width="1.2"/>
+  <rect x="320" y="378" width="20" height="38" fill="#ffffff" stroke="#6f7a74" stroke-width="1"/>
+  <!-- spring (cut to ~12 mm) -->
+  <polyline points="330,366 321,370 339,375 321,380 339,385 321,390 339,395 321,400 339,405 321,410 330,415" fill="none" stroke="#555" stroke-width="2"/>
+  <!-- gap marker -->
+  <line x1="384" y1="366" x2="384" y2="378" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="376" y1="366" x2="392" y2="366" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="376" y1="378" x2="392" y2="378" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- heel -->
+  <g transform="translate(80,-83.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#b9c2bd" fill-opacity="0.85" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#b9c2bd" fill-opacity="0.85" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="462" x2="440" y2="462" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="478" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="302" y1="100" x2="210" y2="96" stroke="#777"/>
+    <text x="24" y="92" font-weight="bold">Aluminium leg tip</text>
+    <text x="24" y="108" fill="#555">scuffed; putty fills its holes</text>
+
+    <line x1="294" y1="160" x2="210" y2="156" stroke="#777"/>
+    <text x="24" y="152" font-weight="bold">Putty "knee"</text>
+    <text x="24" y="168" fill="#555">one blob of epoxy putty holding the</text>
+    <text x="24" y="184" fill="#555">leg tip, the anchor's flange and the switch</text>
+
+    <line x1="313" y1="300" x2="232" y2="300" stroke="#a87f00"/>
+    <text x="24" y="232" font-weight="bold" fill="#a87f00">Wall anchor = fixed shin bone</text>
+    <text x="24" y="248" fill="#555">flange set in the putty; points down</text>
+    <text x="24" y="264" fill="#555">inside the grip. Its fins sit in two</text>
+    <text x="24" y="280" fill="#555">short slits at the grip's top so it</text>
+    <text x="24" y="296" fill="#555">can't spin. Tape it if the grip wobbles.</text>
+
+    <line x1="320" y1="400" x2="210" y2="372" stroke="#777"/>
+    <text x="24" y="356" font-weight="bold">Spring, cut to ~12 mm</text>
+    <text x="24" y="372" fill="#555">sits in a pocket in the heel's putty,</text>
+    <text x="24" y="388" fill="#555">pushes on the anchor's tip</text>
+
+    <line x1="305" y1="400" x2="210" y2="424" stroke="#777"/>
+    <text x="24" y="420" font-weight="bold">Plug + heel: one putty piece</text>
+    <text x="24" y="436" fill="#555">glued inside the grip's bottom</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="414" y1="190" x2="460" y2="190" stroke="#777"/>
+    <text x="466" y="176" font-weight="bold">Switch in the knee's side</text>
+    <text x="466" y="192" fill="#555">lever hangs over the grip's top rim</text>
+
+    <line x1="364" y1="219" x2="460" y2="232" stroke="#777"/>
+    <text x="466" y="230" font-weight="bold">Washer on the rim</text>
+    <text x="466" y="246" fill="#555">a stiff edge to lift the lever: click ~1.5 mm</text>
+
+    <line x1="364" y1="300" x2="460" y2="290" stroke="#777"/>
+    <text x="466" y="286" font-weight="bold">Grip = sliding sleeve</text>
+    <text x="466" y="302" fill="#555">moves up with the heel, over the anchor</text>
+
+    <line x1="392" y1="372" x2="460" y2="350" stroke="#c0392b"/>
+    <text x="466" y="346" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="466" y="362" fill="#555">the heel's putty meets the anchor's tip.</text>
+    <text x="466" y="378" fill="#555">Weight: heel → putty → anchor → knee</text>
+    <text x="466" y="394" fill="#555">→ leg. Never the switch, spring or rubber.</text>
+  </g>
+
+  <!-- box -->
+  <rect x="24" y="500" width="732" height="404" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="526" font-weight="bold" font-size="15">How it moves</text>
+  <g fill="#333">
+    <text x="40" y="548">Foot lands → heel, plug and grip slide up together over the fixed anchor, squashing the spring → the grip's rim</text>
+    <text x="56" y="566">(washer) lifts the lever: click → the heel's putty hits the anchor's tip: stop. Leg lifts → the spring pushes it all back down.</text>
+  </g>
+  <text x="40" y="598" font-weight="bold" font-size="15">Build (one foot first)</text>
+  <g fill="#333">
+    <text x="40" y="620">1. Check the fit: slide the grip over the anchor. It should slide, not flop. Wrap the anchor in tape until it's snug.</text>
+    <text x="40" y="638">2. Cut the spring to ~12 mm with wire cutters. Solder the switch wires; tape the switch seams (lever free).</text>
+    <text x="40" y="656">3. Knee: scuff the leg tip. Press putty around it, push in the anchor's flange (pointing down, lined up with the leg)</text>
+    <text x="56" y="674">and the switch at the side, lever down. Cure (~1 hour).</text>
+    <text x="40" y="692">4. Heel: fill with putty and shape a plug that fits the grip's inside. Press a pencil (wrapped in plastic) into</text>
+    <text x="56" y="710">its top to make the spring pocket (~5 mm wide, ~8 mm deep). Cure, then glue it into the grip's bottom (E6000).</text>
+    <text x="40" y="728">5. Cut two short slits at the grip's top for the anchor's fins. Glue a thin washer on the rim.</text>
+    <text x="40" y="746">6. Spring into the pocket, slide the grip up over the anchor. Meter on C–NO: click ~1.5 mm, stop ~2.5 mm.</text>
+    <text x="56" y="764">If the stop comes too early or late, trim the plug's top or add a dab of putty, before the final glue.</text>
+  </g>
+  <text x="40" y="796" font-weight="bold" font-size="15">Watch</text>
+  <g fill="#333">
+    <text x="40" y="818">Nothing holds the grip on but the spring pushing it down and gravity: if it can slide off the anchor, add a stop</text>
+    <text x="56" y="836">(a thread loop from the rim to the knee, hidden under the fur, or a small pin through the grip and an anchor slot).</text>
+    <text x="40" y="854">The switch is now only at one side, so it reads the rim on that side. Keep the anchor's fins in their slits so it can't twist.</text>
+    <text x="40" y="872">The hot glue stick: only for tacking wires and sealing the switch, not for anything carrying weight.</text>
+    <text x="40" y="894" fill="#777">Sizes are estimates from the cutting-mat photos (anchor ~34 mm, grip ~38 mm, spring ~24 mm); measure before cutting.</text>
+  </g>
+</svg>

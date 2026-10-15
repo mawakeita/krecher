@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 920" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="920" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+    <pattern id="glue" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#e6efe9"/>
+      <circle cx="3" cy="4" r="1" fill="#d2ded6"/><circle cx="7.5" cy="8" r="0.8" fill="#d2ded6"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: glue-stick shin bone (v10)</text>
+  <text x="24" y="56" fill="#555">Mawa's version: a glue stick in place of the wall anchor, the spring glued to the heel, the switch in a slit in the grip.</text>
+  <text x="24" y="74" fill="#555">Side view, grip cut away. ~5 px = 1 mm.</text>
+
+  <!-- leg tip -->
+  <path d="M302,84 L358,84 L358,165 Q358,180 330,180 Q302,180 302,165 Z" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+  <!-- hot-glue knee with thread wraps -->
+  <rect x="294" y="140" width="72" height="62" rx="14" fill="#eef4f0" fill-opacity="0.85" stroke="#9fb2a6" stroke-width="1.5"/>
+  <path d="M302,140 L358,140 L358,165 Q358,180 330,180 Q302,180 302,165 Z" fill="url(#hatch)" fill-opacity="0.75" stroke="#8a929c" stroke-width="1" stroke-dasharray="4 3"/>
+  <circle cx="330" cy="156" r="6" fill="#e6efe9" stroke="#9fb2a6"/>
+  <g stroke="#b5651d" stroke-width="2"><line x1="292" y1="150" x2="368" y2="154"/><line x1="292" y1="158" x2="368" y2="162"/><line x1="292" y1="166" x2="368" y2="170"/></g>
+
+  <!-- glue stick (fixed), tape-wrapped, with spring pocket at the bottom -->
+  <rect x="310" y="176" width="40" height="129" rx="3" fill="url(#glue)" stroke="#9fb2a6" stroke-width="1.5"/>
+  <rect x="307" y="210" width="46" height="95" rx="3" fill="none" stroke="#5d7fa3" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <rect x="320" y="282" width="20" height="23" fill="#ffffff" stroke="#9fb2a6"/>
+
+  <!-- grip: sliding sleeve -->
+  <rect x="296" y="215" width="9" height="185" rx="3" fill="url(#spiral)"/>
+  <rect x="355" y="215" width="9" height="34" rx="3" fill="url(#spiral)"/>
+  <rect x="355" y="318" width="9" height="82" rx="3" fill="url(#spiral)"/>
+
+  <!-- switch in the slit, riding with the grip -->
+  <rect x="364" y="250" width="30" height="66" rx="2" fill="#222"/>
+  <text x="379" y="286" fill="#ddd" text-anchor="middle" font-size="9" transform="rotate(-90 379 286)">C  NO  NC</text>
+  <polyline points="364,254 361,308 338,310" fill="none" stroke="#e67e22" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- wires with slack loop -->
+  <path d="M394,262 C424,262 428,238 410,232 C394,226 412,200 420,170 C426,140 426,110 424,84" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M394,272 C434,272 440,236 420,228 C404,222 422,198 430,170 C436,140 436,110 432,84" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- heel fill + plug (hot glue) with spring pocket -->
+  <path d="M305,317 L355,317 L355,400 L305,400 Z" fill="url(#glue)" stroke="#9fb2a6" stroke-width="1.2"/>
+  <rect x="320" y="317" width="20" height="16" fill="#ffffff" stroke="#9fb2a6"/>
+  <!-- spring, glued at both ends -->
+  <polyline points="330,284 321,288 339,293 321,298 339,303 321,308 339,313 321,318 339,323 321,328 330,332" fill="none" stroke="#555" stroke-width="2"/>
+  <circle cx="330" cy="284" r="3" fill="#cfe0d5" stroke="#7a9a86"/><circle cx="330" cy="332" r="3" fill="#cfe0d5" stroke="#7a9a86"/>
+
+  <!-- gap marker -->
+  <line x1="412" y1="305" x2="412" y2="317" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="404" y1="305" x2="420" y2="305" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="404" y1="317" x2="420" y2="317" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="356" y1="305" x2="404" y2="305" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="2 2"/>
+  <line x1="356" y1="317" x2="404" y2="317" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="2 2"/>
+
+  <!-- heel -->
+  <g transform="translate(80,-93.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#e6efe9" fill-opacity="0.9" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#e6efe9" fill-opacity="0.9" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="452" x2="440" y2="452" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="468" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="302" y1="110" x2="210" y2="106" stroke="#777"/>
+    <text x="24" y="102" font-weight="bold">Aluminium leg tip</text>
+    <text x="24" y="118" fill="#555">sanded; glue flows through its holes</text>
+
+    <line x1="294" y1="160" x2="210" y2="160" stroke="#777"/>
+    <text x="24" y="152" font-weight="bold">Hot-glue "knee" + thread</text>
+    <text x="24" y="168" fill="#555">holds the glue stick to the leg;</text>
+    <text x="24" y="184" fill="#555">a few turns of thread over the top</text>
+
+    <line x1="307" y1="232" x2="210" y2="228" stroke="#5d7fa3"/>
+    <text x="24" y="224" font-weight="bold">Glue stick = fixed shin bone</text>
+    <text x="24" y="240" fill="#555">~20 mm piece; one layer of</text>
+    <text x="24" y="256" fill="#555">packing tape so the grip slides</text>
+
+    <line x1="320" y1="290" x2="210" y2="284" stroke="#777"/>
+    <text x="24" y="288" font-weight="bold">Spring, cut to ~12 mm</text>
+    <text x="24" y="304" fill="#555">in pockets melted into the</text>
+    <text x="24" y="320" fill="#555">stick's end and the heel fill.</text>
+        <text x="24" y="336" fill="#555">Hot-glued at both ends: it holds the</text>
+    <text x="24" y="352" fill="#555">heel on and pushes it back down.</text>
+
+    <line x1="305" y1="370" x2="210" y2="382" stroke="#777"/>
+    <text x="24" y="378" font-weight="bold">Heel fill + plug: hot glue</text>
+    <text x="24" y="394" fill="#555">fills the shoe and rises into the grip;</text>
+    <text x="24" y="410" fill="#555">bonds to the rubber at the bottom</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="394" y1="290" x2="470" y2="226" stroke="#777"/>
+    <text x="476" y="210" font-weight="bold">Your slit: switch in the grip's side</text>
+    <text x="476" y="226" fill="#555">rides up and down with the grip.</text>
+    <text x="476" y="242" fill="#555">Tack it with hot glue, not super glue.</text>
+
+    <line x1="345" y1="310" x2="470" y2="276" stroke="#e67e22"/>
+    <text x="476" y="270" font-weight="bold">Lever: hinge at the top, tip bent in</text>
+    <text x="476" y="286" fill="#555">through the slit, just under the stick's end.</text>
+    <text x="476" y="302" fill="#555">The grip rises → the tip meets the stick's</text>
+    <text x="476" y="318" fill="#555">end → click at ~1.5 mm</text>
+
+    <line x1="426" y1="240" x2="470" y2="342" stroke="#777"/>
+    <text x="476" y="346" font-weight="bold">Slack loop in the wires</text>
+    <text x="476" y="362" fill="#555">they flex a little with every step</text>
+
+    <line x1="420" y1="311" x2="470" y2="384" stroke="#c0392b"/>
+    <text x="476" y="388" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="476" y="404" fill="#555">the stick's end meets the heel fill.</text>
+    <text x="476" y="420" fill="#555">Weight: heel → glue → glue stick → knee</text>
+    <text x="476" y="436" fill="#555">→ leg. Never the switch or the spring.</text>
+  </g>
+
+  <!-- box -->
+  <rect x="24" y="490" width="732" height="414" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="516" font-weight="bold" font-size="15">How it moves</text>
+  <g fill="#333">
+    <text x="40" y="538">Foot lands → heel, grip and switch slide up together over the fixed glue stick, squashing the spring → the lever's</text>
+    <text x="56" y="556">tip meets the stick's end: click → the stick's end hits the heel fill: stop. Leg lifts → the spring pushes it back down.</text>
+  </g>
+  <text x="40" y="588" font-weight="bold" font-size="15">Build (one foot first)</text>
+  <g fill="#333">
+    <text x="40" y="610">1. Cut ~20 mm of glue stick; wrap one layer of packing tape round it (leave the ends bare). Check the grip slides on it.</text>
+    <text x="40" y="628">2. Cut the spring to ~12 mm. Melt a ~5 mm pocket into the stick's bottom end with a hot nail (hold it with pliers).</text>
+    <text x="40" y="646">3. Knee: sand the leg tip; hot-glue the stick's top end to it, letting glue flow through the leg's holes. Wrap thread.</text>
+    <text x="40" y="664">4. Heel: fill it with hot glue and build up a plug that fits the grip's bottom; melt a spring pocket in its top.</text>
+    <text x="40" y="682">5. Cut the slit in the grip's side, ~2 mm below where the stick's end will sit. Bend the lever's tip 90° (pliers);</text>
+    <text x="56" y="700">push the switch in, tip through the slit. Tack with hot glue. Solder the wires first, with a slack loop.</text>
+    <text x="40" y="718">6. Glue the spring into the heel's pocket, slide the grip over the stick, glue the spring's top into the stick's pocket.</text>
+    <text x="40" y="736">7. Meter on C–NO: click ~1.5 mm, stop ~2.5 mm, springs back by itself. Re-melt and nudge if it's off.</text>
+  </g>
+  <text x="40" y="768" font-weight="bold" font-size="15">Watch</text>
+  <g fill="#333">
+    <text x="40" y="790">Hot glue settles under steady weight: re-check the click after a day of standing. The knee is the weakest joint;</text>
+    <text x="56" y="808">if it loosens, redo just that part in epoxy putty.</text>
+    <text x="40" y="826">If the grip doesn't spring back, it's rubbing: more tape, a straw sleeve, or a pinch of talc on the stick.</text>
+    <text x="40" y="844">Keep it away from heat (buck converter, hot servos): hot glue softens when warm.</text>
+    <text x="40" y="862">Super glue: only for small rigid bonds away from the switch (it wicks in and jams it).</text>
+    <text x="40" y="888" fill="#777">Sizes are estimates from the cutting-mat photos (glue stick ~8 mm, grip ~9.5 mm inside); measure before cutting.</text>
+  </g>
+</svg>

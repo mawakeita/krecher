@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 900" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="900" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+    <linearGradient id="chrome" x1="0" x2="1">
+      <stop offset="0" stop-color="#8d9298"/><stop offset="0.35" stop-color="#f4f6f8"/><stop offset="1" stop-color="#9aa0a6"/>
+    </linearGradient>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: switch in the grip's side (v5)</text>
+  <text x="24" y="56" fill="#555">Mawa's idea (switch in a slit in the grip, spring to the heel) + a rigid core, a guide pin and a hard stop. Edge view, cut away.</text>
+
+  <!-- leg plate -->
+  <rect x="287" y="80" width="15" height="318" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+  <!-- clip -->
+  <path d="M276,262 L283,262 L283,400 L303,400 L303,415 L276,415 Z" fill="#2b2b2b"/>
+  <rect x="268" y="324" width="8" height="12" fill="#888" stroke="#444"/>
+  <line x1="276" y1="330" x2="312" y2="330" stroke="#444" stroke-width="4"/>
+
+  <!-- barrel (cutaway) -->
+  <rect x="303" y="140" width="50" height="275" fill="#f2f2f2" stroke="#2b2b2b" stroke-width="5"/>
+  <!-- slot in barrel wall for the lever -->
+  <rect x="349" y="170" width="8" height="20" fill="#ffffff"/>
+
+  <!-- plug (white piece): spring seat + guide -->
+  <rect x="306" y="235" width="44" height="12" fill="#ffffff" stroke="#999" stroke-width="1.2"/>
+  <!-- spring, glued to plug and stem -->
+  <polyline points="330,247 318,252 342,257 318,262 342,267 318,272 342,277 318,282 342,287 318,292 342,297 318,302 342,307 318,312 342,317 318,322 330,330" fill="none" stroke="#555" stroke-width="2"/>
+  <!-- pusher -->
+  <rect x="327" y="186" width="6" height="146" fill="#d9b779" stroke="#8a6d1f" stroke-width="1"/>
+  <!-- chrome stem -->
+  <rect x="309" y="330" width="38" height="115" rx="6" fill="url(#chrome)" stroke="#6b7076" stroke-width="1.2"/>
+  <!-- washer -->
+  <rect x="303" y="428" width="50" height="5" rx="1" fill="#b5b9be" stroke="#555"/>
+  <line x1="372" y1="415" x2="372" y2="428" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="364" y1="415" x2="380" y2="415" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="364" y1="428" x2="380" y2="428" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- spiral grip skin, with window -->
+  <rect x="353" y="145" width="9" height="10" rx="2" fill="url(#spiral)"/>
+  <rect x="353" y="232" width="9" height="176" rx="3" fill="url(#spiral)"/>
+  <rect x="294" y="145" width="8" height="70" rx="3" fill="url(#spiral)"/>
+  <rect x="352" y="155" width="36" height="76" fill="none" stroke="#5b3fa0" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+  <!-- switch standing in the window -->
+  <rect x="357" y="160" width="30" height="66" rx="2" fill="#222"/>
+  <text x="372" y="197" fill="#ddd" text-anchor="middle" font-size="9" transform="rotate(-90 372 197)">C  NO  NC</text>
+  <!-- lever: hinge at bottom, runs up the face, tip bent into the bore -->
+  <polyline points="356,222 354,182 334,182" fill="none" stroke="#e67e22" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- wires -->
+  <path d="M387,172 C410,160 412,110 404,80" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M387,182 C420,168 420,110 412,80" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- boot (plain grip) -->
+  <rect x="352" y="405" width="9" height="40" rx="3" fill="#1e1e1e"/>
+  <rect x="294" y="416" width="9" height="29" rx="3" fill="#1e1e1e"/>
+
+  <!-- peg + heel -->
+  <rect x="325" y="445" width="10" height="24" fill="#d9b779" stroke="#8a6d1f" stroke-width="1"/>
+  <g transform="translate(80,-25.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#bfe6ff" fill-opacity="0.55" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#bfe6ff" fill-opacity="0.7" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="519" x2="440" y2="519" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="535" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="287" y1="96" x2="210" y2="96" stroke="#777"/>
+    <text x="24" y="92" font-weight="bold">Aluminium leg (edge on)</text>
+    <text x="24" y="108" fill="#555">tip rests on the clip's root</text>
+
+    <line x1="303" y1="200" x2="210" y2="196" stroke="#777"/>
+    <text x="24" y="176" font-weight="bold">Rigid core: pen barrel</text>
+    <text x="24" y="192" fill="#555">cut to ~55 mm; the rubber is only</text>
+    <text x="24" y="208" fill="#555">its skin and never holds weight</text>
+
+    <line x1="276" y1="290" x2="210" y2="284" stroke="#777"/>
+    <text x="24" y="264" font-weight="bold">Pen clip + M3 bolt</text>
+    <text x="24" y="280" fill="#555">clip over the leg tip, bolt through</text>
+    <text x="24" y="296" fill="#555">a hole drilled in the clip + leg hole</text>
+
+    <line x1="309" y1="380" x2="210" y2="376" stroke="#777"/>
+    <text x="24" y="356" font-weight="bold">Chrome stem</text>
+    <text x="24" y="372" fill="#555">slides in the barrel's end; carries</text>
+    <text x="24" y="388" fill="#555">the heel; spring glued on its top</text>
+
+    <line x1="294" y1="430" x2="210" y2="440" stroke="#777"/>
+    <text x="24" y="436" font-weight="bold">Boot (plain grip, ~12 mm)</text>
+    <text x="24" y="452" fill="#555">glued to the barrel only; hides the gap</text>
+
+    <line x1="325" y1="460" x2="210" y2="490" stroke="#777"/>
+    <text x="24" y="490" font-weight="bold">Peg into the filled heel</text>
+    <text x="24" y="506" fill="#555">sole pads: rings of the plain grip</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="388" y1="160" x2="440" y2="130" stroke="#5b3fa0"/>
+    <text x="446" y="112" font-weight="bold" fill="#5b3fa0">Your window: switch in the grip's side</text>
+    <text x="446" y="128" fill="#555">rectangle cut through the rubber; switch stands in it,</text>
+    <text x="446" y="144" fill="#555">lever facing the barrel; glued, edges smoothed</text>
+
+    <line x1="340" y1="182" x2="440" y2="182" stroke="#777"/>
+    <text x="446" y="178" font-weight="bold">Lever tip bent 90° into the bore</text>
+    <text x="446" y="194" fill="#555">through a small slot in the barrel wall</text>
+    <text x="446" y="210" fill="#555">(hinge at the bottom, so lifting the tip clicks it)</text>
+
+    <line x1="333" y1="215" x2="440" y2="240" stroke="#777"/>
+    <text x="446" y="238" font-weight="bold">Guide pin (bamboo skewer)</text>
+    <text x="446" y="254" fill="#555">glued in the stem, runs up the spring's middle</text>
+    <text x="446" y="270" fill="#555">and through the plug; its top lifts the lever</text>
+
+    <line x1="350" y1="241" x2="440" y2="294" stroke="#777"/>
+    <text x="446" y="298" font-weight="bold">White piece = plug</text>
+    <text x="446" y="314" fill="#555">glued in the barrel: spring seat + pin guide</text>
+
+    <line x1="342" y1="290" x2="440" y2="340" stroke="#5b3fa0"/>
+    <text x="446" y="344" font-weight="bold" fill="#5b3fa0">Your spring, glued at both ends</text>
+    <text x="446" y="360" fill="#555">pushes the heel down and holds it on</text>
+    <text x="446" y="376" fill="#555">(no tethers, no lip needed); hidden inside</text>
+
+    <text x="446" y="410" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="446" y="426" fill="#555">washer lands on the barrel end. Weight: heel →</text>
+    <text x="446" y="442" fill="#555">stem → washer → barrel → clip → leg. The spring,</text>
+    <text x="446" y="458" fill="#555">rubber and switch only feel the first touch.</text>
+  </g>
+
+  <!-- box -->
+  <rect x="24" y="556" width="732" height="328" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="582" font-weight="bold" font-size="15">What changed from your sketch, and why</text>
+  <g fill="#333">
+    <text x="40" y="604">· Barrel inside the rubber: soft rubber alone would squash and lean, and the click point would wander.</text>
+    <text x="40" y="622">· Spring inside the barrel, on a guide pin: a bare spring lets the heel flop sideways and is too weak for the weight.</text>
+    <text x="40" y="640">· Washer hard stop: the spring and switch never take the robot's weight.</text>
+  </g>
+  <text x="40" y="672" font-weight="bold" font-size="15">Build order (dry-fit with tape until step 5 works)</text>
+  <g fill="#333">
+    <text x="40" y="694">1. Cut the barrel to ~55 mm (button end). Glue the white plug ~20 mm in from the bottom.</text>
+    <text x="40" y="712">2. Mark the window on the grip and a matching slot in the barrel wall, just above the plug. Cut both.</text>
+    <text x="40" y="730">3. Skewer through the plug; glue the spring to the plug and to the chrome stem; glue the skewer into the stem.</text>
+    <text x="40" y="748">4. Bend the switch's wire lever tip 90° with pliers; stand the switch in the window with the tip through the slot.</text>
+    <text x="40" y="766">5. Push the stem up: click at ~1.5 mm, washer stops it at ~2.5 mm, springs back. Adjust, then glue the switch.</text>
+    <text x="40" y="784">6. Grip skin on (slit on the leg side for the clip), boot, clip onto the leg + bolt, heel + sole rings.</text>
+  </g>
+  <text x="40" y="816" font-weight="bold" font-size="15">Hardest part</text>
+  <g fill="#333">
+    <text x="40" y="838">Step 4: getting the bent lever to click reliably. Bend gently, test with the meter (continuity on C–NO), re-bend.</text>
+    <text x="40" y="856">If it won't behave, fall back to the switch across the top (v3/v4) and keep the side window as a decorative cut-out.</text>
+    <text x="40" y="874" fill="#777">Sizes are estimates from the tape-measure photos; check the grip slides over the barrel before cutting.</text>
+  </g>
+</svg>

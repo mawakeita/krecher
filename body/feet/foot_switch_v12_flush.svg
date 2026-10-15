@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 860" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="860" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+    <pattern id="glue" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#e6efe9"/>
+      <circle cx="3" cy="4" r="1" fill="#d2ded6"/><circle cx="7.5" cy="8" r="0.8" fill="#d2ded6"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: switch inside the slit, short plunger (v12)</text>
+  <text x="24" y="56" fill="#555">v11 with the whole switch body tucked into the slit beside the leg, and a ~12 mm glue-stick plunger.</text>
+  <text x="24" y="74" fill="#555">View along the leg's edge (the aluminium looks thin), grip cut away. ~5 px = 1 mm.</text>
+
+  <!-- leg plate, edge-on -->
+  <path d="M323,84 L337,84 L337,246 Q337,250 330,250 Q323,250 323,246 Z" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+
+  <!-- grip (fixed), cut to length; slit on the right -->
+  <path d="M300,120 L309,120 L306,170 L306,322 L297,322 L297,170 Z" fill="url(#spiral)"/>
+  <path d="M351,120 L360,120 L363,170 L363,182 L354,182 L354,170 Z" fill="url(#spiral)"/>
+  <rect x="354" y="254" width="9" height="68" rx="2" fill="url(#spiral)"/>
+
+  <!-- M3 bolt + nut through the SECOND hole -->
+  <rect x="282" y="140" width="10" height="16" rx="2" fill="#9aa0a6" stroke="#444"/>
+  <line x1="292" y1="148" x2="372" y2="148" stroke="#555" stroke-width="5"/>
+  <rect x="368" y="139" width="9" height="18" rx="1" fill="#9aa0a6" stroke="#444"/>
+
+  <!-- switch: standing in the slit, between the leg's flat side and the rubber, bottom level with the leg's end -->
+  <rect x="340" y="186" width="29" height="64" rx="2" fill="#222"/>
+  <text x="355" y="220" fill="#ddd" text-anchor="middle" font-size="9" transform="rotate(-90 355 220)">C  NO  NC</text>
+  <!-- lever: hinge at the top, down the face, tip bent under the switch -->
+  <polyline points="339,190 338,255 362,257" fill="none" stroke="#e67e22" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- wires -->
+  <path d="M369,196 C398,186 404,140 398,110 C394,96 392,90 392,84" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M369,206 C408,194 414,140 408,110 C404,96 400,90 400,84" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- short glue-stick plunger with disc and spring pocket -->
+  <rect x="310" y="266" width="40" height="64" rx="3" fill="url(#glue)" stroke="#9fb2a6" stroke-width="1.5"/>
+  <rect x="307" y="270" width="46" height="52" rx="3" fill="none" stroke="#5d7fa3" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <rect x="320" y="266" width="20" height="30" fill="#ffffff" stroke="#9fb2a6"/>
+  <rect x="307" y="262.5" width="12" height="4" fill="#7d8389"/>
+  <rect x="341" y="262.5" width="12" height="4" fill="#7d8389"/>
+  <!-- spring -->
+  <polyline points="330,250 320,254 340,259 320,264 340,269 320,274 340,279 320,284 340,289 330,294" fill="none" stroke="#555" stroke-width="2"/>
+  <circle cx="330" cy="250" r="3.5" fill="#cfe0d5" stroke="#7a9a86"/>
+
+  <!-- gap marker -->
+  <line x1="282" y1="250" x2="282" y2="262.5" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="274" y1="250" x2="290" y2="250" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="274" y1="262.5" x2="290" y2="262.5" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- heel on the stick's bottom -->
+  <g transform="translate(80,-165.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#e6efe9" fill-opacity="0.9" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#e6efe9" fill-opacity="0.9" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="380" x2="440" y2="380" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="396" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="323" y1="100" x2="210" y2="96" stroke="#777"/>
+    <text x="24" y="92" font-weight="bold">Aluminium leg tip (edge-on)</text>
+    <text x="24" y="108" fill="#555">its end is the hard stop</text>
+
+    <line x1="282" y1="148" x2="232" y2="134" stroke="#777"/>
+    <text x="24" y="140" font-weight="bold">M3 bolt: SECOND hole now</text>
+    <text x="24" y="156" fill="#555">the switch fills the space</text>
+    <text x="24" y="172" fill="#555">beside the first hole</text>
+
+    <line x1="320" y1="280" x2="210" y2="232" stroke="#777"/>
+    <text x="24" y="216" font-weight="bold">Spring, cut to ~12 mm</text>
+    <text x="24" y="232" fill="#555">glued to the leg's end and into a</text>
+    <text x="24" y="248" fill="#555">pocket in the plunger's top</text>
+
+    <line x1="310" y1="300" x2="210" y2="300" stroke="#5d7fa3"/>
+    <text x="24" y="292" font-weight="bold">Glue-stick plunger, ~12 mm</text>
+    <text x="24" y="308" fill="#555">shorter, as you asked; taped</text>
+    <text x="24" y="324" fill="#555">so it slides. Not under ~12 mm.</text>
+
+    <line x1="297" y1="318" x2="210" y2="350" stroke="#777"/>
+    <text x="24" y="352" font-weight="bold">Grip cut to length</text>
+    <text x="24" y="368" fill="#555">bottom ends ~2 mm above the heel</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="369" y1="230" x2="460" y2="200" stroke="#777"/>
+    <text x="466" y="184" font-weight="bold">Whole switch inside the slit</text>
+    <text x="466" y="200" fill="#555">stands between the leg's flat side and</text>
+    <text x="466" y="216" fill="#555">the rubber; only ~1 mm shows outside.</text>
+    <text x="466" y="232" fill="#555">Its bottom is level with the leg's end.</text>
+
+    <line x1="360" y1="256" x2="460" y2="266" stroke="#e67e22"/>
+    <text x="466" y="262" font-weight="bold">Lever: hinge at the top</text>
+    <text x="466" y="278" fill="#555">runs down the switch, tip bent UNDER it,</text>
+    <text x="466" y="294" fill="#555">hanging ~1 mm below. The disc lifts it:</text>
+    <text x="466" y="310" fill="#555">click at ~1.5 mm</text>
+
+    <line x1="290" y1="256" x2="460" y2="336" stroke="#c0392b" stroke-dasharray="3 3"/>
+    <text x="466" y="336" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="466" y="352" fill="#555">the disc meets the leg's end, level with the</text>
+    <text x="466" y="368" fill="#555">switch's bottom, so the switch is never hit.</text>
+    <text x="466" y="384" fill="#555">Weight: heel → plunger → disc → leg.</text>
+  </g>
+
+  <!-- box -->
+  <rect x="24" y="420" width="732" height="424" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="446" font-weight="bold" font-size="15">What changed from v11</text>
+  <g fill="#333">
+    <text x="40" y="468">· The switch stands fully in the slit, in the gap between the leg's flat side and the rubber, so it barely shows.</text>
+    <text x="40" y="486">· Its bottom sits level with the leg's end: the disc stops on the leg before it can touch the switch.</text>
+    <text x="40" y="504">· The bolt moves to the leg's second hole, because the switch now sits where the first one is.</text>
+    <text x="40" y="522">· Plunger ~12 mm instead of ~25: the foot is ~1.5 cm shorter. Shorter than ~12 mm and it starts to tilt in the grip.</text>
+  </g>
+  <text x="40" y="554" font-weight="bold" font-size="15">Build (one foot first)</text>
+  <g fill="#333">
+    <text x="40" y="576">1. Push the grip's narrow end over the leg tip. Hot-nail a hole through the rubber at the second hole; bolt + nut, snug.</text>
+    <text x="40" y="594">2. Cut a slit in the grip on the leg's flat side, from the leg's end up ~13 mm, as wide as the switch is thick (~6 mm).</text>
+    <text x="40" y="612">3. Solder the switch wires. Bend the lever's tip so it hooks under the switch's bottom end (pliers, small bends).</text>
+    <text x="40" y="630">4. Push the switch into the slit, lever side facing the leg, bottom level with the leg's end. Don't glue yet.</text>
+    <text x="40" y="648">5. Plunger: ~12 mm of glue stick, one layer of tape, ~5 mm pocket melted in the top, disc glued on. Heel on the bottom.</text>
+    <text x="40" y="666">6. Spring (cut to ~12 mm): glue to the leg's end first, let it set, then slide the plunger up onto it and glue the pocket.</text>
+    <text x="40" y="684">7. Meter on C–NO: click ~1.5 mm, disc meets the leg at ~2.5 mm, springs back. Adjust, then tack with hot glue.</text>
+  </g>
+  <text x="40" y="716" font-weight="bold" font-size="15">Watch</text>
+  <g fill="#333">
+    <text x="40" y="738">The space beside the leg is tight (~3.5 mm inside the grip for a ~6 mm switch): the rubber stretches round the rest.</text>
+    <text x="40" y="756">If the switch won't sit flat, sand the switch side of the leg tip lightly or use the smaller switch.</text>
+    <text x="40" y="774">Check the second hole is clear of the switch's top before cutting the slit.</text>
+    <text x="40" y="792">If the plunger sticks, more tape or a pinch of talc. Re-check the click after a day of standing.</text>
+    <text x="40" y="824" fill="#777">Sizes are estimates from the photos (switch ~13 × 6.5 × 6 mm, grip ~9.5 mm inside); measure before cutting.</text>
+  </g>
+</svg>

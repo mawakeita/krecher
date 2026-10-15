@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 900" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="780" height="900" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#dfe3e8"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#aab2bc" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="spiral" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#3a3a3a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#111" stroke-width="2"/>
+    </pattern>
+    <pattern id="spiralFree" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+      <rect width="8" height="8" fill="#6a5a8a"/>
+      <line x1="0" y1="0" x2="8" y2="0" stroke="#3b2f55" stroke-width="2"/>
+    </pattern>
+    <pattern id="wood" width="9" height="9" patternUnits="userSpaceOnUse">
+      <rect width="9" height="9" fill="#b9c2bd"/>
+      <circle cx="2" cy="3" r="0.9" fill="#8f9a94"/><circle cx="6.5" cy="7" r="0.8" fill="#8f9a94"/>
+    </pattern>
+  </defs>
+
+  <text x="24" y="34" font-size="20" font-weight="bold" fill="#222">krēCHer foot switch: pen-spring Achilles tendon (v8)</text>
+  <text x="24" y="56" fill="#555">v7 + the pen's spring up the back of the ankle. Side view from the robot's left: back is on the left. Cut away.</text>
+
+  <!-- leg plate in the top slot -->
+  <path d="M300,80 L360,80 L360,150 L300,150 Z" fill="url(#hatch)" stroke="#8a929c" stroke-width="1.5"/>
+
+  <!-- upper core (wood dowel) -->
+  <path d="M301,150 L359,150 L359,300 L301,300 Z" fill="url(#wood)" stroke="#6f7a74" stroke-width="1.5"/>
+  <!-- plate slot shown by re-drawing plate over core -->
+  <path d="M300,150 L360,150 L360,222 Q360,238 330,238 Q300,238 300,222 Z" fill="url(#hatch)" fill-opacity="0.9" stroke="#8a929c" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <circle cx="330" cy="178" r="7" fill="#b9c2bd" stroke="#6f7a74"/><circle cx="330" cy="212" r="7" fill="#b9c2bd" stroke="#6f7a74"/>
+
+  <!-- switch slot + switch crosswise -->
+  
+  <rect x="312" y="259" width="36" height="39" rx="2" fill="#222"/>
+  <text x="330" y="282" fill="#ddd" text-anchor="middle" font-size="9">end</text>
+  <!-- lever under the switch -->
+  <line x1="314" y1="302" x2="346" y2="302" stroke="#e67e22" stroke-width="2.6" stroke-linecap="round"/>
+
+  <!-- lower core -->
+  <path d="M301,315 L359,315 L359,387 L340,387 L340,420 L320,420 L320,387 L301,387 Z" fill="url(#wood)" stroke="#6f7a74" stroke-width="1.5"/>
+  <!-- gap marker -->
+  <line x1="392" y1="300" x2="392" y2="315" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="384" y1="300" x2="400" y2="300" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="384" y1="315" x2="400" y2="315" stroke="#c0392b" stroke-width="1.5"/>
+
+  <!-- rubber skin: glued zones dark, free zone purple -->
+  <rect x="292" y="140" width="9" height="117" rx="3" fill="url(#spiral)"/>
+  <rect x="359" y="140" width="9" height="117" rx="3" fill="url(#spiral)"/>
+  <rect x="292" y="300" width="9" height="30" rx="2" fill="url(#spiralFree)"/>
+  <rect x="359" y="300" width="9" height="30" rx="2" fill="url(#spiralFree)"/>
+  <rect x="292" y="330" width="9" height="60" rx="3" fill="url(#spiral)"/>
+  <rect x="359" y="330" width="9" height="60" rx="3" fill="url(#spiral)"/>
+  
+
+  <rect x="292" y="257" width="9" height="43" fill="url(#spiral)"/>
+  <rect x="359" y="257" width="9" height="43" fill="url(#spiral)"/>
+  <!-- spring tendon -->
+  <circle cx="294" cy="290" r="3.5" fill="#b9c2bd" stroke="#6f7a74"/>
+  <path d="M276,398 Q270,404 280,408 L286,404 Z" fill="#b9c2bd" stroke="#6f7a74"/>
+  <polyline points="294,290 284,292 276,298 288,304 276,310 288,316 276,322 288,328 276,334 288,340 276,346 288,352 276,358 288,364 276,370 288,376 276,382 288,388 278,394 280,402" fill="none" stroke="#7d8389" stroke-width="2.4" stroke-linejoin="round"/>
+  <!-- wires -->
+  <path d="M369,268 C400,250 404,140 396,80" fill="none" stroke="#333" stroke-width="3"/>
+  <path d="M369,278 C410,258 412,140 404,80" fill="none" stroke="#c0392b" stroke-width="3"/>
+
+  <!-- peg + heel -->
+  
+  <g transform="translate(80,-83.6) scale(0.833)">
+    <path d="M232,585 L238,602 Q300,610 352,646 L398,648 Q414,646 410,634 Q402,622 380,621 Q346,617 330,609 L252,588 Z" fill="#b9c2bd" fill-opacity="0.85" stroke="#3a7fb0" stroke-width="2.4"/>
+    <path d="M240,603 L252,605 L247,651 L242,651 Z" fill="#b9c2bd" fill-opacity="0.85" stroke="#3a7fb0" stroke-width="2.4"/>
+    <rect x="238" y="650" width="13" height="5" rx="1" fill="#1e1e1e"/>
+    <rect x="366" y="648" width="28" height="5" rx="1" fill="#1e1e1e"/>
+  </g>
+  <line x1="240" y1="462" x2="440" y2="462" stroke="#999" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="404" y="478" fill="#999" font-size="12">floor</text>
+
+  <!-- labels left -->
+  <g fill="#222">
+    <line x1="300" y1="110" x2="210" y2="106" stroke="#777"/>
+    <text x="24" y="102" font-weight="bold">Aluminium leg tip</text>
+    <text x="24" y="118" fill="#555">scuffed with sandpaper, then</text>
+    <text x="24" y="134" fill="#555">pushed into the soft putty</text>
+
+    <line x1="323" y1="178" x2="210" y2="178" stroke="#777"/>
+    <text x="24" y="174" font-weight="bold">Putty fills the leg's holes</text>
+    <text x="24" y="190" fill="#555">locks on like pins; no bolt needed</text>
+
+    <line x1="301" y1="230" x2="210" y2="236" stroke="#777"/>
+    <text x="24" y="226" font-weight="bold">Upper core: epoxy putty</text>
+    <text x="24" y="242" fill="#555">~25 mm, cast inside the grip;</text>
+    <text x="24" y="258" fill="#555">bonds to the rubber by itself</text>
+
+    <line x1="291" y1="285" x2="210" y2="300" stroke="#5b3fa0"/>
+    <text x="24" y="296" font-weight="bold" fill="#5b3fa0">Your slit: switch crosswise</text>
+    <text x="24" y="312" fill="#555">seams taped, body pressed into</text>
+    <text x="24" y="328" fill="#555">the soft putty; lever kept clear.</text>
+    <text x="24" y="344" fill="#555">Ends show like a band.</text>
+
+    <line x1="301" y1="370" x2="210" y2="378" stroke="#777"/>
+    <text x="24" y="374" font-weight="bold">Lower core + heel: one piece</text>
+    <text x="24" y="390" fill="#555">putty fills the shoe and rises ~12 mm</text>
+
+    <line x1="325" y1="400" x2="210" y2="428" stroke="#777"/>
+    <text x="24" y="424" font-weight="bold">Glued in with E6000</text>
+    <text x="24" y="440" fill="#555">bottom few mm only; sole pads: rings</text>
+  </g>
+
+  <!-- labels right -->
+  <g fill="#222">
+    <line x1="350" y1="303" x2="440" y2="262" stroke="#e67e22"/>
+    <text x="446" y="250" font-weight="bold">Lever hangs just below the core</text>
+    <text x="446" y="266" fill="#555">the lower core's top face lifts it: click at ~1.5 mm</text>
+
+    <line x1="400" y1="308" x2="440" y2="300" stroke="#c0392b"/>
+    <text x="446" y="298" font-weight="bold" fill="#c0392b">Gap ≈ 2.5 mm, then HARD STOP</text>
+    <text x="446" y="314" fill="#555">putty meets putty on both sides of the switch;</text>
+    <text x="446" y="330" fill="#555">the lever is pressed flat into its slot, not crushed</text>
+
+    <line x1="368" y1="315" x2="440" y2="358" stroke="#5b3fa0"/>
+    <text x="446" y="360" font-weight="bold" fill="#5b3fa0">Free rubber: now only ~5 mm</text>
+    <text x="446" y="376" fill="#555">just enough to squash 2.5 mm; less tilt than v7.</text>
+    <text x="446" y="392" fill="#555">The tendon does the springing now.</text>
+    <text x="446" y="408" fill="#555">Weight: heel → lower core → upper core → leg.</text>
+    <text x="446" y="424" fill="#555">Never the switch.</text>
+  </g>
+
+  <g fill="#222">
+    <line x1="288" y1="350" x2="440" y2="452" stroke="#7d8389"/>
+    <text x="446" y="452" font-weight="bold" fill="#5a6066">Pen spring = Achilles tendon</text>
+    <text x="446" y="468" fill="#555">hooked ends: top poked through the rubber into</text>
+    <text x="446" y="484" fill="#555">the upper putty; bottom in a putty bump on the heel.</text>
+    <text x="446" y="500" fill="#555">Pushes the heel down; holds it on as a backup.</text>
+  </g>
+  <!-- box -->
+  <rect x="24" y="520" width="732" height="364" rx="6" fill="#f6f6f6" stroke="#ccc"/>
+  <text x="40" y="546" font-weight="bold" font-size="15">Same as v7, plus the tendon</text>
+  <g fill="#333">
+    <text x="40" y="568">Materials: epoxy putty (JB Weld SteelStik or Milliput), E6000, the pen's spring, tape, plastic wrap, sandpaper, pliers.</text>
+  </g>
+  <text x="40" y="600" font-weight="bold" font-size="15">Build (one foot first)</text>
+  <g fill="#333">
+    <text x="40" y="622">1. Solder the switch wires; tape its seams (lever free). Bend a small hook into each end of the spring with pliers.</text>
+    <text x="40" y="640">2. Scuff the leg tip, cut the slit, push putty into the top of the grip around the leg tip.</text>
+    <text x="40" y="658">3. Switch through the slit, lever down, pressed into the putty; smooth the bottom face flat. Poke the spring's top</text>
+    <text x="56" y="676">hook through a small hole in the back of the rubber into the soft putty. Cure (~1 hour).</text>
+    <text x="40" y="694">4. Heel + plug in putty (plastic-wrap-lined spare grip as a mould). Cure, pop out.</text>
+    <text x="40" y="712">5. Slide the plug in to the stop, pull back 2.5 mm. Meter on C–NO: click ~1.5 mm, stop ~2.5 mm.</text>
+    <text x="40" y="730">6. Glue the plug in with E6000, leaving ~5 mm of rubber free. Then press the spring's bottom hook into a small</text>
+    <text x="56" y="748">putty bump on the back of the heel, with the spring squashed 2–3 mm. Keep putty off the coils.</text>
+  </g>
+  <text x="40" y="780" font-weight="bold" font-size="15">Watch</text>
+  <g fill="#333">
+    <text x="40" y="802">The spring pushes from the back, so the toe may lift slightly at rest; once weight is on, the hard stop levels it.</text>
+    <text x="40" y="820">If the tip bothers you, add a second spring at the front (you'll need one from another pen).</text>
+    <text x="40" y="838">The foot is permanent once the putty cures on the leg: live with one for a few days before making six.</text>
+    <text x="40" y="866" fill="#777">Side view shows the switch end-on; from the front it still crosses the ankle like a band (see v7).</text>
+  </g>
+</svg>
