@@ -1,0 +1,9 @@
+Exp. 02 logged trial 2026-10-17_2338
+readings: 1500   read errors: 0   rate target: 20 Hz
+
+still      n= 200  roll    -2.7..   -2.6 (sd   0.0)  pitch     8.1..    8.5 (sd   0.0)  yaw   -54.2..  -54.2 (sd   0.0)  accel max   9.6 m/s2
+roll       n= 300  roll    -4.8..    7.5 (sd   3.9)  pitch     6.6..    8.4 (sd   0.4)  yaw   -56.5..  -53.8 (sd   0.7)  accel max   9.9 m/s2
+pitch      n= 300  roll   -14.9..   18.5 (sd   6.8)  pitch   -11.3..   17.8 (sd   6.3)  yaw   -66.8..  -50.5 (sd   4.1)  accel max  10.1 m/s2
+yaw        n= 300  roll    -4.0..    2.2 (sd   1.5)  pitch     1.4..   17.7 (sd   1.5)  yaw  -117.7..  -27.1 (sd  20.5)  accel max   9.9 m/s2
+shake      n= 200  roll    -4.2..    2.8 (sd   1.5)  pitch     1.7..    9.0 (sd   1.8)  yaw  -122.2.. -104.4 (sd   5.1)  accel max  12.2 m/s2
+still_end  n= 200  roll     0.0..    0.9 (sd   0.2)  pitch     3.5..    6.0 (sd   0.5)  yaw  -109.8.. -109.6 (sd   0.0)  accel max   9.8 m/s2
