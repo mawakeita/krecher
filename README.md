@@ -6,14 +6,16 @@
 
 **SENSE → COMPUTE → REACT → CONNECT → REMOTE PRESENCE**
 
-## Where it is now (Oct 6, 2026)
+## Where it is now (Nov 1, 2026)
 
 | Part | Status |
 | --- | --- |
 | **Head** | Assembled and working: Pi 5 + SunFounder Fusion HAT+, pan-tilt camera, speaker and mic, own 2S battery |
 | **Touch** (Exp. 01) | Done: lever micro-switches read reliably by the Pi |
 | **Movement** (Exp. 02) | Done: BNO085 motion sensor logged (1,500 readings, 0 errors), and **the head follows the sensor in real time** ([video](exp02/videos/exp02_bno085_head_follows.mp4)) |
-| **Body** | Hexapod frame, 20 MG996R servos (18 + 2 spares), **all 20 bench-tested and passing** ([test guide](body/servo_test/), [assembly guide](body/assembly/)), all 6 legs built and labelled. **First leg moved from the Pi** through the Servo 2040 on Oct 6 ([video](body/assembly/videos/08a_first_leg_FL_moves.mp4)). Body assembly in progress |
+| **Body** | Hexapod frame, 20 MG996R servos (18 + 2 spares), all bench-tested ([test guide](body/servo_test/), [assembly guide](body/assembly/)). First leg moved from the Pi on Oct 6 ([video](body/assembly/videos/08a_first_leg_FL_moves.mp4)). **Fully assembled: it stands up from a crouch and waves one leg while balancing on the other five** (Nov 1). Tripod gait script written ([`walk_tripod.py`](body/walk_tripod.py)); floor testing this week |
+| **Feet** | Redesigning foot-contact sensing with ESD foam instead of lever switches; 3D-printed heeled feet in progress ([`body/feet/`](body/feet/)) |
+| **Sensors** | Ultrasonic, touch and PIR wired. The BNO085 now sits on a ~3 in mast, where the servos no longer disturb its compass (heading shift went from 16° to under 2°) |
 | **Networking** | The Pi opens a tunnel on boot, so I can reach it from anywhere; works on a phone hotspot in class |
 | **Language model** | The Pi asks a model on the class GPU box over Tailscale and gets a reply in 0.35 s ("Ouch!") |
 
@@ -33,6 +35,7 @@ Diagrams and details: [`docs/system_map.md`](docs/system_map.md).
 | [`exp02/`](exp02/) | Experiment 02, movement sensing: IMU reader, logger, head-follow script, logged trial, [report](exp02/REPORT.md) |
 | [`head/`](head/) | Pan-tilt servo centring and test |
 | [`body/`](body/) | Hexapod body build: [servo bench test](body/servo_test/) (wiring, steps, photos, results), [leg and body assembly guide](body/assembly/) (step by step, with photos) |
+| [`sensors/`](sensors/) | Sensor tests: IMU axis check, magnetometer probe (finding a quiet spot for the BNO085), ultrasonic, GPIO watcher |
 | [`system/`](system/) | systemd tunnel service and the relay node's SSH keep-alive config |
 | [`docs/`](docs/) | [System map](docs/system_map.md) · [Model speed and quality tests](docs/model_benchmarks.md) · [Hardware BOM](docs/bom.md) |
 | [`notes/`](notes/) | Dated setup logs (what was done, what broke, what was decided) and head hardware notes |
