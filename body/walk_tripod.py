@@ -18,9 +18,9 @@ LIFT     = 20            # pose units the femur rises when a leg lifts (more = h
 CYCLE_S  = 1.6           # seconds per full cycle (bigger = slower, steadier)
 TURN_DIR = "left"        # for MODE = "turn"
 
-# Which hip sign moves each foot FORWARD. Placeholder +1 everywhere:
-# set these from the hip_check results before "walk" or "turn".
-HIP_FWD = {"FL": 1, "ML": 1, "RL": 1, "FR": 1, "MR": 1, "RR": 1}
+# Which hip sign moves each foot FORWARD. From hip_check on the box, Nov 1:
+# left legs swing forward on +, right legs swing backward on + (mirrored).
+HIP_FWD = {"FL": 1, "ML": 1, "RL": 1, "FR": -1, "MR": -1, "RR": -1}
 # ------------------------------------------
 
 FEMUR_DOWN = {"L": -1, "R": 1}   # from dir_test.py, Oct 8
