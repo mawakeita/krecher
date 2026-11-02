@@ -11,7 +11,7 @@ import time
 from servo import Servo, servo2040
 
 # ---------------- settings ----------------
-MODE     = "hip_check"   # "hip_check" -> "march" -> "walk" -> "turn"
+MODE     = "march"   # "hip_check" -> "march" -> "walk" -> "turn"
 CYCLES   = 5             # full cycles (A step + B step)
 HIP_STEP = 10            # degrees each hip swings from centre (start 10, max ~15)
 LIFT     = 20            # pose units the femur rises when a leg lifts (more = higher step)
