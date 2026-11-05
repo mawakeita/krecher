@@ -299,13 +299,17 @@ class Senses:
         if not fn:
             log("senses: no battery reading in fusion_hat.device (the feeling sentence skips it)")
             return
+        import contextlib, io, warnings
         while True:
             try:
-                v = float(fn())
+                with warnings.catch_warnings(), contextlib.redirect_stdout(io.StringIO()), \
+                        contextlib.redirect_stderr(io.StringIO()):
+                    warnings.simplefilter("ignore")      # the HAT library prints a deprecation note
+                    v = float(fn())
                 self.battery = max(0, min(100, round((v - 6.4) / (8.4 - 6.4) * 100)))
             except Exception:
                 pass
-            time.sleep(10)
+            time.sleep(30)
 
     def recent(self, dq, secs):
         now = time.monotonic()
