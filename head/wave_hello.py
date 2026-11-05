@@ -31,7 +31,7 @@ def move(p, t, secs=1.0):
 
 def say(text):
     try:
-        from fusion_hat.utils import enable_speaker
+        from fusion_hat.device import enable_speaker
         enable_speaker()
     except Exception:
         pass

@@ -35,7 +35,7 @@ def move(p, t, secs=1.0):
 def say(text):
     """Speak with whichever voice is installed; print if there is none."""
     try:
-        from fusion_hat.utils import enable_speaker   # switches the HAT's amp on, if this version has it
+        from fusion_hat.device import enable_speaker
         enable_speaker()
     except Exception:
         pass
