@@ -50,11 +50,16 @@ class Face:
         self._pulse_at = 0.0           # time of the last one-off ring pulse (hearts)
         self._since = time.monotonic()
         self._fps = fps
+        self._Image = None
+        self.frame_png = None          # the current face as a PNG (for the audience and TV pages)
+        try:
+            from PIL import Image, ImageDraw
+            self._Image, self._Draw = Image, ImageDraw
+        except Exception as e:
+            print("face: pillow not available (%s)" % e)
         try:
             import board, adafruit_ssd1306
             self.oled = adafruit_ssd1306.SSD1306_I2C(W, H, board.I2C(), addr=0x3C)
-            from PIL import Image, ImageDraw
-            self._Image, self._Draw = Image, ImageDraw
         except Exception as e:
             print("face: OLED not available (%s)" % e)
         try:
@@ -106,7 +111,7 @@ class Face:
                 age, pulse_age = time.monotonic() - self._since, time.monotonic() - self._pulse_at
             t = time.monotonic()
             try:
-                if self.oled:
+                if self._Image:
                     self._draw_oled(EXPRESSIONS[expr], gaze, talk, t)
                 if self.ring:
                     self._draw_ring(EXPRESSIONS[expr], age, pulse_age, t)
@@ -157,8 +162,13 @@ class Face:
             d.line(pts, fill=1, width=2)
         frame = img.tobytes()
         if frame != self._last_frame:                          # only send changed frames
-            self.oled.image(img); self.oled.show()
+            if self.oled:
+                self.oled.image(img); self.oled.show()
             self._last_frame = frame
+            import io
+            buf = io.BytesIO()
+            img.convert("L").resize((W * 4, H * 4), self._Image.NEAREST).save(buf, "PNG")
+            self.frame_png = buf.getvalue()
 
     def _draw_ring(self, ex, age, pulse_age, t):
         r, g, b = ex["ring"]

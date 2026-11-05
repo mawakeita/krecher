@@ -7,7 +7,13 @@ Run on the Pi, from the IMU/head venv:
     python ~/krecher/head/demo.py --no-body    # head, face and sensors only (LiPo out, no legs)
 
 Then open the operator page on your phone or Mac (Tailscale on):
-    http://100.75.140.37:8001
+    http://100.75.140.37:8001        operator buttons
+    http://100.75.140.37:8001/tv     the TV screen: QR code, face, hearts
+
+The audience page (hearts) is on port 8000. To reach it from anyone's phone, turn Funnel on
+for the demo, and off after:
+    sudo tailscale funnel --bg 8000
+    sudo tailscale funnel --https=443 off
 
 Needs:
   * body/main.py v0.3 on the Servo 2040 (for the wave / duck gestures). Install once, LiPo out:
@@ -42,6 +48,8 @@ PORT_BODY = "/dev/ttyACM0"
 CHIP = "gpiochip15"
 TOUCH_PIN, PIR_PIN, TRIG, ECHO = 17, 4, 27, 22
 OPERATOR_PORT = 8001
+AUDIENCE_PORT = 8000
+HEARTS_TO_PURR, HEARTS_WINDOW_S, HEARTS_PURR_GAP_S = 5, 3.0, 12.0
 GREETING = "Hello! I'm krēCHer."
 GOODBYE = "Goodbye, everyone! Thank you for meeting me."
 PURR_WAV = "/tmp/krecher_purr.wav"
@@ -331,6 +339,52 @@ def play(path):
         log("sound: can't play %s (%s)" % (path, e))
 
 
+# ---------------------------------------------------------------- audience (hearts)
+class Audience:
+    """Everyone who scans the QR code: they see krēCHer's face and can send hearts."""
+
+    def __init__(self, k):
+        self.k = k
+        self.enabled = True
+        self.hearts = deque(maxlen=2000)        # heart times
+        self.last_heart = {}                    # client id -> time (1 heart per second each)
+        self.seen = {}                          # client id -> last poll time
+        self.last_purr = 0.0
+
+    def poll(self, cid):
+        if cid:
+            self.seen[cid[:40]] = time.monotonic()
+
+    def viewers(self):
+        now = time.monotonic()
+        return sum(1 for t in list(self.seen.values()) if now - t < 10)
+
+    def recent(self, secs):
+        now = time.monotonic()
+        return sum(1 for t in list(self.hearts) if now - t < secs)
+
+    def heart(self, cid):
+        k = self.k
+        if not self.enabled:
+            return "off"
+        if k.state != "awake":
+            return "asleep"
+        now = time.monotonic()
+        cid = (cid or "?")[:40]
+        if now - self.last_heart.get(cid, 0) < 1.0:
+            return "slow down"
+        self.last_heart[cid] = now
+        self.seen[cid] = now
+        self.hearts.append(now)
+        k.face.pulse()
+        k.alarm = max(0.0, k.alarm - 0.05)
+        if (self.recent(HEARTS_WINDOW_S) >= HEARTS_TO_PURR and not k.busy
+                and now - self.last_purr > HEARTS_PURR_GAP_S):
+            self.last_purr = now
+            k.do("hearts_purr")
+        return "ok"
+
+
 # ---------------------------------------------------------------- krēCHer
 class Krecher:
     def __init__(self, use_body=True):
@@ -347,6 +401,7 @@ class Krecher:
         self.last = ""                                  # last thing done, for the operator page
         self.history = deque(maxlen=20)                 # (time, event) for the feeling sentence
         self.actions = queue.Queue()
+        self.audience = Audience(self)
         try:
             from fusion_hat.device import enable_speaker
             enable_speaker()
@@ -431,6 +486,20 @@ class Krecher:
         self.curious = min(1.0, self.curious + 0.2)
         self.history.append((time.monotonic(), "purr"))
         time.sleep(0.5)
+
+    def act_hearts_purr(self):
+        """Lots of hearts at once: krēCHer melts."""
+        self.face.set("love")
+        snd = play(PURR_WAV)
+        self.head.move(-15, 10, 0.8)                    # looks out over the audience
+        self.head.move(15, 10, 1.4)
+        self.head.move(0, 8, 0.8)
+        if snd:
+            snd.wait()
+        self.alarm = 0.0
+        self.curious = min(1.0, self.curious + 0.3)
+        self.history.append((time.monotonic(), "hearts"))
+        time.sleep(0.8)
 
     def act_flinch(self):
         self.face.set("flinch")
@@ -552,6 +621,8 @@ class Krecher:
             parts.append("I'm curious. There's a lot to look at.")
         else:
             parts.append("I'm calm. I feel good.")
+        if "hearts" in recent or self.audience.recent(120) >= 3:
+            parts.append("So many of you are sending me hearts. I can feel it in my lights.")
         if "flinch" in recent:
             parts.append("Someone I don't know touched me, and it startled me.")
         elif "purr" in recent:
@@ -585,6 +656,9 @@ class Krecher:
                      "rail_v": None if self.body.v is None else round(self.body.v, 2),
                      "fw": self.body.fw},
             "queue": self.actions.qsize(),
+            "audience": {"hearts_on": self.audience.enabled, "viewers": self.audience.viewers(),
+                         "hearts_60s": self.audience.recent(60),
+                         "hearts_total": len(self.audience.hearts)},
         }
 
     def close(self):
@@ -613,6 +687,9 @@ button:active{filter:brightness(1.4)} input{flex:1;font-size:17px;padding:12px;b
 <div class=lbl>Touch reactions</div>
 <div class=row><button id=known onclick="go('known')">Known: ?</button>
 <button onclick="go('purr')">Purr</button><button onclick="go('flinch')">Flinch</button></div>
+<div class=lbl>Audience</div>
+<div class=row><button id=hearts onclick="go('hearts')">Hearts: ?</button>
+<button onclick="location.href='/tv'">TV screen</button></div>
 <div class=lbl>Say something</div>
 <div class=row><input id=t placeholder="krēCHer says..."><button style="flex:0 0 80px" onclick="sayit()">Say</button></div>
 <div class=lbl>Body and head</div>
@@ -626,6 +703,8 @@ function sayit(){const t=document.getElementById('t');go('say',{text:t.value});t
 async function tick(){try{const s=await (await fetch('/status')).json();
  const k=document.getElementById('known');k.textContent='Toucher: '+(s.known?'known (purr)':'stranger (flinch)');
  k.className=s.known?'on':'warn';
+ const h=document.getElementById('hearts');h.textContent='Hearts '+(s.audience.hearts_on?'ON':'off')+
+ ` · ${s.audience.viewers} watching · ${s.audience.hearts_60s}/min`;h.className=s.audience.hearts_on?'on':'';
  document.getElementById('st').textContent=
  `${s.state}${s.busy?' · busy: '+s.last:''}  face: ${s.face}\\n`+
  `alarm ${s.alarm}  curious ${s.curious}\\n`+
@@ -637,7 +716,14 @@ setInterval(tick,1000);tick();
 </script></body></html>"""
 
 
-def serve(k, port):
+def send_face(h, k):
+    png = k.face.frame_png
+    if not png:
+        return h._send(404, "no face yet", "text/plain")
+    h._send(200, png, "image/png")
+
+
+def serve(k, port, public_url=None):
     class H(BaseHTTPRequestHandler):
         def log_message(self, *a):
             pass
@@ -656,6 +742,10 @@ def serve(k, port):
                 self._send(200, PAGE, "text/html; charset=utf-8")
             elif self.path == "/status":
                 self._send(200, json.dumps(k.status()), "application/json")
+            elif self.path == "/tv":
+                self._send(200, TV_PAGE.replace("__URL__", public_url or ""), "text/html; charset=utf-8")
+            elif self.path.startswith("/face.png"):
+                send_face(self, k)
             else:
                 self._send(404, "not found", "text/plain")
 
@@ -674,6 +764,9 @@ def serve(k, port):
             elif a == "known":
                 k.known = not k.known
                 ok = True
+            elif a == "hearts":
+                k.audience.enabled = not k.audience.enabled
+                ok = True
             elif a == "say":
                 ok = k.do("say", text=str(req.get("text", "")))
             else:
@@ -685,14 +778,136 @@ def serve(k, port):
     return srv
 
 
+AUDIENCE_PAGE = """<!doctype html><html><head><meta name=viewport content="width=device-width,initial-scale=1">
+<title>krēCHer</title><style>
+body{font-family:system-ui,sans-serif;background:#0d0f14;color:#eee;margin:0;padding:18px;text-align:center}
+h1{font-size:22px;margin:6px 0 2px} .sub{color:#9aa;font-size:14px;margin-bottom:14px}
+#face{width:100%;max-width:420px;image-rendering:pixelated;border-radius:14px;border:2px solid #223;background:#000}
+#heart{margin:22px auto 10px;width:190px;height:190px;border-radius:50%;border:0;font-size:96px;
+ background:radial-gradient(circle,#ff5c93,#c2185b);box-shadow:0 0 40px #ff2d7a88;color:#fff;touch-action:manipulation}
+#heart:active{transform:scale(.93)} #heart.off{filter:grayscale(1) brightness(.5)}
+#msg{min-height:22px;color:#ffb3cf} #count{color:#9aa;font-size:15px;margin-top:6px}
+.float{position:fixed;font-size:34px;pointer-events:none;animation:up 1.4s ease-out forwards}
+@keyframes up{to{transform:translateY(-220px) scale(1.6);opacity:0}}</style></head><body>
+<h1>krēCHer</h1><div class=sub id=state>…</div>
+<img id=face src="/face.png" alt="krēCHer's face">
+<div><button id=heart aria-label="send a heart">❤</button></div>
+<div id=msg>Tap the heart to pet krēCHer</div><div id=count></div>
+<script>
+let cid;try{cid=localStorage.getItem('kcid')}catch(e){}
+if(!cid){cid=Math.random().toString(36).slice(2,12);try{localStorage.setItem('kcid',cid)}catch(e){}}
+const msg=document.getElementById('msg'),btn=document.getElementById('heart');
+function floatHeart(){const d=document.createElement('div');d.className='float';d.textContent='❤';
+ d.style.left=(40+Math.random()*20)+'%';d.style.top='55%';document.body.appendChild(d);setTimeout(()=>d.remove(),1500)}
+btn.onclick=async()=>{floatHeart();try{const r=await (await fetch('/heart',{method:'POST',body:JSON.stringify({id:cid})})).json();
+ msg.textContent={ok:'krēCHer felt that ❤',asleep:'krēCHer is asleep. Wait for it to wake up.',off:'Hearts are paused right now.','slow down':'Gently… one heart at a time.'}[r.r]||''}catch(e){msg.textContent='No connection'}};
+async function tick(){try{const s=await (await fetch('/state?id='+cid)).json();
+ document.getElementById('state').textContent=s.awake?(s.mood):'asleep 💤';
+ btn.className=(s.awake&&s.hearts_on)?'':'off';
+ document.getElementById('count').textContent=`${s.viewers} here · ❤ ${s.hearts_60s} in the last minute`;
+ document.getElementById('face').src='/face.png?'+Date.now()}catch(e){}}
+setInterval(tick,700);tick();
+</script></body></html>"""
+
+TV_PAGE = """<!doctype html><html><head><title>krēCHer · TV</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><style>
+body{margin:0;background:#07080c;color:#eee;font-family:system-ui,sans-serif;height:100vh;display:flex;
+ align-items:center;justify-content:space-around}
+#face{width:46vw;image-rendering:pixelated;border-radius:2vw;border:3px solid #1c2233}
+.side{text-align:center} #qr{background:#fff;padding:1.4vw;border-radius:1.4vw;display:inline-block}
+.big{font-size:3vw;margin-top:1.4vw} .url{font-size:1.4vw;color:#9aa;margin-top:.6vw}
+#hearts{font-size:4.5vw;color:#ff5c93;margin-top:2vw} #pulse{transition:transform .2s}</style></head><body>
+<img id=face src="/face.png">
+<div class=side><div id=qr></div><div class=big>Scan to pet krēCHer</div><div class=url id=url></div>
+<div id=hearts><span id=pulse>❤</span> <span id=n>0</span></div><div class=url id=w></div></div>
+<script>
+const url="__URL__";document.getElementById('url').textContent=url||'(Funnel URL not found: start demo.py with --public-url)';
+try{if(url)new QRCode(document.getElementById('qr'),{text:url,width:300,height:300})}catch(e){}
+let last=0;
+async function tick(){try{const s=await (await fetch('/status')).json();
+ document.getElementById('n').textContent=s.audience.hearts_60s+' / min';
+ document.getElementById('w').textContent=s.audience.viewers+' people connected';
+ if(s.audience.hearts_total>last){const p=document.getElementById('pulse');p.style.transform='scale(1.5)';
+  setTimeout(()=>p.style.transform='',200)}last=s.audience.hearts_total;
+ document.getElementById('face').src='/face.png?'+Date.now()}catch(e){}}
+setInterval(tick,500);tick();
+</script></body></html>"""
+
+
+def serve_audience(k, port):
+    class H(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def _send(self, code, body, ctype):
+            data = body.encode() if isinstance(body, str) else body
+            self.send_response(code)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(len(data)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(data)
+
+        def do_GET(self):
+            path, _, query = self.path.partition("?")
+            if path == "/":
+                self._send(200, AUDIENCE_PAGE, "text/html; charset=utf-8")
+            elif path == "/face.png":
+                send_face(self, k)
+            elif path == "/state":
+                cid = query[3:] if query.startswith("id=") else ""
+                k.audience.poll(cid)
+                mood = {"calm": "calm", "curious": "curious", "cautious": "a little nervous",
+                        "purr": "purring", "love": "feeling loved", "flinch": "startled!",
+                        "awake": "awake", "shy": "shy"}.get(k.face.expr, k.face.expr)
+                self._send(200, json.dumps({
+                    "awake": k.state == "awake", "mood": mood, "hearts_on": k.audience.enabled,
+                    "viewers": k.audience.viewers(), "hearts_60s": k.audience.recent(60)}),
+                    "application/json")
+            else:
+                self._send(404, "not found", "text/plain")
+
+        def do_POST(self):
+            if self.path != "/heart":
+                return self._send(404, "not found", "text/plain")
+            try:
+                n = min(int(self.headers.get("Content-Length", 0)), 500)
+                req = json.loads(self.rfile.read(n) or b"{}")
+            except ValueError:
+                req = {}
+            r = k.audience.heart(str(req.get("id", "")))
+            self._send(200, json.dumps({"r": r}), "application/json")
+
+    srv = ThreadingHTTPServer(("0.0.0.0", port), H)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return srv
+
+
+def find_public_url():
+    """The Funnel address, from Tailscale: https://<machine>.<tailnet>.ts.net/"""
+    try:
+        out = subprocess.run(["tailscale", "status", "--json"], capture_output=True, text=True, timeout=5)
+        name = json.loads(out.stdout)["Self"]["DNSName"].rstrip(".")
+        return "https://%s/" % name if name else None
+    except Exception:
+        return None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-body", action="store_true", help="don't use the legs")
     ap.add_argument("--port", type=int, default=OPERATOR_PORT)
+    ap.add_argument("--audience-port", type=int, default=AUDIENCE_PORT)
+    ap.add_argument("--public-url", help="the audience link for the QR code (default: the Funnel address)")
     args = ap.parse_args()
     k = Krecher(use_body=not args.no_body)
-    serve(k, args.port)
-    log("operator page: http://100.75.140.37:%d  (Tailscale)  ·  Ctrl+C to stop" % args.port)
+    public_url = args.public_url or find_public_url()
+    serve(k, args.port, public_url)
+    serve_audience(k, args.audience_port)
+    log("operator page: http://100.75.140.37:%d   TV: http://100.75.140.37:%d/tv  (Tailscale)"
+        % (args.port, args.port))
+    log("audience page: %s  (needs: sudo tailscale funnel --bg %d)  ·  Ctrl+C to stop"
+        % (public_url or "http://100.75.140.37:%d" % args.audience_port, args.audience_port))
     try:
         while True:
             time.sleep(1)
