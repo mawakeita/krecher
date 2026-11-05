@@ -12,7 +12,7 @@ goes limp and the head re-centres.
 import os, shutil, subprocess, sys, time
 from fusion_hat.servo import Servo
 
-GREETING = "Hello! I'm krecher."     # spelled for the voice; the name is krēCHer
+GREETING = "Hello! I'm creature."    # spelled for the voice: krēCHer sounds like "creature"
 MPREMOTE = os.path.expanduser("~/venvs/servo/bin/mpremote")
 BODY = os.path.expanduser("~/krecher/body/stand_hello.py")
 PORT = "/dev/ttyACM0"

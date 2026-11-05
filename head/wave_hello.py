@@ -10,7 +10,7 @@ while the leg waves. Ctrl+C: all 18 leg servos go limp and the head re-centres.
 import os, shutil, subprocess, sys, time
 from fusion_hat.servo import Servo
 
-GREETING = "Hello! I'm krecher."
+GREETING = "Hello! I'm creature."    # spelled for the voice: krēCHer sounds like "creature"
 MPREMOTE = os.path.expanduser("~/venvs/servo/bin/mpremote")
 BODY = os.path.expanduser("~/krecher/body/stand_wave.py")
 PORT = "/dev/ttyACM0"

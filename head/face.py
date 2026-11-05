@@ -22,7 +22,7 @@ Use from other code:
     face.talking(True)            # mouth moves until talking(False)
     face.close()
 """
-import math, shutil, subprocess, sys, threading, time
+import math, re, shutil, subprocess, sys, threading, time
 
 W, H = 128, 64
 
@@ -185,8 +185,14 @@ class Face:
         self.ring.show()
 
 
+def spoken(text):
+    """Spell words the way the voice should say them: krēCHer sounds like "creature"."""
+    return re.sub(r"kr[eē]ch[eē]r", "creature", text, flags=re.IGNORECASE)
+
+
 def say(text, face=None):
     """Speak (same voices as hello.py) with the mouth moving."""
+    text = spoken(text)
     try:
         from fusion_hat.utils import enable_speaker
         enable_speaker()
