@@ -12,6 +12,12 @@
 # The other body scripts still work with it installed: `mpremote ... run x.py` stops this
 # program first (Ctrl+C), and this program makes every servo go limp when it stops.
 #
+# v0.3 (Nov 5, demo): gestures from a standing pose, sent as {"k":"gesture","name":...}:
+#   wave  = lift the front-left leg and wave it 3 times (as stand_wave.py)
+#   lift  = lift the front-left leg once and put it down (the story's first slide)
+#   duck  = quick crouch and back up (the flinch)
+# Answers {"k":"ack",...} then {"k":"gesture_done","name":...}.
+#
 # Safety:
 #   * Starts LIMP. Nothing moves until the Pi sends a pose command.
 #   * Refuses to pose when the servo rail is below 5.0 V (LiPo unplugged), so servos never
@@ -26,7 +32,7 @@ from machine import Pin
 from pimoroni import Analog, AnalogMux
 from servo import Servo, servo2040
 
-FW = "body_link 0.2"
+FW = "body_link 0.3"
 
 # ---- legs (same as stand_up.py, directions from dir_test.py, Oct 8) ----
 FEMUR_DOWN = {"L": -1, "R": 1}
@@ -38,6 +44,12 @@ POSES = {"crouch": -25, "stand": 10}   # femur angle (pose units), as in stand_u
 STEP_MS = 80                           # one degree per 80 ms: ~3 s from crouch to stand
 ENABLE_GAP_MS = 150                    # servos switch on one at a time
 SETTLE_MS = 2000                       # pause in crouch before standing (as stand_up.py)
+
+# ---- gestures (from stand_wave.py) ----
+WAVE_LEG = 0                           # index in LEG_ORDER: FL
+LIFT, REACH = -35, -30                 # femur / knee pose units for the raised leg
+WAVE_HIP, WAVES = 20, 3
+DUCK = 0                               # femur angle for the flinch's quick crouch
 
 # ---- sensors ----
 FOOT_DOWN_V, FOOT_UP_V = 2.0, 1.0      # switch-era thresholds (hysteresis). Foam feet: retune.
@@ -85,6 +97,7 @@ st = {
     "low_v_since": None,
     "high_a_since": None,
     "high_a_warned": False,
+    "glide": None,       # (start_ms, dur_ms, moves) while a gesture segment is running
 }
 foot_v = [0.0] * 6
 foot_down = [0] * 6
@@ -120,6 +133,7 @@ def read_rail():
 
 
 def all_limp():
+    st["glide"] = None
     for _, hip, fem, knee in legs:
         hip.disable()
         fem.disable()
@@ -154,6 +168,12 @@ def plan_pose(name, now):
     """Build a non-blocking plan to reach a named pose. Returns an error string or None."""
     if st["v"] < MIN_RAIL_V:
         return "no_servo_power"
+    if st["pose"] == "gesture":            # interrupted mid-gesture: straighten up first
+        st["glide"] = None
+        for _, hip, _f, _k in legs:
+            hip.value(0)
+        apply_theta(st["theta"])
+        st["pose"] = "stand" if st["theta"] == POSES["stand"] else "crouch"
     if name == st["pose"]:
         return None
     plan = []
@@ -179,6 +199,66 @@ def plan_pose(name, now):
     return None
 
 
+def plan_gesture(name, now):
+    """Non-blocking plan for a gesture from the standing pose. Returns an error string or None."""
+    if st["pose"] != "stand":
+        return "not_standing"
+    side, hip, fem, knee = legs[WAVE_LEG]
+    fs, ks = FEMUR_DOWN[side] * POSES["stand"], KNEE_OUT[side] * POSES["stand"]
+    fu, ku = FEMUR_DOWN[side] * LIFT, KNEE_OUT[side] * REACH
+    segs = []                              # (moves, ms); moves = [(servo, from, to)]
+    if name in ("wave", "lift"):
+        segs.append(([(fem, fs, fu), (knee, ks, ku)], 1200))
+        if name == "wave":
+            h = 0
+            for _ in range(WAVES):
+                segs.append(([(hip, h, WAVE_HIP)], 400)); h = WAVE_HIP
+                segs.append(([(hip, h, -WAVE_HIP)], 500)); h = -WAVE_HIP
+            segs.append(([(hip, h, 0)], 300))
+        segs.append(([], 400))             # pause with the leg up
+        segs.append(([(fem, fu, fs), (knee, ku, ks)], 1500))
+    elif name == "duck":
+        down, up = [], []
+        for sd, _h, f, k in legs:
+            a_f, a_k = FEMUR_DOWN[sd] * POSES["stand"], KNEE_OUT[sd] * POSES["stand"]
+            b_f, b_k = FEMUR_DOWN[sd] * DUCK, KNEE_OUT[sd] * DUCK
+            down += [(f, a_f, b_f), (k, a_k, b_k)]
+            up += [(f, b_f, a_f), (k, b_k, a_k)]
+        segs += [(down, 300), ([], 700), (up, 1000)]
+    else:
+        return "unknown_gesture"
+    plan = []
+    due = now
+    for moves, ms in segs:
+        plan.append((due, "glide", (moves, ms)))
+        due = time.ticks_add(due, ms)
+    plan.append((due, "gesture_done", name))
+    st["plan"] = plan
+    st["pose"] = "gesture"
+    return None
+
+
+def finish_glide():
+    g = st["glide"]
+    if g:
+        for s_, a, b in g[2]:
+            s_.value(b)
+        st["glide"] = None
+
+
+def run_glide(now):
+    g = st["glide"]
+    if not g:
+        return
+    start, dur, moves = g
+    f = min(1.0, time.ticks_diff(now, start) / dur) if dur else 1.0
+    e = f * f * (3 - 2 * f)
+    for s_, a, b in moves:
+        s_.value(a + (b - a) * e)
+    if f >= 1.0:
+        st["glide"] = None
+
+
 def run_plan(now):
     plan = st["plan"]
     while plan and time.ticks_diff(now, plan[0][0]) >= 0:
@@ -189,6 +269,13 @@ def run_plan(now):
             st["theta"] = arg
         elif kind == "theta":
             apply_theta(arg)
+        elif kind == "glide":
+            finish_glide()                 # end the previous segment exactly on its target
+            st["glide"] = (now, arg[1], arg[0])
+        elif kind == "gesture_done":
+            finish_glide()
+            st["pose"] = "stand"
+            send({"k": "gesture_done", "t": now, "name": arg})
         elif kind == "done":
             st["pose"] = arg
             st["target"] = None
@@ -252,6 +339,11 @@ def handle(line, now):
                 send({"k": "ack", "t": now, "cmd": "pose", "name": name, "ok": 1})
                 if st["pose"] == name:
                     send({"k": "pose_done", "t": now, "name": name})
+    elif k == "gesture":
+        name = cmd.get("name", "")
+        err = plan_gesture(name, now)
+        send({"k": "ack", "t": now, "cmd": "gesture", "name": name, "ok": 0 if err else 1,
+              "msg": err or ""})
     else:
         send({"k": "ack", "t": now, "ok": 0, "msg": "unknown_cmd"})
 
@@ -294,6 +386,7 @@ def main():
         read_commands(now)
         read_feet(now)
         run_plan(now)
+        run_glide(now)
         if time.ticks_diff(now, next_s) >= 0:
             read_rail()
             check_power(now)
