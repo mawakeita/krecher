@@ -13,7 +13,7 @@ Then open the operator page on your phone or Mac (Tailscale on):
 The audience page (hearts) is on port 8000. To reach it from anyone's phone, turn Funnel on
 for the demo, and off after:
     sudo tailscale funnel --bg 8000
-    sudo tailscale funnel --https=443 off
+    sudo tailscale funnel reset          (check: tailscale funnel status -> "No serve config")
 
 Needs:
   * body/main.py v0.3 on the Servo 2040 (for the wave / duck gestures). Install once, LiPo out:
