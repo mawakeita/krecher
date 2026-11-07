@@ -1,0 +1,13 @@
+{
+  "_how": "krēCHer's build story (demo beat 4b). Edit the lines freely; demo.py re-reads this file each time you press Next. Photos: put 1.jpg .. 4.jpg in ~/krecher/data/story/ (a slide without a photo shows its title). move: legs | head | mast | audience",
+  "slides": [
+    {"title": "My body", "photo": "1.jpg", "move": "legs",
+     "line": "I was built this fall, on a workbench in New York. Mawa gave me six legs and eighteen small motors, three in each leg. A little board in my belly tells every one of them where to go."},
+    {"title": "My head", "photo": "2.jpg", "move": "head",
+     "line": "My head is a bamboo basket. Inside is my brain, a tiny computer. My eye sits on a neck that can turn and nod, my face is a little screen, and the light inside the basket is how I show you my mood."},
+    {"title": "My senses", "photo": "3.jpg", "move": "mast",
+     "line": "I feel the world in many ways. I can tell how far away you are, when something moves near me, when you touch my head, and which way I'm leaning. I had to move my sense of direction out onto a little mast. My own motors were confusing it."},
+    {"title": "What's next", "photo": "4.jpg", "move": "audience",
+     "line": "My feet aren't finished yet. Soon I'll have soft feet that feel the floor, with little heels. And every day, I'm learning from everything I feel. Including all of you."}
+  ]
+}

@@ -59,6 +59,8 @@ MAX_WATCH_STREAMS = 10           # live video for this many watchers; the rest g
 GREETING = "Hello! I'm krēCHer."
 GOODBYE = "Goodbye, everyone! Thank you for meeting me."
 PURR_WAV = "/tmp/krecher_purr.wav"
+STORY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "story.json")
+STORY_PHOTOS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "story")
 
 
 def log(*a):
@@ -498,6 +500,7 @@ class Krecher:
         self.face_seen = None                           # (x -1..1, y -1..1, time) of the biggest face
         self.known_name, self.last_known_seen, self.last_stranger_seen = None, 0.0, 0.0
         self.follow = False
+        self.story_i = -1                               # slide on screen (-1 = title)
         try:
             from fusion_hat.device import enable_speaker
             enable_speaker()
@@ -515,6 +518,8 @@ class Krecher:
         fn = getattr(self, "act_" + name, None)
         if not fn:
             return False
+        if name == "story_next" and (self.busy and self.last.startswith("story") or not self.actions.empty()):
+            return True                                 # still telling the last slide: ignore double taps
         self.actions.put((name, fn, kw))
         return True
 
@@ -768,6 +773,75 @@ class Krecher:
         self.say("Okay.")
         self.head.move(0, 6, 0.8)
 
+    # ---- story (beat 4b) ----------------------------------------------------------
+    def story_slides(self):
+        try:
+            with open(STORY_FILE) as f:
+                return json.load(f)["slides"]
+        except Exception as e:
+            log("story: can't read story.json (%s)" % e)
+            return []
+
+    def act_story_start(self):
+        self.story_i = -1
+        self.act_story_next()
+
+    def act_story_next(self):
+        slides = self.story_slides()
+        self.story_i += 1
+        if self.story_i >= len(slides):
+            self.story_i = -1
+            self.face.set("awake")
+            self.head.move(0, 6, 0.8)
+            return
+        sl = slides[self.story_i]
+        mover = threading.Thread(target=self._story_move, args=(sl.get("move", ""),), daemon=True)
+        mover.start()
+        self.say(sl.get("line", ""))
+        mover.join(timeout=10)
+
+    def _story_move(self, move):
+        h = self.head
+        if move == "legs":
+            self.face.set("curious")
+            h.move(0, -14, 1.0)                                  # looks down at its legs
+            if self.body.ok and self.body.pose == "stand":
+                self.body.gesture("lift", wait=False)
+            time.sleep(3.5)
+            h.move(0, 6, 1.0)
+            self.face.set("awake")
+        elif move == "head":
+            for name, p in (("calm", -30), ("curious", 30), ("cautious", 0)):
+                self.face.set(name)                               # ring: teal, amber, orange
+                h.move(p, 6, 1.2)
+                time.sleep(0.6)
+            h.move(0, -6, 0.35); h.move(0, 6, 0.35)               # nod
+            self.face.set("awake")
+        elif move == "mast":
+            self.face.set("awake")
+            time.sleep(4.0)
+            h.move(0, -14, 0.8)                                   # glances down at the mast
+            self.face.set("shy")
+            time.sleep(2.5)
+            h.move(0, 6, 0.8)
+            self.face.set("awake")
+        elif move == "audience":
+            self.face.set("calm")
+            time.sleep(3.0)
+            self.face.set("love")
+            for p in (-25, 25, 0):
+                h.move(p, 9, 1.4)
+
+    def story_state(self):
+        slides = self.story_slides()
+        i = self.story_i
+        if 0 <= i < len(slides):
+            sl = slides[i]
+            photo = sl.get("photo", "")
+            has = bool(photo) and os.path.exists(os.path.join(STORY_PHOTOS, os.path.basename(photo)))
+            return {"i": i, "n": len(slides), "title": sl.get("title", ""), "photo": photo if has else ""}
+        return {"i": -1, "n": len(slides), "title": "krēCHer", "photo": ""}
+
     # ---- remote driver ----------------------------------------------------------
     def driver_active(self):
         return self.driver is not None and time.monotonic() - self.driver["seen"] < DRIVER_TIMEOUT_S
@@ -941,6 +1015,7 @@ class Krecher:
         return {
             "state": self.state, "busy": self.busy, "last": self.last,
             "known": self.toucher_known(), "known_mode": self.known_mode, "follow": self.follow,
+            "story": self.story_state(),
             "faces": {"mode": self.faces.mode if self.faces else None,
                       "people": list(self.faces.people) if self.faces else [], "sees": self.seeing()},
             "alarm": round(self.alarm, 2), "curious": round(self.curious, 2),
@@ -983,6 +1058,9 @@ button:active{filter:brightness(1.4)} input{flex:1;font-size:17px;padding:12px;b
 <div class=row><button class=beat onclick="go('wake')">1 · Wake</button>
 <button class=beat onclick="go('hi')">2 · Say hi</button>
 <button class=beat onclick="go('feeling')">4 · Feeling?</button></div>
+<div class=row><button class=beat onclick="go('story_start')">4b · Story</button>
+<button class=beat id=nxt onclick="go('story_next')">Next slide</button>
+<button onclick="location.href='/story'">Story screen</button></div>
 <div class=row><button class=beat id=fol onclick="go('follow')">5 · Let's go</button>
 <button onclick="go('stop')">Stop</button></div>
 <div class=row><button class=beat onclick="go('goodbye')">12 · Goodbye</button>
@@ -1015,6 +1093,7 @@ async function tick(){try{const s=await (await fetch('/status')).json();
  k.textContent=({auto:'Faces decide',known:'Always known',stranger:'Always stranger'})[s.known_mode]+
  ' → '+(s.known?'purr':'flinch')+(s.faces.sees?' · sees '+s.faces.sees:'');
  k.className=s.known?'on':'warn';
+ document.getElementById('nxt').textContent='Next slide'+(s.story.i>=0?` (${s.story.i+1}/${s.story.n})`:'');
  document.getElementById('fol').textContent="5 · Let's go"+(s.follow?' (following)':'');
  const h=document.getElementById('hearts');h.textContent='Hearts '+(s.audience.hearts_on?'ON':'off')+
  ` · ${s.audience.viewers} watching · ${s.audience.hearts_60s}/min`;h.className=s.audience.hearts_on?'on':'';
@@ -1097,6 +1176,18 @@ def serve(k, port, public_url=None):
                 self._send(200, TV_PAGE.replace("__URL__", public_url or ""), "text/html; charset=utf-8")
             elif self.path.startswith("/face.png"):
                 send_face(self, k)
+            elif self.path == "/story":
+                self._send(200, STORY_PAGE, "text/html; charset=utf-8")
+            elif self.path == "/story/state":
+                self._send(200, json.dumps(k.story_state()), "application/json")
+            elif self.path.startswith("/story/photo/"):
+                f = os.path.join(STORY_PHOTOS, os.path.basename(self.path.split("?")[0]))
+                if os.path.exists(f):
+                    with open(f, "rb") as fh:
+                        ctype = "image/png" if f.lower().endswith(".png") else "image/jpeg"
+                        self._send(200, fh.read(), ctype)
+                else:
+                    self._send(404, "no photo", "text/plain")
             elif self.path == "/view":
                 self._send(200, VIEW_PAGE, "text/html; charset=utf-8")
             elif self.path.startswith("/cam.mjpg"):
@@ -1243,6 +1334,22 @@ async function tick(){try{const s=await (await fetch('/state?id='+cid)).json();
   try{navigator.vibrate&&navigator.vibrate([80,60,80])}catch(e){}setTimeout(()=>p.style.display='none',2500)}
  lastTouch=s.touches}catch(e){}}
 setInterval(tick,600);tick();
+</script></body></html>"""
+
+STORY_PAGE = """<!doctype html><html><head><title>krēCHer · story</title><style>
+body{margin:0;background:#07080c;color:#eee;font-family:system-ui,sans-serif;height:100vh;display:flex;
+ flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#photo{max-width:86vw;max-height:74vh;border-radius:1.5vw;display:none}
+#title{font-size:6vw;font-weight:500;margin-top:2vh} #dots{color:#556;font-size:2vw;margin-top:1vh;letter-spacing:.6vw}
+#face{position:fixed;right:2vw;bottom:2vw;width:14vw;image-rendering:pixelated;border-radius:1vw;border:2px solid #222}
+</style></head><body><img id=photo><div id=title>krēCHer</div><div id=dots></div><img id=face src="/face.png">
+<script>let last=-2;
+setInterval(async()=>{document.getElementById('face').src='/face.png?'+Date.now();
+ try{const s=await (await fetch('/story/state')).json();if(s.i===last)return;last=s.i;
+ const p=document.getElementById('photo');if(s.photo){p.src='/story/photo/'+s.photo+'?'+Date.now();p.style.display='block'}
+ else p.style.display='none';
+ document.getElementById('title').textContent=s.title;
+ document.getElementById('dots').textContent=s.i<0?'':Array.from({length:s.n},(_,j)=>j===s.i?'●':'○').join(' ')}catch(e){}},500);
 </script></body></html>"""
 
 VIEW_PAGE = """<!doctype html><html><head><title>krēCHer · volunteer view</title><style>
