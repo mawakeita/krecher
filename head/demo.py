@@ -10,7 +10,10 @@ Then open the operator page on your phone or Mac (Tailscale on):
     http://100.75.140.37:8001        operator buttons
     http://100.75.140.37:8001/tv     the TV screen: QR code, face, hearts
 
-The audience page (hearts) is on port 8000. To reach it from anyone's phone, turn Funnel on
+The audience page (hearts + krēCHer's camera) is on port 8000; the volunteer's driver page is
+/driver on the same port (the driver code is on the operator page).
+The camera comes from rpicam-vid (nothing to install). Only one program can use the camera, so
+don't run logger.py or rpicam-hello while this runs. Upside-down picture: --cam-rotation 180. To reach it from anyone's phone, turn Funnel on
 for the demo, and off after:
     sudo tailscale funnel --bg 8000
     sudo tailscale funnel reset          (check: tailscale funnel status -> "No serve config")
@@ -32,6 +35,7 @@ import math
 import os
 import queue
 import random
+import shutil
 import struct
 import subprocess
 import sys
@@ -50,6 +54,8 @@ TOUCH_PIN, PIR_PIN, TRIG, ECHO = 17, 4, 27, 22
 OPERATOR_PORT = 8001
 AUDIENCE_PORT = 8000
 HEARTS_TO_PURR, HEARTS_WINDOW_S, HEARTS_PURR_GAP_S = 5, 3.0, 12.0
+DRIVER_TIMEOUT_S = 10.0          # a driver who stops polling for this long loses control
+MAX_WATCH_STREAMS = 10           # live video for this many watchers; the rest get a still every few s
 GREETING = "Hello! I'm krēCHer."
 GOODBYE = "Goodbye, everyone! Thank you for meeting me."
 PURR_WAV = "/tmp/krecher_purr.wav"
@@ -343,6 +349,78 @@ def play(path):
         log("sound: can't play %s (%s)" % (path, e))
 
 
+# ---------------------------------------------------------------- camera (rpicam-vid MJPEG)
+class Camera:
+    """krēCHer's eye. rpicam-vid streams JPEG frames on stdout; we keep the latest one."""
+
+    def __init__(self, enabled=True, width=640, height=480, fps=12, rotation=0):
+        self.jpeg = None
+        self.n = 0
+        self.cv = threading.Condition()
+        self.proc = None
+        self.ok = False
+        if not enabled:
+            log("camera: off (--no-camera)")
+            return
+        exe = shutil.which("rpicam-vid") or shutil.which("libcamera-vid")
+        if not exe:
+            log("camera: rpicam-vid not found, no video")
+            return
+        self.cmd = [exe, "-t", "0", "-n", "--codec", "mjpeg", "--width", str(width),
+                    "--height", str(height), "--framerate", str(fps), "--quality", "70", "-o", "-"]
+        if rotation:
+            self.cmd += ["--rotation", str(rotation)]
+        self.ok = True
+        threading.Thread(target=self._run, daemon=True).start()
+
+    def _run(self):
+        fails = 0
+        while fails < 5:
+            started = time.monotonic()
+            try:
+                self.proc = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            except Exception as e:
+                log("camera: can't start rpicam-vid (%s)" % e)
+                break
+            buf = b""
+            while True:
+                chunk = self.proc.stdout.read1(65536)
+                if not chunk:
+                    break
+                buf += chunk
+                while True:
+                    a = buf.find(b"\xff\xd8")
+                    if a < 0:
+                        buf = b""
+                        break
+                    b = buf.find(b"\xff\xd9", a + 2)
+                    if b < 0:
+                        buf = buf[a:]
+                        break
+                    with self.cv:
+                        self.jpeg = buf[a:b + 2]
+                        self.n += 1
+                        self.cv.notify_all()
+                    buf = buf[b + 2:]
+                if len(buf) > 2_000_000:
+                    buf = b""
+            err = (self.proc.stderr.read() or b"").decode(errors="ignore").strip().splitlines()[-2:]
+            log("camera: rpicam-vid stopped (%s). Is another program using the camera?" % " / ".join(err))
+            fails = 0 if time.monotonic() - started > 30 else fails + 1
+            time.sleep(2)
+        self.ok = False
+        log("camera: giving up")
+
+    def wait(self, last_n, timeout=2.0):
+        with self.cv:
+            self.cv.wait_for(lambda: self.n != last_n, timeout)
+            return self.n, self.jpeg
+
+    def close(self):
+        if self.proc and self.proc.poll() is None:
+            self.proc.terminate()
+
+
 # ---------------------------------------------------------------- audience (hearts)
 class Audience:
     """Everyone who scans the QR code: they see krēCHer's face and can send hearts."""
@@ -391,7 +469,7 @@ class Audience:
 
 # ---------------------------------------------------------------- krēCHer
 class Krecher:
-    def __init__(self, use_body=True):
+    def __init__(self, use_body=True, use_camera=True, cam_rotation=0):
         self.face = Face()
         self.face.set("sleep")
         self.head = Head()
@@ -406,6 +484,14 @@ class Krecher:
         self.history = deque(maxlen=20)                 # (time, event) for the feeling sentence
         self.actions = queue.Queue()
         self.audience = Audience(self)
+        self.camera = Camera(use_camera, rotation=cam_rotation)
+        self.watch_streams = 0                          # live video streams to watchers
+        self.driver = None                              # {"id": ..., "seen": t} while someone drives
+        self.driver_code = "%04d" % random.randint(0, 9999)
+        self.head_target = None                         # (pan, tilt) the driver asked for
+        self.pan_sign = 1                               # flip from the operator page if drag goes the wrong way
+        self.touch_count = 0
+        self.last_message = ""
         try:
             from fusion_hat.device import enable_speaker
             enable_speaker()
@@ -415,6 +501,7 @@ class Krecher:
         self.senses = Senses(self._on_touch, self._on_motion)
         threading.Thread(target=self._worker, daemon=True).start()
         threading.Thread(target=self._mood_loop, daemon=True).start()
+        threading.Thread(target=self._remote_loop, daemon=True).start()
 
     # ---- actions: one at a time, in order -------------------------------------
     def do(self, name, **kw):
@@ -564,9 +651,88 @@ class Krecher:
         self.body.limp()
         log("LIMP (operator)")
 
+    # ---- remote driver ----------------------------------------------------------
+    def driver_active(self):
+        return self.driver is not None and time.monotonic() - self.driver["seen"] < DRIVER_TIMEOUT_S
+
+    def is_driver(self, cid):
+        return bool(cid) and self.driver_active() and self.driver["id"] == cid
+
+    def claim(self, cid, code):
+        if not cid:
+            return "error"
+        if str(code).strip() != self.driver_code:
+            return "wrong code"
+        if self.driver_active() and self.driver["id"] != cid:
+            return "busy"
+        self.driver = {"id": cid, "seen": time.monotonic()}
+        self.head_target = (self.head.p, self.head.t)
+        log("remote: driver connected")
+        self.history.append((time.monotonic(), "driver"))
+        return "ok"
+
+    def driver_seen(self, cid):
+        if self.is_driver(cid):
+            self.driver["seen"] = time.monotonic()
+
+    def look(self, cid, pan, tilt):
+        if not self.is_driver(cid):
+            return False
+        self.head_target = (max(Head.PAN[0], min(Head.PAN[1], float(pan))),
+                            max(Head.TILT[0], min(Head.TILT[1], float(tilt))))
+        return True
+
+    def release_driver(self, new_code=False):
+        if self.driver:
+            log("remote: driver released")
+        self.driver = None
+        self.head_target = None
+        if new_code:
+            self.driver_code = "%04d" % random.randint(0, 9999)
+
+    def _remote_loop(self):
+        was = False
+        while True:
+            time.sleep(0.05)
+            active = self.driver_active()
+            if was and not active and self.driver is not None:
+                log("remote: driver gone (no contact for %d s), control is free" % DRIVER_TIMEOUT_S)
+                self.driver, self.head_target = None, None
+            was = active
+            tgt = self.head_target
+            if not active or not tgt or self.busy:
+                continue
+            p, t = tgt
+            if abs(p - self.head.p) > 0.5 or abs(t - self.head.t) > 0.5:
+                step_p = max(-6, min(6, p - self.head.p))       # at most 6 degrees per tick
+                step_t = max(-6, min(6, t - self.head.t))
+                self.head.move(self.head.p + step_p, self.head.t + step_t, 0.06)
+
+    def act_remote_say(self, text=""):
+        text = text.strip()[:120]
+        if not text:
+            return
+        self.last_message = text
+        self.history.append((time.monotonic(), "message"))
+        self.say(text)
+
+    def act_purr_soft(self):
+        """Petted while someone is driving: purr and glow, but leave the head to the driver."""
+        self.face.set("purr")
+        snd = play(PURR_WAV)
+        if snd:
+            snd.wait()
+        self.alarm = max(0.0, self.alarm - 0.6)
+        self.history.append((time.monotonic(), "purr"))
+
     # ---- reflexes ---------------------------------------------------------------
     def _on_touch(self):
+        self.touch_count += 1
         log("touch", "(known)" if self.known else "(stranger)")
+        if self.driver_active():
+            if not self.busy:
+                self.do("purr_soft")
+            return
         if self.state == "asleep":
             if not self.busy:
                 self.do("wake")
@@ -663,9 +829,13 @@ class Krecher:
             "audience": {"hearts_on": self.audience.enabled, "viewers": self.audience.viewers(),
                          "hearts_60s": self.audience.recent(60),
                          "hearts_total": len(self.audience.hearts)},
+            "remote": {"code": self.driver_code, "driver": self.driver_active(),
+                       "camera": self.camera.ok and self.camera.jpeg is not None,
+                       "watch_streams": self.watch_streams, "pan_sign": self.pan_sign},
         }
 
     def close(self):
+        self.camera.close()
         self.body.limp()
         self.head.move(0, 0, 0.4)
         self.face.close()
@@ -694,6 +864,11 @@ button:active{filter:brightness(1.4)} input{flex:1;font-size:17px;padding:12px;b
 <div class=lbl>Audience</div>
 <div class=row><button id=hearts onclick="go('hearts')">Hearts: ?</button>
 <button onclick="location.href='/tv'">TV screen</button></div>
+<div class=lbl>Volunteer (remote driver)</div>
+<div class=row><button id=drv style="flex:1 1 100%">Driver code: ?</button></div>
+<div class=row><button onclick="go('release')">Take control back</button>
+<button onclick="go('newcode')">New code</button><button onclick="go('flip_pan')">Flip drag</button></div>
+<div class=row><button onclick="location.href='/view'">Volunteer view (room projector)</button></div>
 <div class=lbl>Say something</div>
 <div class=row><input id=t placeholder="krēCHer says..."><button style="flex:0 0 80px" onclick="sayit()">Say</button></div>
 <div class=lbl>Body and head</div>
@@ -709,6 +884,8 @@ async function tick(){try{const s=await (await fetch('/status')).json();
  k.className=s.known?'on':'warn';
  const h=document.getElementById('hearts');h.textContent='Hearts '+(s.audience.hearts_on?'ON':'off')+
  ` · ${s.audience.viewers} watching · ${s.audience.hearts_60s}/min`;h.className=s.audience.hearts_on?'on':'';
+ const d=document.getElementById('drv');d.textContent=`Driver code: ${s.remote.code} · `+
+ (s.remote.driver?'volunteer driving':'nobody driving')+(s.remote.camera?'':' · camera off');d.className=s.remote.driver?'on':'';
  document.getElementById('st').textContent=
  `${s.state}${s.busy?' · busy: '+s.last:''}  face: ${s.face}\\n`+
  `alarm ${s.alarm}  curious ${s.curious}\\n`+
@@ -725,6 +902,41 @@ def send_face(h, k):
     if not png:
         return h._send(404, "no face yet", "text/plain")
     h._send(200, png, "image/png")
+
+
+def send_still(h, k):
+    jpg = k.camera.jpeg
+    if not jpg:
+        return h._send(503, "camera off", "text/plain")
+    h._send(200, jpg, "image/jpeg")
+
+
+def send_stream(h, k, watcher):
+    """Live MJPEG. Watchers are capped; the driver and the TV always get it."""
+    if not k.camera.jpeg:
+        return h._send(503, "camera off", "text/plain")
+    if watcher:
+        if k.watch_streams >= MAX_WATCH_STREAMS:
+            return h._send(503, "too many viewers", "text/plain")
+        k.watch_streams += 1
+    try:
+        h.send_response(200)
+        h.send_header("Content-Type", "multipart/x-mixed-replace; boundary=frame")
+        h.send_header("Cache-Control", "no-store")
+        h.end_headers()
+        n = -1
+        while True:
+            n, jpg = k.camera.wait(n, 3.0)
+            if not jpg:
+                break
+            h.wfile.write(b"--frame\r\nContent-Type: image/jpeg\r\nContent-Length: %d\r\n\r\n" % len(jpg))
+            h.wfile.write(jpg)
+            h.wfile.write(b"\r\n")
+    except (BrokenPipeError, ConnectionResetError, OSError):
+        pass
+    finally:
+        if watcher:
+            k.watch_streams -= 1
 
 
 def serve(k, port, public_url=None):
@@ -750,6 +962,14 @@ def serve(k, port, public_url=None):
                 self._send(200, TV_PAGE.replace("__URL__", public_url or ""), "text/html; charset=utf-8")
             elif self.path.startswith("/face.png"):
                 send_face(self, k)
+            elif self.path == "/view":
+                self._send(200, VIEW_PAGE, "text/html; charset=utf-8")
+            elif self.path.startswith("/cam.mjpg"):
+                send_stream(self, k, watcher=False)
+            elif self.path.startswith("/cam.jpg"):
+                send_still(self, k)
+            elif self.path.startswith("/msg"):
+                self._send(200, json.dumps({"m": k.last_message}), "application/json")
             else:
                 self._send(404, "not found", "text/plain")
 
@@ -770,6 +990,16 @@ def serve(k, port, public_url=None):
                 ok = True
             elif a == "hearts":
                 k.audience.enabled = not k.audience.enabled
+                ok = True
+            elif a == "release":
+                k.release_driver()
+                k.do("center")
+                ok = True
+            elif a == "newcode":
+                k.release_driver(new_code=True)
+                ok = True
+            elif a == "flip_pan":
+                k.pan_sign = -k.pan_sign
                 ok = True
             elif a == "say":
                 ok = k.do("say", text=str(req.get("text", "")))
@@ -794,9 +1024,12 @@ h1{font-size:22px;margin:6px 0 2px} .sub{color:#9aa;font-size:14px;margin-bottom
 .float{position:fixed;font-size:34px;pointer-events:none;animation:up 1.4s ease-out forwards}
 @keyframes up{to{transform:translateY(-220px) scale(1.6);opacity:0}}</style></head><body>
 <h1>krēCHer</h1><div class=sub id=state>…</div>
-<img id=face src="/face.png" alt="krēCHer's face">
+<img id=cam alt="what krēCHer sees" style="width:100%;max-width:520px;border-radius:14px;background:#000;min-height:120px">
+<div style="color:#9aa;font-size:13px;margin:4px 0 12px">what krēCHer sees</div>
+<img id=face src="/face.png" alt="krēCHer's face" style="max-width:220px">
 <div><button id=heart aria-label="send a heart">❤</button></div>
 <div id=msg>Tap the heart to pet krēCHer</div><div id=count></div>
+<div style="margin-top:22px"><a href="/driver" style="color:#9cf">I have a driver code</a></div>
 <script>
 let cid;try{cid=localStorage.getItem('kcid')}catch(e){}
 if(!cid){cid=Math.random().toString(36).slice(2,12);try{localStorage.setItem('kcid',cid)}catch(e){}}
@@ -811,6 +1044,77 @@ async function tick(){try{const s=await (await fetch('/state?id='+cid)).json();
  document.getElementById('count').textContent=`${s.viewers} here · ❤ ${s.hearts_60s} in the last minute`;
  document.getElementById('face').src='/face.png?'+Date.now()}catch(e){}}
 setInterval(tick,700);tick();
+const cam=document.getElementById('cam');let still=null;
+cam.onerror=()=>{if(still)return;still=setInterval(()=>{cam.src='/cam.jpg?'+Date.now()},2500)};
+cam.src='/cam.mjpg?w=1';
+</script></body></html>"""
+
+DRIVER_PAGE = """<!doctype html><html><head><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Drive krēCHer</title><style>
+body{font-family:system-ui,sans-serif;background:#0d0f14;color:#eee;margin:0;padding:12px;text-align:center}
+h1{font-size:20px;margin:6px 0} input,button{font-size:18px;padding:12px;border-radius:10px;border:0}
+button{background:#1d6b63;color:#fff} #code{width:120px;text-align:center;letter-spacing:6px}
+#camwrap{position:relative;touch-action:none;user-select:none;-webkit-user-select:none}
+#cam{width:100%;border-radius:12px;background:#000;min-height:180px;display:block;pointer-events:none}
+#hint{position:absolute;bottom:8px;left:0;right:0;font-size:13px;color:#fffa;text-shadow:0 0 4px #000}
+#pet{display:none;background:#c2185b;color:#fff;padding:12px;border-radius:12px;margin:10px 0;font-size:18px}
+.row{display:flex;gap:8px;margin:10px 0} .row input{flex:1} #feel{color:#9aa;font-size:14px;line-height:1.6}
+#face{width:128px;image-rendering:pixelated;border-radius:8px;vertical-align:middle}</style></head><body>
+<div id=login><h1>Drive krēCHer</h1><p>Type the driver code you were given.</p>
+<input id=code inputmode=numeric maxlength=4 autocomplete=off> <button onclick="claim()">Go</button>
+<p id=lmsg style="color:#ffb3cf"></p></div>
+<div id=drive style="display:none">
+<div id=camwrap><img id=cam alt="krēCHer's camera"><div id=hint>drag to look around</div></div>
+<div id=pet>❤ someone is petting you</div>
+<div class=row><input id=say maxlength=120 placeholder="Say something as krēCHer"><button onclick="speak()">Say</button></div>
+<div class=row><button style="flex:1;background:#2a2f3a" onclick="center()">Look ahead</button></div>
+<div id=feel><img id=face src="/face.png"> <span id=mood></span><br><span id=senses></span></div>
+</div>
+<script>
+let cid;try{cid=localStorage.getItem('kcid')}catch(e){}
+if(!cid){cid=Math.random().toString(36).slice(2,12);try{localStorage.setItem('kcid',cid)}catch(e){}}
+let pan=0,tilt=0,sign=1,lastTouch=null,driving=false;
+async function post(u,o){const r=await fetch(u,{method:'POST',body:JSON.stringify(Object.assign({id:cid},o||{}))});return r.json()}
+async function claim(){const r=await post('/claim',{code:document.getElementById('code').value});
+ if(r.r==='ok')start();else document.getElementById('lmsg').textContent=
+ {'wrong code':'That code is not right.',busy:'Someone else is driving krēCHer right now.'}[r.r]||'Try again.'}
+function start(){driving=true;document.getElementById('login').style.display='none';
+ document.getElementById('drive').style.display='block';document.getElementById('cam').src='/cam.mjpg';}
+const wrap=document.getElementById('camwrap');let drag=null,sendT=0;
+wrap.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,p:pan,t:tilt};wrap.setPointerCapture(e.pointerId)});
+wrap.addEventListener('pointermove',e=>{if(!drag)return;const w=wrap.clientWidth;
+ pan=Math.max(-45,Math.min(45,drag.p+sign*(e.clientX-drag.x)/w*-70));
+ tilt=Math.max(-15,Math.min(12,drag.t+(e.clientY-drag.y)/w*40));
+ const now=Date.now();if(now-sendT>90){sendT=now;post('/look',{pan:pan,tilt:tilt})}});
+wrap.addEventListener('pointerup',e=>{if(drag){post('/look',{pan:pan,tilt:tilt})}drag=null});
+function center(){pan=0;tilt=0;post('/look',{pan:0,tilt:0})}
+async function speak(){const t=document.getElementById('say');if(!t.value.trim())return;
+ await post('/speak',{text:t.value});t.value=''}
+document.getElementById('say').addEventListener('keydown',e=>{if(e.key==='Enter')speak()});
+async function tick(){try{const s=await (await fetch('/state?id='+cid)).json();
+ if(s.driver&&!driving){pan=s.pan;tilt=s.tilt;start()}
+ if(driving&&!s.driver){driving=false;document.getElementById('drive').style.display='none';
+  document.getElementById('login').style.display='block';
+  document.getElementById('lmsg').textContent='Thank you for driving krēCHer!'}
+ sign=s.pan_sign||1;
+ document.getElementById('mood').textContent=s.awake?('krēCHer feels '+s.mood):'krēCHer is asleep';
+ document.getElementById('senses').textContent=(s.dist_in==null?'nothing close':'nearest thing '+s.dist_in+' in away')+
+  (s.motion?' · someone moving nearby':'');
+ document.getElementById('face').src='/face.png?'+Date.now();
+ if(lastTouch!==null&&s.touches>lastTouch){const p=document.getElementById('pet');p.style.display='block';
+  try{navigator.vibrate&&navigator.vibrate([80,60,80])}catch(e){}setTimeout(()=>p.style.display='none',2500)}
+ lastTouch=s.touches}catch(e){}}
+setInterval(tick,600);tick();
+</script></body></html>"""
+
+VIEW_PAGE = """<!doctype html><html><head><title>krēCHer · volunteer view</title><style>
+body{margin:0;background:#000;height:100vh;overflow:hidden;font-family:system-ui,sans-serif}
+#cam{width:100vw;height:100vh;object-fit:contain} #face{position:fixed;right:2vw;bottom:2vw;width:18vw;
+ image-rendering:pixelated;border:2px solid #333;border-radius:1vw}
+#msg{position:fixed;left:0;right:0;top:3vh;text-align:center;color:#fff;font-size:4vw;text-shadow:0 0 8px #000}
+</style></head><body><img id=cam src="/cam.mjpg"><img id=face src="/face.png"><div id=msg></div>
+<script>setInterval(async()=>{document.getElementById('face').src='/face.png?'+Date.now();
+try{const m=await (await fetch('/msg')).json();document.getElementById('msg').textContent=m.m||''}catch(e){}},700);
 </script></body></html>"""
 
 TV_PAGE = """<!doctype html><html><head><title>krēCHer · TV</title>
@@ -821,7 +1125,8 @@ body{margin:0;background:#07080c;color:#eee;font-family:system-ui,sans-serif;hei
 .side{text-align:center} #qr{background:#fff;padding:1.4vw;border-radius:1.4vw;display:inline-block}
 .big{font-size:3vw;margin-top:1.4vw} .url{font-size:1.4vw;color:#9aa;margin-top:.6vw}
 #hearts{font-size:4.5vw;color:#ff5c93;margin-top:2vw} #pulse{transition:transform .2s}</style></head><body>
-<img id=face src="/face.png">
+<div style="position:relative"><img id=cam src="/cam.mjpg" style="width:52vw;border-radius:2vw;background:#000">
+<img id=face src="/face.png" style="position:absolute;right:1vw;bottom:1vw;width:16vw;border-width:2px"></div>
 <div class=side><div id=qr></div><div class=big>Scan to pet krēCHer</div><div class=url id=url></div>
 <div id=hearts><span id=pulse>❤</span> <span id=n>0</span></div><div class=url id=w></div></div>
 <script>
@@ -858,28 +1163,58 @@ def serve_audience(k, port):
                 self._send(200, AUDIENCE_PAGE, "text/html; charset=utf-8")
             elif path == "/face.png":
                 send_face(self, k)
+            elif path == "/driver":
+                self._send(200, DRIVER_PAGE, "text/html; charset=utf-8")
+            elif path == "/cam.mjpg":
+                send_stream(self, k, watcher=not k.is_driver(self._cid_cookie(query)))
+            elif path == "/cam.jpg":
+                send_still(self, k)
             elif path == "/state":
                 cid = query[3:] if query.startswith("id=") else ""
                 k.audience.poll(cid)
+                k.driver_seen(cid)
                 mood = {"calm": "calm", "curious": "curious", "cautious": "a little nervous",
                         "purr": "purring", "love": "feeling loved", "flinch": "startled!",
                         "awake": "awake", "shy": "shy"}.get(k.face.expr, k.face.expr)
                 self._send(200, json.dumps({
                     "awake": k.state == "awake", "mood": mood, "hearts_on": k.audience.enabled,
-                    "viewers": k.audience.viewers(), "hearts_60s": k.audience.recent(60)}),
+                    "viewers": k.audience.viewers(), "hearts_60s": k.audience.recent(60),
+                    "driver": k.is_driver(cid), "pan": k.head.p, "tilt": k.head.t,
+                    "pan_sign": k.pan_sign, "touches": k.touch_count,
+                    "dist_in": None if k.senses.dist is None else round(k.senses.dist / 2.54),
+                    "motion": k.senses.recent(k.senses.motion, 10) > 0}),
                     "application/json")
             else:
                 self._send(404, "not found", "text/plain")
 
+        def _cid_cookie(self, query):
+            """The driver page's stream request carries no id; match by the last driver poll instead."""
+            return k.driver["id"] if (k.driver_active() and "w=1" not in query) else ""
+
         def do_POST(self):
-            if self.path != "/heart":
-                return self._send(404, "not found", "text/plain")
             try:
-                n = min(int(self.headers.get("Content-Length", 0)), 500)
+                n = min(int(self.headers.get("Content-Length", 0)), 1000)
                 req = json.loads(self.rfile.read(n) or b"{}")
             except ValueError:
                 req = {}
-            r = k.audience.heart(str(req.get("id", "")))
+            cid = str(req.get("id", ""))[:40]
+            if self.path == "/heart":
+                r = k.audience.heart(cid)
+            elif self.path == "/claim":
+                r = k.claim(cid, req.get("code", ""))
+            elif self.path == "/look":
+                try:
+                    r = "ok" if k.look(cid, req.get("pan", 0), req.get("tilt", 0)) else "not driver"
+                except (TypeError, ValueError):
+                    r = "error"
+            elif self.path == "/speak":
+                if k.is_driver(cid):
+                    k.do("remote_say", text=str(req.get("text", "")))
+                    r = "ok"
+                else:
+                    r = "not driver"
+            else:
+                return self._send(404, "not found", "text/plain")
             self._send(200, json.dumps({"r": r}), "application/json")
 
     srv = ThreadingHTTPServer(("0.0.0.0", port), H)
@@ -900,11 +1235,13 @@ def find_public_url():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-body", action="store_true", help="don't use the legs")
+    ap.add_argument("--no-camera", action="store_true", help="don't start the camera")
+    ap.add_argument("--cam-rotation", type=int, default=0, choices=(0, 180), help="180 if the picture is upside down")
     ap.add_argument("--port", type=int, default=OPERATOR_PORT)
     ap.add_argument("--audience-port", type=int, default=AUDIENCE_PORT)
     ap.add_argument("--public-url", help="the audience link for the QR code (default: the Funnel address)")
     args = ap.parse_args()
-    k = Krecher(use_body=not args.no_body)
+    k = Krecher(use_body=not args.no_body, use_camera=not args.no_camera, cam_rotation=args.cam_rotation)
     public_url = args.public_url or find_public_url()
     serve(k, args.port, public_url)
     serve_audience(k, args.audience_port)
@@ -912,6 +1249,8 @@ def main():
         % (args.port, args.port))
     log("audience page: %s  (needs: sudo tailscale funnel --bg %d)  ·  Ctrl+C to stop"
         % (public_url or "http://100.75.140.37:%d" % args.audience_port, args.audience_port))
+    log("volunteer: %sdriver   driver code: %s (also on the operator page)"
+        % (public_url or "http://100.75.140.37:%d/" % args.audience_port, k.driver_code))
     try:
         while True:
             time.sleep(1)
