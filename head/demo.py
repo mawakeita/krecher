@@ -492,6 +492,12 @@ class Krecher:
         self.pan_sign = 1                               # flip from the operator page if drag goes the wrong way
         self.touch_count = 0
         self.last_message = ""
+        self.faces = None                               # head/faces.py, loaded in the vision thread
+        self.faces_lock = threading.Lock()
+        self.known_mode = "auto"                        # auto (faces) | known | stranger
+        self.face_seen = None                           # (x -1..1, y -1..1, time) of the biggest face
+        self.known_name, self.last_known_seen, self.last_stranger_seen = None, 0.0, 0.0
+        self.follow = False
         try:
             from fusion_hat.device import enable_speaker
             enable_speaker()
@@ -502,6 +508,7 @@ class Krecher:
         threading.Thread(target=self._worker, daemon=True).start()
         threading.Thread(target=self._mood_loop, daemon=True).start()
         threading.Thread(target=self._remote_loop, daemon=True).start()
+        threading.Thread(target=self._vision_loop, daemon=True).start()
 
     # ---- actions: one at a time, in order -------------------------------------
     def do(self, name, **kw):
@@ -651,6 +658,116 @@ class Krecher:
         self.body.limp()
         log("LIMP (operator)")
 
+    # ---- seeing faces ------------------------------------------------------------
+    def _vision_loop(self):
+        if not self.camera.ok:
+            return
+        try:
+            from faces import Faces, decode
+            self.faces = Faces()
+        except Exception as e:
+            log("faces: not available (%s)" % e)
+            return
+        if not self.faces.ok:
+            log("faces: no face finder; the known/stranger switch stays manual")
+            return
+        log("faces: ready (%s), knows: %s" % (self.faces.mode, ", ".join(self.faces.people) or "nobody yet"))
+        n, last_rec = -1, 0.0
+        while True:
+            n, jpg = self.camera.wait(n, 2.0)
+            if not jpg:
+                time.sleep(0.5)
+                continue
+            img = decode(jpg)
+            if img is None:
+                continue
+            with self.faces_lock:
+                found = self.faces.find(img)
+                now = time.monotonic()
+                if found:
+                    x, y, w, h, _ = found[0]
+                    H, W = img.shape[:2]
+                    ex, ey = (x + w / 2) / W * 2 - 1, (y + h / 2) / H * 2 - 1
+                    self.face_seen = (ex, ey, now)
+                    if not self.busy and self.state == "awake":
+                        self.face.look(-ex * 0.8, -ey * 0.6)     # its eyes follow you
+                    if now - last_rec > 0.8:
+                        last_rec = now
+                        name = self.faces.who(img, found[0])
+                        if name:
+                            self.known_name, self.last_known_seen = name, now
+                        else:
+                            self.last_stranger_seen = now
+            self._track()
+            time.sleep(0.12)
+
+    def _track(self):
+        """Follow level 1: the head turns to keep the biggest face in the middle."""
+        fs = self.face_seen
+        if (not self.follow or self.busy or self.state != "awake" or self.driver_active()
+                or not fs or time.monotonic() - fs[2] > 1.0):
+            return
+        ex, ey = fs[0], fs[1]
+        dp = -ex * 9 * self.pan_sign if abs(ex) > 0.12 else 0.0
+        dt = -ey * 5 if abs(ey) > 0.18 else 0.0
+        if dp or dt:
+            self.head.move(self.head.p + dp, self.head.t + dt, 0.1)
+
+    def toucher_known(self):
+        if self.known_mode == "known":
+            return True
+        if self.known_mode == "stranger":
+            return False
+        if self.faces and self.faces.ok and self.faces.people:
+            return time.monotonic() - self.last_known_seen < 15     # seen someone it knows lately
+        return True                                                 # nobody enrolled yet: be friendly
+
+    def seeing(self):
+        now = time.monotonic()
+        if now - self.last_known_seen < 5 and self.known_name:
+            return self.known_name
+        if now - self.last_stranger_seen < 5:
+            return "someone new"
+        return None
+
+    def act_enroll(self, who=""):
+        name = who.strip()[:24] or "friend"
+        if not (self.faces and self.faces.ok):
+            self.say("I can't learn faces right now.")
+            return
+        self.face.set("curious")
+        self.head.move(0, 8, 0.5)
+        self.say("Hold still and look at my eye.")
+        imgs, n = [], -1
+        from faces import decode
+        end = time.monotonic() + 5
+        while time.monotonic() < end:
+            n, jpg = self.camera.wait(n, 1.0)
+            img = decode(jpg, 480) if jpg else None
+            if img is not None:
+                imgs.append(img)
+            time.sleep(0.35)
+        with self.faces_lock:
+            got = self.faces.enroll(name, imgs)
+        log("faces: enrolled %s from %d of %d pictures" % (name, got, len(imgs)))
+        if got >= 3:
+            self.known_name, self.last_known_seen = name.lower(), time.monotonic()
+            self.face.set("love")
+            self.say("Nice to meet you, %s! I'll remember you." % name)
+        else:
+            self.face.set("shy")
+            self.say("I couldn't see your face well. Come a little closer and try again.")
+
+    def act_follow(self):
+        self.follow = True
+        self.face.set("curious")
+        self.say("Let's go!")
+
+    def act_stop(self):
+        self.follow = False
+        self.say("Okay.")
+        self.head.move(0, 6, 0.8)
+
     # ---- remote driver ----------------------------------------------------------
     def driver_active(self):
         return self.driver is not None and time.monotonic() - self.driver["seen"] < DRIVER_TIMEOUT_S
@@ -728,7 +845,9 @@ class Krecher:
     # ---- reflexes ---------------------------------------------------------------
     def _on_touch(self):
         self.touch_count += 1
-        log("touch", "(known)" if self.known else "(stranger)")
+        known = self.toucher_known()
+        log("touch", "(known%s)" % (": " + self.known_name if known and self.seeing() == self.known_name else "")
+            if known else "(stranger)")
         if self.driver_active():
             if not self.busy:
                 self.do("purr_soft")
@@ -739,13 +858,13 @@ class Krecher:
             return
         if self.busy:
             return
-        self.do("purr" if self.known else "flinch")
+        self.do("purr" if known else "flinch")
 
     def _on_motion(self):
         if self.state != "awake":
             return
         self.curious = min(1.0, self.curious + 0.25)
-        if not self.known:
+        if not self.toucher_known():
             self.alarm = min(1.0, self.alarm + 0.1)
         if not self.busy:
             self.face.look(random.choice((-0.8, 0.8)), 0)
@@ -759,7 +878,7 @@ class Krecher:
             self.curious += (0.1 - self.curious) * 0.01
             d = self.senses.dist
             if self.state == "awake" and d is not None and d < 50 and (last_d is None or d < last_d - 2):
-                if self.known:                           # someone comes close
+                if self.toucher_known():                 # someone comes close
                     self.curious = min(1.0, self.curious + 0.05)
                 else:
                     self.alarm = min(1.0, self.alarm + 0.04)
@@ -791,6 +910,11 @@ class Krecher:
             parts.append("I'm curious. There's a lot to look at.")
         else:
             parts.append("I'm calm. I feel good.")
+        who = self.seeing()
+        if who == "someone new":
+            parts.append("I see someone I don't know.")
+        elif who:
+            parts.append("I can see %s." % who.capitalize())
         if "hearts" in recent or self.audience.recent(120) >= 3:
             parts.append("So many of you are sending me hearts. I can feel it in my lights.")
         if "flinch" in recent:
@@ -815,7 +939,10 @@ class Krecher:
     def status(self):
         d = self.senses.dist
         return {
-            "state": self.state, "busy": self.busy, "last": self.last, "known": self.known,
+            "state": self.state, "busy": self.busy, "last": self.last,
+            "known": self.toucher_known(), "known_mode": self.known_mode, "follow": self.follow,
+            "faces": {"mode": self.faces.mode if self.faces else None,
+                      "people": list(self.faces.people) if self.faces else [], "sees": self.seeing()},
             "alarm": round(self.alarm, 2), "curious": round(self.curious, 2),
             "face": self.face.expr,
             "dist_in": None if d is None else round(d / 2.54),
@@ -856,11 +983,14 @@ button:active{filter:brightness(1.4)} input{flex:1;font-size:17px;padding:12px;b
 <div class=row><button class=beat onclick="go('wake')">1 · Wake</button>
 <button class=beat onclick="go('hi')">2 · Say hi</button>
 <button class=beat onclick="go('feeling')">4 · Feeling?</button></div>
+<div class=row><button class=beat id=fol onclick="go('follow')">5 · Let's go</button>
+<button onclick="go('stop')">Stop</button></div>
 <div class=row><button class=beat onclick="go('goodbye')">12 · Goodbye</button>
 <button onclick="go('sleep')">Sleep (quiet)</button></div>
 <div class=lbl>Touch reactions</div>
 <div class=row><button id=known onclick="go('known')">Known: ?</button>
 <button onclick="go('purr')">Purr</button><button onclick="go('flinch')">Flinch</button></div>
+<div class=row><input id=nm placeholder="Name to learn"><button style="flex:0 0 120px" onclick="learn()">Learn face</button></div>
 <div class=lbl>Audience</div>
 <div class=row><button id=hearts onclick="go('hearts')">Hearts: ?</button>
 <button onclick="location.href='/tv'">TV screen</button></div>
@@ -878,10 +1008,14 @@ button:active{filter:brightness(1.4)} input{flex:1;font-size:17px;padding:12px;b
 <div class=lbl>Status</div><div id=st>…</div>
 <script>
 async function go(a,extra){await fetch('/do',{method:'POST',body:JSON.stringify(Object.assign({a:a},extra||{}))});tick()}
+function learn(){const n=document.getElementById('nm');if(!n.value.trim())return;go('enroll',{text:n.value});n.value=''}
 function sayit(){const t=document.getElementById('t');go('say',{text:t.value});t.value=''}
 async function tick(){try{const s=await (await fetch('/status')).json();
- const k=document.getElementById('known');k.textContent='Toucher: '+(s.known?'known (purr)':'stranger (flinch)');
+ const k=document.getElementById('known');
+ k.textContent=({auto:'Faces decide',known:'Always known',stranger:'Always stranger'})[s.known_mode]+
+ ' → '+(s.known?'purr':'flinch')+(s.faces.sees?' · sees '+s.faces.sees:'');
  k.className=s.known?'on':'warn';
+ document.getElementById('fol').textContent="5 · Let's go"+(s.follow?' (following)':'');
  const h=document.getElementById('hearts');h.textContent='Hearts '+(s.audience.hearts_on?'ON':'off')+
  ` · ${s.audience.viewers} watching · ${s.audience.hearts_60s}/min`;h.className=s.audience.hearts_on?'on':'';
  const d=document.getElementById('drv');d.textContent=`Driver code: ${s.remote.code} · `+
@@ -891,6 +1025,7 @@ async function tick(){try{const s=await (await fetch('/status')).json();
  `alarm ${s.alarm}  curious ${s.curious}\\n`+
  `distance ${s.dist_in==null?'–':s.dist_in+' in'} · motion/min ${s.motion_60s} · touches/min ${s.touches_60s}\\n`+
  `head battery ${s.battery==null?'–':s.battery+'%'}\\n`+
+ `faces ${s.faces.mode||'off'} · knows ${s.faces.people.join(', ')||'nobody'}\\n`+
  `body ${s.body.ok?s.body.pose:'not connected'} · rail ${s.body.rail_v==null?'–':s.body.rail_v+' V'} · ${s.body.fw||''}`;
 }catch(e){document.getElementById('st').textContent='no connection'}}
 setInterval(tick,1000);tick();
@@ -986,8 +1121,11 @@ def serve(k, port, public_url=None):
                 k.emergency_limp()
                 ok = True
             elif a == "known":
-                k.known = not k.known
+                order = ["auto", "known", "stranger"]
+                k.known_mode = order[(order.index(k.known_mode) + 1) % 3]
                 ok = True
+            elif a == "enroll":
+                ok = k.do("enroll", who=str(req.get("text", "")))
             elif a == "hearts":
                 k.audience.enabled = not k.audience.enabled
                 ok = True

@@ -4,3 +4,7 @@ __pycache__/
 Claude outputs/
 data/
 learn/models/
+
+# face recognition: downloaded models and enrolled faces (personal, stay on the Pi)
+models/
+data/faces/
