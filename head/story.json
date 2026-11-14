@@ -1,5 +1,5 @@
 {
-  "_how": "krēCHer's build story (demo beat 4b). Edit the lines freely; demo.py re-reads this file each time you press Next. Photos: put 1.jpg .. 4.jpg in ~/krecher/data/story/ (a slide without a photo shows its title). move: legs | head | mast | audience",
+  "_how": "krēCHer's build story (demo beat 4b). Edit the lines freely; demo.py re-reads this file each time you press Next. Pictures: head/story/1.jpg .. 4.jpg come with the repo; a photo with the same name in ~/krecher/data/story/ replaces it. move: legs | head | mast | audience",
   "slides": [
     {"title": "My body", "photo": "1.jpg", "move": "legs",
      "line": "I was built this fall, on a workbench in New York. Mawa gave me six legs and eighteen small motors, three in each leg. A little board in my belly tells every one of them where to go."},

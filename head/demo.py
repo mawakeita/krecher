@@ -61,6 +61,16 @@ GOODBYE = "Goodbye, everyone! Thank you for meeting me."
 PURR_WAV = "/tmp/krecher_purr.wav"
 STORY_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "story.json")
 STORY_PHOTOS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "story")
+STORY_DEFAULT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "story")   # slides in the repo
+
+
+def story_photo(name):
+    """Your own photo in data/story/ wins; otherwise the slide that comes with the repo."""
+    for d in (STORY_PHOTOS, STORY_DEFAULT):
+        f = os.path.join(d, os.path.basename(name))
+        if name and os.path.exists(f):
+            return f
+    return None
 
 
 def log(*a):
@@ -838,7 +848,7 @@ class Krecher:
         if 0 <= i < len(slides):
             sl = slides[i]
             photo = sl.get("photo", "")
-            has = bool(photo) and os.path.exists(os.path.join(STORY_PHOTOS, os.path.basename(photo)))
+            has = story_photo(photo) is not None
             return {"i": i, "n": len(slides), "title": sl.get("title", ""), "photo": photo if has else ""}
         return {"i": -1, "n": len(slides), "title": "krēCHer", "photo": ""}
 
@@ -1181,8 +1191,8 @@ def serve(k, port, public_url=None):
             elif self.path == "/story/state":
                 self._send(200, json.dumps(k.story_state()), "application/json")
             elif self.path.startswith("/story/photo/"):
-                f = os.path.join(STORY_PHOTOS, os.path.basename(self.path.split("?")[0]))
-                if os.path.exists(f):
+                f = story_photo(self.path.split("?")[0].rsplit("/", 1)[-1])
+                if f:
                     with open(f, "rb") as fh:
                         ctype = "image/png" if f.lower().endswith(".png") else "image/jpeg"
                         self._send(200, fh.read(), ctype)
