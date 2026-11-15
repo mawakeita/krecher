@@ -67,7 +67,7 @@ I write krēCHer's code with Claude as a coding partner; commits that came out o
 
 ## Credits and license
 
-Sources are listed in [`BIBLIOGRAPHY.md`](BIBLIOGRAPHY.md). Code is released under the [MIT License](LICENSE). Please read the [Code of Conduct](CODE_OF_CONDUCT.md) before opening an issue or contributing.
+Sources are listed in [`BIBLIOGRAPHY.md`](BIBLIOGRAPHY.md). © 2026 Mawa Keita. All rights reserved: the code and designs here are shared for viewing only (see [LICENSE](LICENSE)). Versions published before November 15, 2026 were under the MIT License. Please read the [Code of Conduct](CODE_OF_CONDUCT.md) before opening an issue or contributing.
 
 ## Safety notes
 
