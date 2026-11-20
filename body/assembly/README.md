@@ -168,7 +168,7 @@ Plan (to be confirmed with photos):
 - Fit the hips to the plates **first**, then the legs. "Level" is only easy to judge once the hips are on the body.
 - Use the same rule as the knees: one press, at the right step, without turning the shaft.
 
-## Step 8 · Calibration on the Servo 2040 *(started)*
+## Step 8 · Calibration on the Servo 2040 *(done)*
 
 First leg moving (Oct 6): leg FL on channels 1–3, sent to its middle position and wiggled ±10° per joint from the Pi. Video: [`videos/08a_first_leg_FL_moves.mp4`](videos/08a_first_leg_FL_moves.mp4).
 
@@ -178,12 +178,18 @@ Send Neutral to every joint and check each leg against the neutral pose. Record 
 
 | Leg | Hip: channel / offset | Upper leg: channel / offset | Knee: channel / offset |
 | --- | --- | --- | --- |
-| Front left (FL) | 1 / | 2 / | 3 / |
-| Middle left (ML) | 4 / | 5 / | 6 / |
-| Rear left (RL) | 7 / | 8 / | 9 / |
-| Front right (FR) | 10 / | 11 / | 12 / |
-| Middle right (MR) | 13 / | 14 / | 15 / |
-| Rear right (RR) | 16 / | 17 / | 18 / |
+| Front left (FL) | 1 / 0° | 2 / 0° | 3 / 0° |
+| Middle left (ML) | 4 / 0° | 5 / 0° | 6 / 0° |
+| Rear left (RL) | 7 / 0° | 8 / 0° | 9 / 0° |
+| Front right (FR) | 10 / 0° | 11 / 0° | 12 / 0° |
+| Middle right (MR) | 13 / 0° | 14 / 0° | 15 / 0° |
+| Rear right (RR) | 16 / 0° | 17 / 0° | 18 / 0° |
+
+**Result (Oct 6–8):** each leg was sent to its middle position one at a time, then all 18 together on the box. No joint looked off by eye, so every offset is 0, as saved in [`../offsets.py`](../offsets.py). If one of your legs looks off at Neutral, put its trim in degrees in that file.
+
+**Directions** (left and right legs are mirrors):
+- Upper leg and knee, from [`../dir_test.py`](../dir_test.py) (Oct 8): `FEMUR_DOWN = {"L": -1, "R": 1}`, `KNEE_OUT = {"L": -1, "R": 1}`.
+- Hips, from `hip_check` in [`../walk_tripod.py`](../walk_tripod.py) (Nov 1): left feet move forward on +, right feet on −, so `HIP_FWD` is +1 for the left legs and −1 for the right legs.
 
 ---
 
@@ -201,3 +207,4 @@ Send Neutral to every joint and check each leg against the neutral pose. Record 
 | Oct 2 | 18 horns fitted (Step 2, photo); 6 hip bracket pairs built (Step 3, photo) |
 | Oct 5 | Hip pivot screw too long, flipped (Step 4); 2 hips built (Step 5); 2 knees built and re-seated until level, now the reference pair (Step 6). Evening: all 6 hips and all 6 legs built, 3 + 3 mirrored (Steps 5–6 done). Front/back set (slot end = back); all 18 servos labelled with their Servo 2040 channels |
 | Oct 6 | Servo 2040 link cut, buck set to 6.00 V / 3.0 A, wired to the board. **First leg (FL) moved from the Pi** ([video](videos/08a_first_leg_FL_moves.mp4)). Battery and Servo 2040 test-fitted between the plates |
+| Oct 8 | All six legs moved one at a time, then all 18 to Neutral on the box: no offsets needed (Step 8). Direction test done; **krēCHer stands up from a crouch and sits down** (bare body) |
